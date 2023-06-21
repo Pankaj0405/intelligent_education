@@ -23,10 +23,11 @@ class admin_dash extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 0, 162, 255),
-          leading: Icon(
-            CupertinoIcons.profile_circled,
-            color: Colors.black,
-            size: 30,
+          leading: IconButton(
+            icon: Image.asset('assets/icons/my_icon.png'),
+            onPressed: () {
+              // Handle leading icon press
+            },
           ),
           title: Text(
             "Admin Name",
