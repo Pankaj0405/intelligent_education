@@ -37,6 +37,15 @@ class admin_dash extends StatelessWidget {
               fontSize: 25,
             ),
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.chat),
+              color: Colors.black,
+              onPressed: () {
+                // Handle chat icon press
+              },
+            ),
+          ],
         ),
         body: GridView.count(
           crossAxisCount: 2,
@@ -254,4 +263,8 @@ class admin_dash extends StatelessWidget {
       ),
     );
   }
+}
+
+void main(){
+  runApp(admin_dash());
 }
