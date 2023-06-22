@@ -9,7 +9,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class studentState extends State<LoginScreen> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -89,7 +88,7 @@ class studentState extends State<LoginScreen> {
                       },
                       child: Text('Login'),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 50),
                     GestureDetector(
                       onTap: () {
                         // Handle sign up link press
