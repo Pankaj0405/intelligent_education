@@ -9,11 +9,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class studentState extends State<LoginScreen> {
-  bool college1 = true;
-  bool college2 = true;
-  bool college3 = true;
-
-  void onPressed() {}
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +89,7 @@ class studentState extends State<LoginScreen> {
                       },
                       child: Text('Login'),
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
                         // Handle sign up link press
