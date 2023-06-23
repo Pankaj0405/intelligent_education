@@ -1,15 +1,4 @@
 import 'package:flutter/material.dart';
-
-class admin_dash extends StatelessWidget {
-  const admin_dash({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Intelligent Education',
-      home: Scaffold(
-        appBar: import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class admin_dash extends StatelessWidget {
@@ -23,12 +12,17 @@ class admin_dash extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 0, 162, 255),
-          leading: IconButton(
-            icon: Image.asset('assets/icons/my_icon.png'),
-            onPressed: () {
-              // Handle leading icon press
-            },
+          leading: Icon(
+            CupertinoIcons.profile_circled,
+            color: Colors.black,
+            size: 30,
           ),
+          // IconButton(
+          //   icon: Image.asset('assets/icons/my_icon.png'),
+          //   onPressed: () {
+          //     // Handle leading icon press
+          //   },
+          // ),
           title: Text(
             "Admin Name",
             style: TextStyle(
@@ -157,6 +151,6 @@ class admin_dash extends StatelessWidget {
   }
 }
 
-void main(){
+void main() {
   runApp(admin_dash());
 }
