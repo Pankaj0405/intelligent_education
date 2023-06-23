@@ -31,12 +31,18 @@ class studentState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
+                // decoration: BoxDecoration(
+                //   image: DecorationImage(
+                //       image:
+                //           AssetImage('intelligent_education/assets/login.png'),
+                //       fit: BoxFit.cover),
+                // ),
                 height: MediaQuery.of(context).size.height * 0.3,
                 color: Colors.blue,
                 child: Icon(
                   CupertinoIcons.clock_fill,
                   color: Colors.black,
-                  size: 50,
+                  size: 80,
                 ),
                 // Image.asset(
                 //   'assets/images/login_image.png',
@@ -49,50 +55,46 @@ class studentState extends State<LoginScreen> {
                   children: [
                     Icon(
                       CupertinoIcons.person_alt_circle,
-                      size: 100,
-                      color: Colors.grey,
+                      size: 140,
+                      color: Colors.black,
                     ),
                     SizedBox(height: 20),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.0),
-                        border: Border.all(),
-                      ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Username',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(16.0),
-                        ),
-                      ),
+                    TextField(
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                          fillColor: Colors.grey.shade100,
+                          filled: true,
+                          labelText: "Username",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )),
                     ),
-                    SizedBox(height: 16),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.0),
-                        border: Border.all(),
-                      ),
-                      child: TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(16.0),
-                        ),
-                      ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    TextField(
+                      style: TextStyle(),
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          fillColor: Colors.grey.shade100,
+                          filled: true,
+                          labelText: "Password",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )),
                     ),
                     SizedBox(height: 40),
                     ElevatedButton(
-                      onPressed: () {
-                        // Handle login button press
-                      },
+                      onPressed: () {},
                       child: Text('Login'),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(20.0),
+                        textStyle: TextStyle(fontSize: 20),
+                      ),
                     ),
                     SizedBox(height: 50),
                     GestureDetector(
-                      onTap: () {
-                        // Handle sign up link press
-                      },
+                      onTap: () {},
                       child: RichText(
                         text: TextSpan(
                           text: 'Don\'t remember password? ',
