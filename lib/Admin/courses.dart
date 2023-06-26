@@ -4,10 +4,10 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => courseState();
+  State<MyApp> createState() => CourseState();
 }
 
-class courseState extends State<MyApp> {
+class CourseState extends State<MyApp> {
   // checkbox
   bool course1 = true;
   bool course2 = true;

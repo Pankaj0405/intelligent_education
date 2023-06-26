@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class student extends StatefulWidget {
-  const student({super.key});
+class Student extends StatefulWidget {
+  const Student({super.key});
 
   @override
-  State<student> createState() => studentState();
+  State<Student> createState() => StudentState();
 }
 
-class studentState extends State<student> {
+class StudentState extends State<Student> {
 
   bool college1 = true;
   bool college2 = true;
