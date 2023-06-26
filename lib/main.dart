@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intelligent_education/notification.dart';
+import 'package:intelligent_education/Admin/notification.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 void main() {
   runApp(const MyApp());
 }
