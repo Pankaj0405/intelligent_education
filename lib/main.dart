@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intelligent_education/Admin/notification.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:intelligent_education/Student/student_dashboard.dart';
+
+import 'Student/student_document.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -26,7 +32,13 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: NotificationScreen(),
+        routes: {
+          '/': (context) => StudentDashboard(),
+          StudentDocument.routeName: (context) => StudentDocument(),
+        },
+        initialRoute: '/',
+        // home: StudentDashboard(),
+        // NotificationScreen(),
       ),
     );
   }

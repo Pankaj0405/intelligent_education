@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1009340811894",
+    "project_id": "councellingapp-10dca",
+    "storage_bucket": "councellingapp-10dca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009340811894:android:63a0aaf32acdc4652eed57",
+        "android_client_info": {
+          "package_name": "com.example.intelligent_education"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009340811894-jlqamf5ab6p15qhsdnsu34tbnhdm7a9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqNLtO_0x31Q1WInpXm7jODjF3e-3SXlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009340811894-jlqamf5ab6p15qhsdnsu34tbnhdm7a9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

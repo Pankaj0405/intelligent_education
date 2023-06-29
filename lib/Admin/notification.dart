@@ -80,7 +80,8 @@ fontFamily:"Avenir",
     onTap: () async {
     DateTime? pickedDate = await showDatePicker(
     context: context, initialDate: DateTime.now(),
-    firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+    firstDate: DateTime.now(),
+    // DateTime(2000), //DateTime.now() - not to allow to choose before today.
     lastDate: DateTime(2101)
     );
 
@@ -123,7 +124,7 @@ fontFamily:"Avenir",
       margin: EdgeInsets.all(15.sp),
       decoration: BoxDecoration(
           color: Colors.blue,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
