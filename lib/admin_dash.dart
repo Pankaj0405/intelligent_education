@@ -16,17 +16,18 @@ class admin_dashState extends State<admin_dash> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          leading: Icon(
-            CupertinoIcons.profile_circled,
-            color: Colors.black,
-            size: 30,
-          ),
-          // leading: IconButton(
-          //   icon: Image.asset('intelligent_education/assets/DPS.jpg'),
-          //   onPressed: () {
-          //     // Handle leading icon press
-          //   },
+          // leading: Icon(
+          //   CupertinoIcons.profile_circled,
+          //   color: Colors.black,
+          //   size: 30,
           // ),
+          leading: IconButton(
+            icon: Image.asset('images/DPS.jpg'),
+            
+            onPressed: () {
+              // Handle leading icon press
+            },
+          ),
           title: Text(
             "Admin Name",
             style: TextStyle(
@@ -153,8 +154,4 @@ class admin_dashState extends State<admin_dash> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(admin_dash());
 }
