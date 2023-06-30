@@ -70,9 +70,11 @@ class studentState extends State<LoginScreen> {
                         style: TextStyle(color: Colors.black),
                       ),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.all(10.0),
-                        textStyle: TextStyle(fontSize: 20),
-                      ),
+                          padding: EdgeInsets.all(10.0),
+                          textStyle: TextStyle(fontSize: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          )),
                     ),
                     SizedBox(height: 20),
                     Row(
