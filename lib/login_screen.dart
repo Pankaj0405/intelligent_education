@@ -22,12 +22,12 @@ class studentState extends State<LoginScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: Image.asset(
-                  'images/bgimg.jpeg',
+                  'images/imgbg.png',
                   fit: BoxFit.cover,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(30.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -48,6 +48,7 @@ class studentState extends State<LoginScreen> {
                           )),
                     ),
                     const SizedBox(height: 20),
+                    SizedBox(height: 10),
                     TextField(
                       style: const TextStyle(),
                       obscureText: true,
