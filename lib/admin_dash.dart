@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 
-class admin_dash extends StatefulWidget {
-  const admin_dash({super.key});
+class AdminDash extends StatefulWidget {
+  const AdminDash({super.key});
   @override
-  State<admin_dash> createState() => admin_dashState();
+  State<AdminDash> createState() => AdminDashState();
 }
 
-class admin_dashState extends State<admin_dash> {
+class AdminDashState extends State<AdminDash> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,7 +28,7 @@ class admin_dashState extends State<admin_dash> {
               // Handle leading icon press
             },
           ),
-          title: Text(
+          title: const Text(
             "Admin Name",
             style: TextStyle(
               fontWeight: FontWeight.normal,
@@ -39,7 +39,7 @@ class admin_dashState extends State<admin_dash> {
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.chat),
+              icon: const Icon(Icons.chat),
               color: Colors.black,
               onPressed: () {
                 // Handle chat icon press
@@ -51,19 +51,19 @@ class admin_dashState extends State<admin_dash> {
           crossAxisCount: 2,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(30),
           children: [
             ElevatedButton.icon(
               onPressed: () {
                 // Handle button press
                 Navigator.pushNamed(context, 'college');
               },
-              icon: Icon(Icons.school),
-              label: Text('College'),
+              icon: const Icon(Icons.school),
+              label: const Text('College'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 onPrimary: Colors.black,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -74,12 +74,12 @@ class admin_dashState extends State<admin_dash> {
                 // Handle course button press
                 Navigator.pushNamed(context, 'course');
               },
-              icon: Icon(Icons.book),
-              label: Text('Course'),
+              icon: const Icon(Icons.book),
+              label: const Text('Course'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 onPrimary: Colors.black,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -90,12 +90,12 @@ class admin_dashState extends State<admin_dash> {
                 // Handle student button press
                 Navigator.pushNamed(context, 'student');
               },
-              icon: Icon(Icons.person),
-              label: Text('Student'),
+              icon: const Icon(Icons.person),
+              label: const Text('Student'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 onPrimary: Colors.black,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -106,12 +106,12 @@ class admin_dashState extends State<admin_dash> {
                 // Handle status button press
                 Navigator.pushNamed(context, 'status');
               },
-              icon: Icon(Icons.check),
-              label: Text('Status'),
+              icon: const Icon(Icons.check),
+              label: const Text('Status'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 onPrimary: Colors.black,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -120,14 +120,14 @@ class admin_dashState extends State<admin_dash> {
             ElevatedButton.icon(
               onPressed: () {
                 // Handle notification button press
-                Navigator.pushNamed(context, 'notification');
+                Navigator.pushNamed(context, '/notification');
               },
-              icon: Icon(Icons.notifications),
-              label: Text('Notification'),
+              icon: const Icon(Icons.notifications),
+              label: const Text('Notification'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 onPrimary: Colors.black,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -138,12 +138,12 @@ class admin_dashState extends State<admin_dash> {
                 // Handle details button press
                 Navigator.pushNamed(context, 'details');
               },
-              icon: Icon(Icons.info),
-              label: Text('Details'),
+              icon: const Icon(Icons.info),
+              label: const Text('Details'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 onPrimary: Colors.black,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),

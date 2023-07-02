@@ -1,10 +1,10 @@
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NotificationScreen extends StatefulWidget{
+  static const routeName = '/notification';
 @override
   _NotificationState createState() {
    return _NotificationState();
@@ -72,7 +72,7 @@ fontFamily:"Avenir",
         borderSide: const BorderSide(color: Colors.black),
       ),
 
-    icon: Icon(Icons.calendar_today,
+    icon: const Icon(Icons.calendar_today,
     color: Colors.black,), //icon of text field
     labelText: "Enter Date" //label text of field
     ),
@@ -124,7 +124,7 @@ fontFamily:"Avenir",
       margin: EdgeInsets.all(15.sp),
       decoration: BoxDecoration(
           color: Colors.blue,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
                 color: Colors.grey.withOpacity(0.1),

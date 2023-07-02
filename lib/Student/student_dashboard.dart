@@ -1,6 +1,6 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:intelligent_education/Student/student_document.dart';
+// import 'package:intelligent_education/Student/student_document.dart';
 
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({super.key});
@@ -17,8 +17,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
       appBar: AppBar(
         title: const Text('Name'),
         centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
+        leading: const Padding(
+          padding: EdgeInsets.all(8.0),
           child: CircleAvatar(
             backgroundColor: Colors.white,
             radius: 5,
@@ -31,7 +31,12 @@ class _StudentDashboardState extends State<StudentDashboard> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8),
-            child: const Icon(Icons.notifications),
+            child: IconButton(
+                icon: const Icon(Icons.notifications),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/notification');
+                },
+            ),
           ),
         ],
       ),
@@ -108,11 +113,14 @@ class _StudentDashboardState extends State<StudentDashboard> {
       drawer: Drawer(
         child: ListView(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            CircleAvatar(
-              radius: 60,
+            GestureDetector(
+              onTap: () {},
+              child: const CircleAvatar(
+                radius: 60,
+              ),
             ),
             const Align(
               alignment: Alignment.center,
@@ -144,7 +152,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
               title: const Text('Experience'),
               trailing: const Icon(Icons.edit),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/student-experience');
+                // Navigator.pop(context);
               },
             ),
           ],

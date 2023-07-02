@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const StatusScreen());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class StatusScreen extends StatefulWidget {
+  const StatusScreen({super.key});
 
   get cartItem => null;
 
   @override
-  State<MyApp> createState() => Project();
+  State<StatusScreen> createState() => Project();
 }
 
-class Project extends State<MyApp> {
+class Project extends State<StatusScreen> {
   // checkbox
   bool student1 = true;
   bool student2 = true;
@@ -43,9 +43,8 @@ class Project extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             centerTitle: true,
@@ -59,12 +58,12 @@ class Project extends State<MyApp> {
                   wordSpacing: 4.0),
             )),
         body: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             child: Column(
               children: [
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 // Heading 1
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 230, 0),
                   child: Text(
                     "Details",
@@ -77,7 +76,7 @@ class Project extends State<MyApp> {
                   ),
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // college list
                 DropdownButton(
@@ -126,10 +125,10 @@ class Project extends State<MyApp> {
                   },
                 ),
 
-                SizedBox(height: 60),
+                const SizedBox(height: 60),
 
                 // Heading 2
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 100, 0),
                   child: Text(
                     "Selected Students",
@@ -142,11 +141,11 @@ class Project extends State<MyApp> {
                   ),
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // checkbox
                 Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                   child: CheckboxListTile(
                       value: student1,
                       onChanged: (bool? value) {
@@ -159,7 +158,7 @@ class Project extends State<MyApp> {
                 const Divider(height: 0),
 
                 Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                   child: CheckboxListTile(
                     value: student2,
                     onChanged: (bool? value) {
@@ -173,7 +172,7 @@ class Project extends State<MyApp> {
                 const Divider(height: 0),
 
                 Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                   child: CheckboxListTile(
                     value: student3,
                     onChanged: (bool? value) {

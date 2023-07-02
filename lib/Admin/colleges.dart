@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class College extends StatefulWidget {
+  const College({super.key});
 
   @override
-  State<MyApp> createState() => CollegeState();
+  State<College> createState() => CollegeState();
 }
 
-class CollegeState extends State<MyApp> {
+class CollegeState extends State<College> {
   bool college1 = true;
   bool college2 = true;
   bool college3 = true;
@@ -16,9 +16,8 @@ class CollegeState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             centerTitle: true,
@@ -32,13 +31,13 @@ class CollegeState extends State<MyApp> {
                   wordSpacing: 4.0),
             )),
         body: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             child: Column(
               children: [
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // Heading 1
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 170, 0),
                   child: Text(
                     "Add College",
@@ -51,7 +50,7 @@ class CollegeState extends State<MyApp> {
                   ),
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Container(
                   margin: const EdgeInsets.all(15.0),
                   padding: const EdgeInsets.all(3.0),
@@ -62,7 +61,7 @@ class CollegeState extends State<MyApp> {
                       // College Name
                       Card(
                         color: Colors.white,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 25.0),
                         child: ListTile(
                           title: TextField(
@@ -70,16 +69,16 @@ class CollegeState extends State<MyApp> {
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               hintText: 'College Name',
-                              hintStyle: TextStyle(fontSize: 16),
+                              hintStyle: const TextStyle(fontSize: 16),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   width: 0,
                                   style: BorderStyle.none,
                                 ),
                               ),
                               filled: true,
-                              contentPadding: EdgeInsets.all(16),
+                              contentPadding: const EdgeInsets.all(16),
                             ),
                           ),
                         ),
@@ -88,7 +87,7 @@ class CollegeState extends State<MyApp> {
                       // Address
                       Card(
                         color: Colors.white,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 25.0),
                         child: ListTile(
                           title: TextField(
@@ -96,16 +95,16 @@ class CollegeState extends State<MyApp> {
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               hintText: 'Address',
-                              hintStyle: TextStyle(fontSize: 16),
+                              hintStyle: const TextStyle(fontSize: 16),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   width: 0,
                                   style: BorderStyle.none,
                                 ),
                               ),
                               filled: true,
-                              contentPadding: EdgeInsets.all(16),
+                              contentPadding: const EdgeInsets.all(16),
                             ),
                           ),
                         ),
@@ -114,7 +113,7 @@ class CollegeState extends State<MyApp> {
                       // Deadline
                       Card(
                         color: Colors.white,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 25.0),
                         child: ListTile(
                           title: TextField(
@@ -122,34 +121,34 @@ class CollegeState extends State<MyApp> {
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               hintText: 'Deadline',
-                              hintStyle: TextStyle(fontSize: 16),
+                              hintStyle: const TextStyle(fontSize: 16),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   width: 0,
                                   style: BorderStyle.none,
                                 ),
                               ),
                               filled: true,
-                              contentPadding: EdgeInsets.all(16),
+                              contentPadding: const EdgeInsets.all(16),
                             ),
                           ),
-                          trailing: Icon(Icons.date_range),
+                          trailing: const Icon(Icons.date_range),
                         ),
                       ),
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(200, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
                         child: ElevatedButton(
                             onPressed: onPressed, child: const Text('Add')),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
 
                 // Heading 2
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 130, 0),
                   child: Text(
                     "Edit / Remove",
@@ -162,7 +161,7 @@ class CollegeState extends State<MyApp> {
                   ),
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Container(
                   margin: const EdgeInsets.all(15.0),
                   padding: const EdgeInsets.all(3.0),
@@ -171,7 +170,7 @@ class CollegeState extends State<MyApp> {
                   child: Column(
                     children: [
                       // Search
-                      Card(
+                      const Card(
                         color: Colors.white,
                         margin: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 25.0),
@@ -183,7 +182,7 @@ class CollegeState extends State<MyApp> {
 
                       // checkbox
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                         child: CheckboxListTile(
                             value: college1,
                             onChanged: (bool? value) {
@@ -196,7 +195,7 @@ class CollegeState extends State<MyApp> {
                       const Divider(height: 0),
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                         child: CheckboxListTile(
                           value: college2,
                           onChanged: (bool? value) {
@@ -210,7 +209,7 @@ class CollegeState extends State<MyApp> {
                       const Divider(height: 0),
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                         child: CheckboxListTile(
                           value: college3,
                           onChanged: (bool? value) {
@@ -229,13 +228,13 @@ class CollegeState extends State<MyApp> {
                         title: Row(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(150, 0, 0, 0),
                               child: ElevatedButton(
                                   onPressed: onPressed,
                                   child: const Text('Edit')),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                               child: ElevatedButton(
                                   onPressed: onPressed,
                                   child: const Text('Remove')),

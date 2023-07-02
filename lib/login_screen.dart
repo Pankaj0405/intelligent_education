@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+  static const routeName = '/login';
 
   @override
   State<LoginScreen> createState() => studentState();
@@ -11,15 +12,14 @@ class LoginScreen extends StatefulWidget {
 class studentState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: Image.asset(
                   'images/bgimg.jpeg',
@@ -31,14 +31,14 @@ class studentState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Icon(
+                    const Icon(
                       CupertinoIcons.person_alt_circle,
                       size: 100,
                       color: Colors.black,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextField(
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
                           filled: true,
@@ -47,9 +47,9 @@ class studentState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(20),
                           )),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextField(
-                      style: TextStyle(),
+                      style: const TextStyle(),
                       obscureText: true,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
@@ -59,31 +59,34 @@ class studentState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(20),
                           )),
                     ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle details button press
-                        Navigator.pushNamed(context, 'login');
-                      },
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.black),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Handle details button press
+                          Navigator.pushNamed(context, 'login');
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(10.0),
+                            textStyle: const TextStyle(fontSize: 20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            )),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(10.0),
-                          textStyle: TextStyle(fontSize: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          )),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Don\'t remember Password?'),
+                        const Text('Don\'t remember Password?'),
                         TextButton(
                           onPressed: () {},
-                          child: Text(
+                          child: const Text(
                             'Click here',
                             style: TextStyle(
                               decoration: TextDecoration.underline,

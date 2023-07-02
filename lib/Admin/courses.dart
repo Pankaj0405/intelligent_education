@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class Courses extends StatefulWidget {
+  const Courses({super.key});
 
   @override
-  State<MyApp> createState() => CourseState();
+  State<Courses> createState() => CourseState();
 }
 
-class CourseState extends State<MyApp> {
+class CourseState extends State<Courses> {
   // checkbox
   bool course1 = true;
   bool course2 = true;
@@ -29,9 +29,8 @@ class CourseState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             centerTitle: true,
@@ -45,13 +44,13 @@ class CourseState extends State<MyApp> {
                   wordSpacing: 4.0),
             )),
         body: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             child: Column(
               children: [
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // Heading 1
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 170, 0),
                   child: Text(
                     "Add Courses",
@@ -64,7 +63,7 @@ class CourseState extends State<MyApp> {
                   ),
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Container(
                   margin: const EdgeInsets.all(15.0),
                   padding: const EdgeInsets.all(3.0),
@@ -75,7 +74,7 @@ class CourseState extends State<MyApp> {
                       // Course Name
                       Card(
                         color: Colors.white,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 25.0),
                         child: ListTile(
                           title: TextField(
@@ -83,16 +82,16 @@ class CourseState extends State<MyApp> {
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               hintText: 'Course Name',
-                              hintStyle: TextStyle(fontSize: 16),
+                              hintStyle: const TextStyle(fontSize: 16),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   width: 0,
                                   style: BorderStyle.none,
                                 ),
                               ),
                               filled: true,
-                              contentPadding: EdgeInsets.all(16),
+                              contentPadding: const EdgeInsets.all(16),
                             ),
                           ),
                         ),
@@ -122,17 +121,17 @@ class CourseState extends State<MyApp> {
                       ),
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(200, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
                         child: ElevatedButton(
                             onPressed: onPressed, child: const Text('Add')),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // Heading 2
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 130, 0),
                   child: Text(
                     "Edit / Remove",
@@ -145,7 +144,7 @@ class CourseState extends State<MyApp> {
                   ),
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Container(
                   margin: const EdgeInsets.all(15.0),
                   padding: const EdgeInsets.all(3.0),
@@ -154,7 +153,7 @@ class CourseState extends State<MyApp> {
                   child: Column(
                     children: [
                       // Search
-                      Card(
+                      const Card(
                         color: Colors.white,
                         margin: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 25.0),
@@ -166,7 +165,7 @@ class CourseState extends State<MyApp> {
 
                       // checkbox
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                         child: CheckboxListTile(
                             value: course1,
                             onChanged: (bool? value) {
@@ -179,7 +178,7 @@ class CourseState extends State<MyApp> {
                       const Divider(height: 0),
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                         child: CheckboxListTile(
                           value: course2,
                           onChanged: (bool? value) {
@@ -193,7 +192,7 @@ class CourseState extends State<MyApp> {
                       const Divider(height: 0),
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                         child: CheckboxListTile(
                           value: course3,
                           onChanged: (bool? value) {
@@ -212,13 +211,13 @@ class CourseState extends State<MyApp> {
                         title: Row(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(150, 0, 0, 0),
                               child: ElevatedButton(
                                   onPressed: onPressed,
                                   child: const Text('Edit')),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                               child: ElevatedButton(
                                   onPressed: onPressed,
                                   child: const Text('Remove')),

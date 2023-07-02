@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intelligent_education/Admin/notification.dart';
+import './Admin/notification.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:intelligent_education/Student/student_dashboard.dart';
+import './Student/student_dashboard.dart';
+import './Student/student_experience.dart';
+import './login_screen.dart';
 
 import 'Student/student_document.dart';
 void main() async {
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (context,child) =>MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           // This is the theme of your application.
@@ -33,8 +36,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          '/': (context) => StudentDashboard(),
-          StudentDocument.routeName: (context) => StudentDocument(),
+          '/': (context) => const StudentDashboard(),
+          StudentDocument.routeName: (context) => const StudentDocument(),
+          StudentExperience.routeName: (context) => const StudentExperience(),
+          NotificationScreen.routeName: (context) => NotificationScreen(),
+          LoginScreen.routeName: (context) => const LoginScreen(),
         },
         initialRoute: '/',
         // home: StudentDashboard(),
