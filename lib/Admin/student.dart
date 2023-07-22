@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Student extends StatefulWidget {
   const Student({super.key});
+
+  static const routeName = '/student';
 
   @override
   State<Student> createState() => StudentState();
@@ -12,8 +15,29 @@ class StudentState extends State<Student> {
   bool college1 = true;
   bool college2 = true;
   bool college3 = true;
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   void onPressed() {}
+
+  signUp (String email, String password) async {
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +47,7 @@ class StudentState extends State<Student> {
         appBar: AppBar(
             centerTitle: true,
             title: const Text(
-              "Students",
+              "Users",
               style: TextStyle(
                   // fontFamily: 'Pacifico',
                   fontWeight: FontWeight.bold,
@@ -41,7 +65,7 @@ class StudentState extends State<Student> {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 170, 0),
                   child: Text(
-                    "Add College",
+                    "Add User",
                     style: TextStyle(
                         // fontFamily: 'Pacifico',
                         fontWeight: FontWeight.bold,
@@ -59,7 +83,6 @@ class StudentState extends State<Student> {
                       border: Border.all(color: Colors.blueAccent)),
                   child: Column(
                     children: [
-                      // College Name
                       Card(
                         // child:column(
                         color: Colors.white,
@@ -69,8 +92,9 @@ class StudentState extends State<Student> {
                           title: TextField(
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.text,
+                            controller: _nameController,
                             decoration: InputDecoration(
-                              hintText: 'Student Name',
+                              hintText: 'Name',
                               hintStyle: const TextStyle(fontSize: 16),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -85,9 +109,6 @@ class StudentState extends State<Student> {
                           ),
                         ),
                       ),
-
-                      // Address
-                      // child:
                       Card(
                         color: Colors.white,
                         margin: const EdgeInsets.symmetric(
@@ -96,6 +117,7 @@ class StudentState extends State<Student> {
                           title: TextField(
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.text,
+                            controller: _emailController,
                             decoration: InputDecoration(
                               hintText: 'E-mail',
                               hintStyle: const TextStyle(fontSize: 16),
@@ -112,8 +134,6 @@ class StudentState extends State<Student> {
                           ),
                         ),
                       ),
-
-                      // Deadline
                       Card(
                         color: Colors.white,
                         margin: const EdgeInsets.symmetric(
@@ -122,8 +142,34 @@ class StudentState extends State<Student> {
                           title: TextField(
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.text,
+                            controller: _phoneController,
                             decoration: InputDecoration(
                               hintText: 'Phone no.',
+                              hintStyle: const TextStyle(fontSize: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              filled: true,
+                              contentPadding: const EdgeInsets.all(16),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: Colors.white,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 25.0),
+                        child: ListTile(
+                          title: TextField(
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.text,
+                            controller: _passController,
+                            decoration: InputDecoration(
+                              hintText: 'Password',
                               hintStyle: const TextStyle(fontSize: 16),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -142,7 +188,13 @@ class StudentState extends State<Student> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
                         child: ElevatedButton(
-                            onPressed: onPressed, child: const Text('Add')),
+                            onPressed: () {
+                              if(_emailController.text.contains('@') && _passController.text.isNotEmpty) {
+                                signUp(_emailController.text.trim(), _passController.text.trim());
+                                _emailController.text = "";
+                              }
+                            },
+                            child: const Text('Add')),
                       ),
                     ],
                   ),
@@ -192,7 +244,7 @@ class StudentState extends State<Student> {
                                 college1 = value!;
                               });
                             },
-                            title: const Text('College 1')),
+                            title: const Text('Student 1')),
                       ),
                       const Divider(height: 0),
 
@@ -205,7 +257,7 @@ class StudentState extends State<Student> {
                               college2 = value!;
                             });
                           },
-                          title: const Text('College 2'),
+                          title: const Text('Student 2'),
                         ),
                       ),
                       const Divider(height: 0),
@@ -219,7 +271,7 @@ class StudentState extends State<Student> {
                               college3 = value!;
                             });
                           },
-                          title: const Text('College 3'),
+                          title: const Text('Student 3'),
                         ),
                       ),
                       const Divider(height: 0),

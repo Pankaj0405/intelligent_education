@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CollegeAssign extends StatefulWidget {
   const CollegeAssign({super.key});
+  static const routeName = '/college-assign';
 
   @override
   State<CollegeAssign> createState() => CollegeAssignState();

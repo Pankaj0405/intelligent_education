@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import './Admin/college_assign.dart';
+import './Admin/courses.dart';
+import './Admin/status.dart';
+import './Admin/student.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import './Student/messaging_screen.dart';
+import './Student/student_details_screen.dart';
+import './Admin/admin_dash.dart';
 import './Admin/notification.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './Student/student_dashboard.dart';
 import './Student/student_experience.dart';
 import './login_screen.dart';
-
+import './Admin/colleges.dart';
 import 'Student/student_document.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -24,25 +33,35 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
           primarySwatch: Colors.blue,
         ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              return const StudentDashboard();
+            } else {
+              return const LoginScreen();
+             }
+            },
+        ),
         routes: {
-          '/': (context) => const StudentDashboard(),
+           // '/': (context) => const LoginScreen(),
           StudentDocument.routeName: (context) => const StudentDocument(),
           StudentExperience.routeName: (context) => const StudentExperience(),
           NotificationScreen.routeName: (context) => NotificationScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
+          StudentDashboard.routeName: (context) => const StudentDashboard(),
+          StudentDetailsScreen.routeName: (context) => StudentDetailsScreen(),
+          MessagingScreen.routeName: (context) => MessagingScreen(),
+          AdminDash.routeName: (context) => const AdminDash(),
+          CollegeAssign.routeName: (context) => const CollegeAssign(),
+          College.routeName: (context) => const College(),
+          Courses.routeName: (context) => const Courses(),
+          StatusScreen.routeName: (context) => const StatusScreen(),
+          Student.routeName: (context) => const Student(),
         },
-        initialRoute: '/',
+         // initialRoute: '/student-details',
         // home: StudentDashboard(),
         // NotificationScreen(),
       ),

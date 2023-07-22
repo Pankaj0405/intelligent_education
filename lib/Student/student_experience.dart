@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_icons/awesome_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StudentExperience extends StatelessWidget {
   const StudentExperience({super.key});
@@ -97,8 +98,8 @@ class StudentExperience extends StatelessWidget {
           style: const TextStyle(fontSize: 18),
         ),
         trailing: SizedBox(
-          height: 30,
-          width: 200,
+          height: 30.h,
+          width: 200.w,
           child: TextField(
             style: const TextStyle(color: Colors.black),
             cursorColor: Colors.blue,

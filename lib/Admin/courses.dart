@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Courses extends StatefulWidget {
   const Courses({super.key});
+  static const routeName = '/course';
 
   @override
   State<Courses> createState() => CourseState();
@@ -14,15 +15,15 @@ class CourseState extends State<Courses> {
   bool course3 = true;
 
   // Initial Selected Value
-  String dropdownvalue = 'Course 1';
+  String dropdownvalue = 'College 1';
 
   // List of items in our dropdown menu
   var items = [
-    'Course 1',
-    'Course 2',
-    'Course 3',
-    'Course 4',
-    'Course 5',
+    'College 1',
+    'College 2',
+    'College 3',
+    'College 4',
+    'College 5',
   ];
 
   void onPressed() {}

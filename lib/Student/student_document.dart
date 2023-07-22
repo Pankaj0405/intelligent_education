@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -10,7 +12,6 @@ class StudentDocument extends StatefulWidget {
 }
 
 class _StudentDocumentState extends State<StudentDocument> {
-
   FilePickerResult? result;
   String? fileName;
   PlatformFile? pickedFile;
@@ -34,135 +35,187 @@ class _StudentDocumentState extends State<StudentDocument> {
         isLoading = false;
       });
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
-        title:const Text('Document'),
+        title: const Text('Document'),
         centerTitle: true,
-        leading:const Icon(Icons.school),
+        leading: const Icon(Icons.school),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Upload Document',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),),
+            const Expanded(
+              flex: 0,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Upload Document',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
-           const SizedBox(
-              height: 20,
+            const Expanded(
+              flex: 0,
+              child: SizedBox(
+                height: 20,
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Text('Document: ',
+            Expanded(
+              flex: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text(
+                    'Document: ',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  isLoading
+                      ? const CircularProgressIndicator()
+                      : GestureDetector(
+                          onTap: () {
+                            pickFile();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Text('Select'),
+                          ),
+                        ),
+                  if (result != null)
+                    SizedBox(
+                      width: 70,
+                      child: Text(
+                        fileName.toString(),
+                        style: const TextStyle(fontSize: 16, color: Colors.black),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const Expanded(
+              flex: 0,
+              child: SizedBox(
+                height: 20,
+              ),
+            ),
+            Expanded(
+              flex: 0,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                )),
+                onPressed: () {
+                  result = null;
+                  setState(() {
+                  });
+                },
+                child: const Text(
+                  'UPLOAD',
                   style: TextStyle(
                     fontSize: 20,
-                  ),),
-                isLoading? const CircularProgressIndicator():
-                GestureDetector(
-                  onTap: () {
-                    pickFile();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Text('Select'),
                   ),
                 ),
-                if(result != null)
-                  SizedBox(
-                    width: 70,
-                    child: Text(fileName.toString(),
-                    style: const TextStyle(fontSize: 16, color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  )
               ),
-              onPressed: (){},
-              child: const Text('UPLOAD',
-                style: TextStyle(
-                  fontSize: 20,
+            ),
+            const Expanded(
+              flex: 0,
+              child: SizedBox(
+                height: 20,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                // height: MediaQuery.of(context).size.height * 0.65,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  color: Colors.grey[400],
                 ),
-              ),
-              ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              height: MediaQuery.of(context).size.height * 0.65,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                color: Colors.grey[400],
-              ),
-              child: Column(
-                children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text('Delete',style: TextStyle(fontWeight: FontWeight.w700),),
-                      Text('Download',style: TextStyle(fontWeight: FontWeight.w700)),
-                      Text('Document Name',style: TextStyle(fontWeight: FontWeight.w700)),
-                      Text('Status',style: TextStyle(fontWeight: FontWeight.w700)),
-                    ],
-                  ),
-                  const Divider(
-                    height: 10,
-                    thickness: 1.5,
-                    color: Colors.black,
-                  ),
-                  SingleChildScrollView(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.55,
-                      child: ListView.builder(
-                          itemCount: 3,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  const Icon(Icons.delete),
-                                  const SizedBox(),
-                                  GestureDetector(
-                                      onTap: () {},
-                                      child: const Text('View')),
-                                  const SizedBox(width: 2,),
-                                  const SizedBox(
-                                      width: 100,
-                                      child: Text('Document Name',overflow: TextOverflow.ellipsis,)),
-                                  const Text('Status'),
-                                ],
-                              ),
-                            );
-                          }),
+                child: Column(
+                  children: [
+                    const Expanded(
+                      flex: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'Delete',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          Text('Download',
+                              style: TextStyle(fontWeight: FontWeight.w700)),
+                          Text('Document Name',
+                              style: TextStyle(fontWeight: FontWeight.w700)),
+                          Text('Status',
+                              style: TextStyle(fontWeight: FontWeight.w700)),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const Expanded(
+                      flex: 0,
+                      child: Divider(
+                        height: 10,
+                        thickness: 1.5,
+                        color: Colors.black,
+                      ),
+                    ),
+                    // SingleChildScrollView(
+                    //   child:
+                      Expanded(
+                        child: SizedBox(
+                          // height: MediaQuery.of(context).size.height * 0.55,
+                          child:
+                          ListView.builder(
+                              itemCount: 15,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const Icon(Icons.delete),
+                                      const SizedBox(),
+                                      GestureDetector(
+                                          onTap: () {}, child: const Text('View')),
+                                      const SizedBox(
+                                        width: 2,
+                                      ),
+                                      const SizedBox(
+                                          width: 100,
+                                          child: Text(
+                                            'Document Name',
+                                            overflow: TextOverflow.ellipsis,
+                                          )),
+                                      const Text('Status'),
+                                    ],
+                                  ),
+                                );
+                              }),
+                         ),
+                      ),
+                    // ),
+                  ],
+                ),
               ),
             )
           ],

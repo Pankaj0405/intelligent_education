@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const StatusScreen());
-}
-
 class StatusScreen extends StatefulWidget {
   const StatusScreen({super.key});
 
+  static const routeName = '/status';
   get cartItem => null;
 
   @override
