@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import './Admin/college_assign.dart';
 import './Admin/courses.dart';
 import './Admin/status.dart';
@@ -29,38 +30,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      builder: (context,child) =>MaterialApp(
+      builder: (context,child) =>GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              return const StudentDashboard();
-            } else {
-              return const LoginScreen();
-             }
-            },
-        ),
-        routes: {
-           // '/': (context) => const LoginScreen(),
-          StudentDocument.routeName: (context) => const StudentDocument(),
-          StudentExperience.routeName: (context) => const StudentExperience(),
-          NotificationScreen.routeName: (context) => NotificationScreen(),
-          LoginScreen.routeName: (context) => const LoginScreen(),
-          StudentDashboard.routeName: (context) => const StudentDashboard(),
-          StudentDetailsScreen.routeName: (context) => StudentDetailsScreen(),
-          MessagingScreen.routeName: (context) => MessagingScreen(),
-          AdminDash.routeName: (context) => const AdminDash(),
-          CollegeAssign.routeName: (context) => const CollegeAssign(),
-          College.routeName: (context) => const College(),
-          Courses.routeName: (context) => const Courses(),
-          StatusScreen.routeName: (context) => const StatusScreen(),
-          Student.routeName: (context) => const Student(),
-        },
+        home: Student()
          // initialRoute: '/student-details',
         // home: StudentDashboard(),
         // NotificationScreen(),

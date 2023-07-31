@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intelligent_education/controllers/auth_controller.dart';
 // import 'package:flutter/cupertino.dart';
 
 class AdminDash extends StatefulWidget {
@@ -10,6 +12,7 @@ class AdminDash extends StatefulWidget {
 }
 
 class AdminDashState extends State<AdminDash> {
+  final _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,6 +28,7 @@ class AdminDashState extends State<AdminDash> {
             icon: Image.asset('images/DPS.jpg'),
             
             onPressed: () {
+              _authController.signOut();
               // Handle leading icon press
             },
           ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:intelligent_education/constants.dart';
+import 'package:intelligent_education/controllers/auth_controller.dart';
 
 class Student extends StatefulWidget {
   const Student({super.key});
@@ -11,7 +14,12 @@ class Student extends StatefulWidget {
 }
 
 class StudentState extends State<Student> {
-
+  final _authController = Get.put(AuthController());
+  String dropdownvalue = 'Student';
+  var items = [
+    'Student',
+    'Admin',
+  ];
   bool college1 = true;
   bool college2 = true;
   bool college3 = true;
@@ -20,24 +28,6 @@ class StudentState extends State<Student> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
 
-  void onPressed() {}
-
-  signUp (String email, String password) async {
-    try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -184,15 +174,33 @@ class StudentState extends State<Student> {
                           ),
                         ),
                       ),
+                      Card(
+                        color: Colors.white,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 25.0),
+                        child: DropdownButton(
+                          value: dropdownvalue!,
+                          onChanged: (String? value) {
 
+                            setState(() {
+                              dropdownvalue = value!;
+                            });
+                          },
+                          items: items.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                        )
+                      ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
                         child: ElevatedButton(
                             onPressed: () {
-                              if(_emailController.text.contains('@') && _passController.text.isNotEmpty) {
-                                signUp(_emailController.text.trim(), _passController.text.trim());
-                                _emailController.text = "";
-                              }
+                              _authController.registerUser(_nameController.text,
+                                  _phoneController.text, _emailController.text,
+                                  _passController.text, dropdownvalue);
                             },
                             child: const Text('Add')),
                       ),
@@ -283,13 +291,13 @@ class StudentState extends State<Student> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
                               child: ElevatedButton(
-                                  onPressed: onPressed,
+                                  onPressed: (){},
                                   child: const Text('Edit')),
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                               child: ElevatedButton(
-                                  onPressed: onPressed,
+                                  onPressed: (){},
                                   child: const Text('Remove')),
                             ),
                           ],

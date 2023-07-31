@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intelligent_education/Student/student_dashboard.dart';
+import 'package:intelligent_education/controllers/auth_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class StudentState extends State<LoginScreen> {
+  final _authController = Get.put(AuthController());
   final emailController = TextEditingController();
   final passController = TextEditingController();
 
@@ -73,81 +75,8 @@ class StudentState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                       child: ElevatedButton(
-                        onPressed: () async {
-                          // Handle details button press
-                          if (emailController.text.contains('@') &&
-                              (passController.text.isNotEmpty)) {
-                            try {
-                              final User? user = (await FirebaseAuth.instance
-                                      .signInWithEmailAndPassword(
-                                email: emailController.text.trim(),
-                                password: passController.text.trim(),
-                              ))
-                                  .user;
-                              if (user != null) {
-                                Get.to(() => const StudentDashboard());
-                              }
-                            } on FirebaseAuthException catch (error) {
-                              if (error.code == 'user-not-found') {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("Error!"),
-                                        content: const Text(
-                                            "This User Does Not Exist."),
-                                        actions: <Widget>[
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 20,
-                                                ),
-                                                child: ElevatedButton(
-                                                  child:
-                                                      const Text("Sign In Again"),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      );
-                                    });
-                              }
-                              else if (error.code == 'wrong-password') {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("Error!"),
-                                        content: const Text(
-                                            "The Password Entered is Invalid."),
-                                        actions: <Widget>[
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 20,
-                                                ),
-                                                child: ElevatedButton(
-                                                  child:
-                                                      const Text("Sign In Again"),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      );
-                                    });
-                              }
-                            }
-                          }
+                        onPressed: (){
+_authController.loginUser(emailController.text, passController.text);
                         },
                         style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.all(10.0),

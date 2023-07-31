@@ -2,6 +2,7 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/controllers/auth_controller.dart';
 import 'package:intelligent_education/login_screen.dart';
 // import 'package:intelligent_education/Student/student_document.dart';
 
@@ -14,6 +15,8 @@ class StudentDashboard extends StatefulWidget {
 }
 
 class _StudentDashboardState extends State<StudentDashboard> {
+
+  final _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -93,7 +96,9 @@ class _StudentDashboardState extends State<StudentDashboard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _authController.signOut();
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
