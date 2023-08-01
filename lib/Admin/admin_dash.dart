@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/Admin/student.dart';
 import 'package:intelligent_education/controllers/auth_controller.dart';
 // import 'package:flutter/cupertino.dart';
 
@@ -92,7 +93,8 @@ class AdminDashState extends State<AdminDash> {
             ElevatedButton.icon(
               onPressed: () {
                 // Handle student button press
-                Navigator.pushNamed(context, 'student');
+                // Navigator.pushNamed(context, 'student');
+                Get.to(const Student());
               },
               icon: const Icon(Icons.person),
               label: const Text('Student'),

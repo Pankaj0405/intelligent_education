@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intelligent_education/Admin/admin_dash.dart';
@@ -41,6 +39,10 @@ User get user => _user.value!;
   //register user
   void registerUser(
       String username, String phone,String email, String password, String logintype) async {
+    FirebaseApp secondaryApp = await Firebase.initializeApp(
+      name: 'SecondaryApp',
+      options: Firebase.app().options,
+    );
     try {
       if (username.isNotEmpty &&
           phone.isNotEmpty &&
@@ -48,7 +50,7 @@ User get user => _user.value!;
           logintype.isNotEmpty &&
           password.isNotEmpty) {
         // save a user
-        UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
+        UserCredential cred = await FirebaseAuth.instanceFor(app: secondaryApp).createUserWithEmailAndPassword(
             email: email, password: password);
 
         model.User user=model.User(name: username,phone: phone,

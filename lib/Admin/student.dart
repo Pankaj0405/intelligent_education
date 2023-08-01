@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/constants.dart';
+// import 'package:intelligent_education/constants.dart';
 import 'package:intelligent_education/controllers/auth_controller.dart';
 
 class Student extends StatefulWidget {
@@ -28,6 +28,12 @@ class StudentState extends State<Student> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
 
+  void emptyFields() {
+    _emailController.text = "";
+    _nameController.text = "";
+    _phoneController.text = "";
+    _passController.text = "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,134 +79,127 @@ class StudentState extends State<Student> {
                       border: Border.all(color: Colors.blueAccent)),
                   child: Column(
                     children: [
-                      Card(
-                        // child:column(
-                        color: Colors.white,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 25.0),
-                        child: ListTile(
-                          title: TextField(
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.text,
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              hintText: 'Name',
-                              hintStyle: const TextStyle(fontSize: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 25.0),
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.text,
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            hintText: 'Name',
+                            hintStyle: const TextStyle(fontSize: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
                               ),
-                              filled: true,
-                              contentPadding: const EdgeInsets.all(16),
                             ),
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(16),
                           ),
                         ),
                       ),
-                      Card(
-                        color: Colors.white,
-                        margin: const EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 25.0),
-                        child: ListTile(
-                          title: TextField(
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.text,
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                              hintText: 'E-mail',
-                              hintStyle: const TextStyle(fontSize: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            hintText: 'E-mail',
+                            hintStyle: const TextStyle(fontSize: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
                               ),
-                              filled: true,
-                              contentPadding: const EdgeInsets.all(16),
                             ),
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(16),
                           ),
                         ),
                       ),
-                      Card(
-                        color: Colors.white,
-                        margin: const EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 25.0),
-                        child: ListTile(
-                          title: TextField(
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.text,
-                            controller: _phoneController,
-                            decoration: InputDecoration(
-                              hintText: 'Phone no.',
-                              hintStyle: const TextStyle(fontSize: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.phone,
+                          controller: _phoneController,
+                          decoration: InputDecoration(
+                            hintText: 'Phone no.',
+                            hintStyle: const TextStyle(fontSize: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
                               ),
-                              filled: true,
-                              contentPadding: const EdgeInsets.all(16),
                             ),
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(16),
                           ),
                         ),
                       ),
-                      Card(
-                        color: Colors.white,
-                        margin: const EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 25.0),
-                        child: ListTile(
-                          title: TextField(
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.text,
-                            controller: _passController,
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              hintStyle: const TextStyle(fontSize: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          obscuringCharacter: '*',
+                          controller: _passController,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            hintStyle: const TextStyle(fontSize: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
                               ),
-                              filled: true,
-                              contentPadding: const EdgeInsets.all(16),
                             ),
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(16),
                           ),
                         ),
                       ),
-                      Card(
-                        color: Colors.white,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 25.0),
-                        child: DropdownButton(
-                          value: dropdownvalue!,
-                          onChanged: (String? value) {
-
-                            setState(() {
-                              dropdownvalue = value!;
-                            });
-                          },
-                          items: items.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
-                        )
+                      DropdownButton(
+                        focusColor: Colors.grey,
+                        borderRadius: BorderRadius.circular(10),
+                        value: dropdownvalue,
+                        onChanged: (String? value) {
+                          setState(() {
+                            dropdownvalue = value!;
+                          });
+                        },
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(
+                              items,
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          );
+                        }).toList(),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
                         child: ElevatedButton(
                             onPressed: () {
-                              _authController.registerUser(_nameController.text,
-                                  _phoneController.text, _emailController.text,
-                                  _passController.text, dropdownvalue);
+                              _authController.registerUser(
+                                  _nameController.text,
+                                  _phoneController.text,
+                                  _emailController.text,
+                                  _passController.text,
+                                  dropdownvalue);
+
+                              emptyFields();
                             },
                             child: const Text('Add')),
                       ),
@@ -291,13 +290,12 @@ class StudentState extends State<Student> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
                               child: ElevatedButton(
-                                  onPressed: (){},
-                                  child: const Text('Edit')),
+                                  onPressed: () {}, child: const Text('Edit')),
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                               child: ElevatedButton(
-                                  onPressed: (){},
+                                  onPressed: () {},
                                   child: const Text('Remove')),
                             ),
                           ],

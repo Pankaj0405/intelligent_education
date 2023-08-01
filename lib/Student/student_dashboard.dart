@@ -97,7 +97,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        _authController.signOut();
+                        // _authController.signOut();
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
@@ -180,8 +180,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
             ),
             TextButton(
               onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Get.off(()=> const LoginScreen());
+              _authController.signOut();
+              // Get.off(()=> const LoginScreen());
             },
                 child: const Text('Logout',
                 style: TextStyle(fontSize: 18),),
