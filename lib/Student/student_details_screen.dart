@@ -2,14 +2,18 @@ import 'dart:io';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intelligent_education/controllers/auth_controller.dart';
+import 'package:intelligent_education/controllers/firestoremethods.dart';
 import './personal_info_screen.dart';
 import './parents_info_screen.dart';
 import './emergency_info_screen.dart';
 import './reference_info_screen.dart';
 
 class StudentDetailsScreen extends StatefulWidget {
+
   static const routeName = '/student-details';
 
   @override
@@ -17,6 +21,8 @@ class StudentDetailsScreen extends StatefulWidget {
 }
 
 class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
+  final _authController = Get.put(AuthController());
+  final _infoController = Get.put(InfoController());
   int _selectedIndex = 0;
   File? image;
   final List<Widget> _widgetOptions = [
@@ -31,7 +37,10 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      setState(() {
+        this.image = imageTemp;
+_infoController.uploadToStorage(this.image!);
+      });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -42,7 +51,10 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      setState(() {
+        this.image = imageTemp;
+        _infoController.uploadToStorage(this.image!);
+      });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -106,28 +118,33 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GestureDetector(
-              onTap: () {
-                _showBottomSheet();
-              },
-              child: CircleAvatar(
-                radius: radius,
-                backgroundImage: (image != null)? FileImage(image!
-                ) : null,
-                child: (image != null)
-                    ? null
-                    : Icon(
-                        Icons.person,
-                        size: MediaQuery.of(context).size.width * 0.2,
-                        color: Colors.white,
-                      ),
+            Obx(()=> GestureDetector(
+                onTap: () {
+
+                  _infoController.profilePhotoget.value == null?_showBottomSheet():null;
+                },
+                child: _infoController.profilePhotoget.value == null? CircleAvatar(
+                  radius: radius,
+                  backgroundImage: (image != null)? FileImage(image!
+                  ) : null,
+                  child: (image != null)
+                      ? null
+                      : Icon(
+                          Icons.person,
+                          size: MediaQuery.of(context).size.width * 0.2,
+                          color: Colors.white,
+                        ),
+                ): CircleAvatar(
+                  backgroundImage: NetworkImage(_infoController.profilePhotoget.value!),
+                  radius: radius,
+                )
               ),
             ),
             // SizedBox(height: 10),
-            const Text(
-              'Username',
+            Obx(()=>Text(
+              _authController.name.value.toString().toUpperCase(),
               style: TextStyle(fontSize: 20),
-            ),
+            ),),
             const SizedBox(height: 10),
             // MainAxisAlignment.spaceEvenly,
             SingleChildScrollView(
@@ -176,17 +193,17 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                     ),
                   ),
                   // SizedBox(width: 7),
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 3;
-                        });
-                      },
-                      child: const Text('Reference\n    Info'),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(3.0),
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       setState(() {
+                  //         _selectedIndex = 3;
+                  //       });
+                  //     },
+                  //     child: const Text('Reference\n    Info'),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

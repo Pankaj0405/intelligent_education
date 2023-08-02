@@ -13,6 +13,7 @@ import 'package:intelligent_education/models/user.dart' as model;
 class AuthController extends GetxController {
   static AuthController instance=Get.find();
   Rx<String?> logintype1 = Rx<String?>(null);
+  Rx<String?> name = Rx<String?>(null);
   late Rx<User?> _user;
 late  Rx<File?> _pickedImage;
 
@@ -25,14 +26,15 @@ User get user => _user.value!;
     super.onReady();
     _user=Rx<User?>(firebaseAuth.currentUser);
     _user.bindStream(firebaseAuth.authStateChanges());
-    ever(_user, _setInitialScreen);
+    ever(_user, setInitialScreen);
   }
 
-  _setInitialScreen(User? user){
+  setInitialScreen(User? user){
   if(user == null){
     Get.offAll(()=>LoginScreen());
   }else{
     setScreeen();
+    getUserData();
   }
   }
 
@@ -56,7 +58,6 @@ User get user => _user.value!;
         model.User user=model.User(name: username,phone: phone,
             email: email, uid: cred.user!.uid,logintype: logintype);
       await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
-
       }else{
         Get.snackbar('Error creating Account', "Please enter all the field");
       }
@@ -86,10 +87,8 @@ print('log sucess');
     DocumentSnapshot userDoc =
     await firestore.collection('users').doc(firebaseAuth.currentUser!.uid).get();
     final userData = userDoc.data()! as dynamic;
-    print(userData);
-    logintype1.value= userData['logintype'];
-    print(logintype1.value);
-    _setInitialScreen(firebaseAuth.currentUser);
+    name.value= userData['name'];
+    // setInitialScreen(firebaseAuth.currentUser);
   }
   setScreeen() async{
     DocumentSnapshot userDoc =
@@ -97,9 +96,9 @@ print('log sucess');
     final userData = userDoc.data()! as dynamic;
     logintype1.value= userData['logintype'];
     if(logintype1.value=='Student'){
-      Get.offAll(()=>StudentDashboard());
+      Get.to(()=>StudentDashboard());
     }else{
-      Get.offAll(()=>AdminDash());
+      Get.to(()=>AdminDash());
     }
   }
 

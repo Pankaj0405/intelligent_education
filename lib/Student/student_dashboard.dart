@@ -2,7 +2,11 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/Student/student_details_screen.dart';
+import 'package:intelligent_education/Student/student_document.dart';
+import 'package:intelligent_education/Student/student_experience.dart';
 import 'package:intelligent_education/controllers/auth_controller.dart';
+import 'package:intelligent_education/controllers/firestoremethods.dart';
 import 'package:intelligent_education/login_screen.dart';
 // import 'package:intelligent_education/Student/student_document.dart';
 
@@ -15,26 +19,26 @@ class StudentDashboard extends StatefulWidget {
 }
 
 class _StudentDashboardState extends State<StudentDashboard> {
-
   final _authController = Get.put(AuthController());
+  final _infoController = Get.put(InfoController());
+
+
   @override
   Widget build(BuildContext context) {
+    _authController.getUserData();
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: const Text('Name'),
+        title: Obx(()=>Text(_authController.name.value.toString().toUpperCase(),),),
         centerTitle: true,
-        leading: const Padding(
+        leading:  Obx(()=>Padding(
           padding: EdgeInsets.all(8.0),
           child: CircleAvatar(
-            backgroundColor: Colors.white,
             radius: 5,
-            child: Icon(
-              FontAwesomeIcons.user,
-              color: Colors.black,
-            ),
+            backgroundImage: _infoController.profilePhotoget.value!=null?NetworkImage(_infoController.profilePhotoget.value!):
+            NetworkImage("https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
           ),
-        ),
+        ),),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8),
@@ -97,7 +101,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        // _authController.signOut();
+                        _authController.signOut();
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
@@ -135,16 +139,18 @@ class _StudentDashboardState extends State<StudentDashboard> {
             const SizedBox(
               height: 30,
             ),
-            GestureDetector(
+        Obx(()=>GestureDetector(
               onTap: () {},
-              child: const CircleAvatar(
+              child: CircleAvatar(
+                backgroundImage: _infoController.profilePhotoget.value!=null?NetworkImage(_infoController.profilePhotoget.value!):
+                NetworkImage("https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
                 radius: 60,
               ),
-            ),
-            const Align(
+            ),),
+            Align(
               alignment: Alignment.center,
               child: Text(
-                'Name',
+                  _authController.name.value.toString().toUpperCase(),
                 style: TextStyle(fontSize: 20),
               ),
 
@@ -156,14 +162,14 @@ class _StudentDashboardState extends State<StudentDashboard> {
               title: const Text('Personal Info'),
               trailing: const Icon(Icons.edit),
               onTap: () {
-                Navigator.pushNamed(context, '/student-details');
+                Get.to(StudentDetailsScreen());
               },
             ),
             ListTile(
               title: const Text('Upload Document'),
               trailing: const Icon(Icons.edit),
               onTap: () {
-                Navigator.pushNamed(context, '/student-document');
+                Get.to(StudentDocument());
                 // Navigator.pop(context);
               },
             ),
@@ -171,7 +177,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
               title: const Text('Experience'),
               trailing: const Icon(Icons.edit),
               onTap: () {
-                Navigator.pushNamed(context, '/student-experience');
+                Get.to(StudentExperience());
                 // Navigator.pop(context);
               },
             ),

@@ -92,7 +92,7 @@ class AdminDashState extends State<AdminDash> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                // Handle student button press
+Get.to(() => Student());
                 // Navigator.pushNamed(context, 'student');
                 Get.to(const Student());
               },

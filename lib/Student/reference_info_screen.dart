@@ -27,12 +27,12 @@ class ReferenceInfoScreen extends StatelessWidget {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
-          buildInfoField('Name', nameController),
-          buildInfoField('Address', addressController),
-          buildInfoField('Organization', organizationController),
-          buildInfoField('Relation', relationController),
-          buildInfoField('Email', emailController),
-          buildInfoField('Phone', phoneController),
+          // buildInfoField('Name', nameController),
+          // buildInfoField('Address', addressController),
+          // buildInfoField('Organization', organizationController),
+          // buildInfoField('Relation', relationController),
+          // buildInfoField('Email', emailController),
+          // buildInfoField('Phone', phoneController),
           const SizedBox(height: 16.0),
           Center(
             child: ElevatedButton(
