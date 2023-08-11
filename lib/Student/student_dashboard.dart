@@ -1,13 +1,15 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/Student/student_details_screen.dart';
-import 'package:intelligent_education/Student/student_document.dart';
-import 'package:intelligent_education/Student/student_experience.dart';
-import 'package:intelligent_education/controllers/auth_controller.dart';
-import 'package:intelligent_education/controllers/firestoremethods.dart';
-import 'package:intelligent_education/login_screen.dart';
+import '../Student/referee_details_screen.dart';
+import '../Student/student_academics.dart';
+import '../Student/student_details_screen.dart';
+import '../Student/student_document.dart';
+import '../Student/student_experience.dart';
+import '../controllers/auth_controller.dart';
+import '../controllers/firestoremethods.dart';
+// import 'package:intelligent_education/login_screen.dart';
 // import 'package:intelligent_education/Student/student_document.dart';
 
 class StudentDashboard extends StatefulWidget {
@@ -32,11 +34,11 @@ class _StudentDashboardState extends State<StudentDashboard> {
         title: Obx(()=>Text(_authController.name.value.toString().toUpperCase(),),),
         centerTitle: true,
         leading:  Obx(()=>Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
             radius: 5,
             backgroundImage: _infoController.profilePhotoget.value!=null?NetworkImage(_infoController.profilePhotoget.value!):
-            NetworkImage("https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
+            const NetworkImage("https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
           ),
         ),),
         actions: [
@@ -101,7 +103,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        _authController.signOut();
+                        // _authController.signOut();
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
@@ -124,7 +126,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                     iconSize: 30,
                     color: Colors.black,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/messaging-screen');
+                      // Navigator.pushNamed(context, '/messaging-screen');
                     },
                   ),
                 ],
@@ -143,15 +145,18 @@ class _StudentDashboardState extends State<StudentDashboard> {
               onTap: () {},
               child: CircleAvatar(
                 backgroundImage: _infoController.profilePhotoget.value!=null?NetworkImage(_infoController.profilePhotoget.value!):
-                NetworkImage("https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
+                const NetworkImage("https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
                 radius: 60,
               ),
             ),),
+            const SizedBox(
+              height: 10,
+            ),
             Align(
               alignment: Alignment.center,
               child: Text(
                   _authController.name.value.toString().toUpperCase(),
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
 
             ),
@@ -159,7 +164,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
               height: 10,
             ),
             ListTile(
-              title: const Text('Personal Info'),
+              title: const Text('Personal Details'),
               trailing: const Icon(Icons.edit),
               onTap: () {
                 Get.to(StudentDetailsScreen());
@@ -169,7 +174,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
               title: const Text('Upload Document'),
               trailing: const Icon(Icons.edit),
               onTap: () {
-                Get.to(StudentDocument());
+                Get.to(const StudentDocument());
                 // Navigator.pop(context);
               },
             ),
@@ -177,12 +182,16 @@ class _StudentDashboardState extends State<StudentDashboard> {
               title: const Text('Experience'),
               trailing: const Icon(Icons.edit),
               onTap: () {
-                Get.to(StudentExperience());
+                Get.to(const StudentExperience());
                 // Navigator.pop(context);
               },
             ),
+            listTile('Academics',
+                    () => Get.to(const AcademicDetails())),
+            listTile('Referee Details',
+                    () => Get.to(const RefereeDetails())),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.45,
+              height: MediaQuery.of(context).size.height * 0.25,
             ),
             TextButton(
               onPressed: () {
@@ -197,4 +206,11 @@ class _StudentDashboardState extends State<StudentDashboard> {
       ),
     ));
   }
+}
+Widget listTile (String title, Function() onTap) {
+  return ListTile(
+    title: Text(title),
+    trailing: const Icon(Icons.edit),
+    onTap: onTap,
+  );
 }

@@ -1,8 +1,9 @@
+import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intelligent_education/Admin/student.dart';
 import 'package:intelligent_education/controllers/auth_controller.dart';
-// import 'package:flutter/cupertino.dart';
 
 class AdminDash extends StatefulWidget {
   const AdminDash({super.key});
@@ -14,24 +15,41 @@ class AdminDash extends StatefulWidget {
 
 class AdminDashState extends State<AdminDash> {
   final _authController = Get.put(AuthController());
+  logoutDialog() {
+    AlertDialog(
+      content: const Text('Do you want to logout?'),
+      actions: [
+        TextButton(
+            onPressed: () {
+              _authController.signOut();
+            },
+            child: const Text('Yes')),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('No')),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          // leading: Icon(
-          //   CupertinoIcons.profile_circled,
-          //   color: Colors.black,
-          //   size: 30,
-          // ),
-          leading: IconButton(
-            icon: Image.asset('images/DPS.jpg'),
-            
-            onPressed: () {
-              _authController.signOut();
-              // Handle leading icon press
-            },
+          leading: const Padding(
+            padding: EdgeInsets.all(6.0),
+            child: CircleAvatar(
+              // radius: 15.r,
+              backgroundColor: Colors.white,
+              child: Icon(
+                FontAwesomeIcons.user,
+                color: Colors.black,
+                // size: 25,
+              ),
+            ),
           ),
           title: const Text(
             "Admin Name",
@@ -44,10 +62,10 @@ class AdminDashState extends State<AdminDash> {
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.chat),
+              icon: const Icon(Icons.settings),
               color: Colors.black,
               onPressed: () {
-                // Handle chat icon press
+                _authController.signOut();
               },
             ),
           ],
@@ -92,8 +110,7 @@ class AdminDashState extends State<AdminDash> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-Get.to(() => Student());
-                // Navigator.pushNamed(context, 'student');
+                Get.to(() => Student());
                 Get.to(const Student());
               },
               icon: const Icon(Icons.person),

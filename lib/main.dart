@@ -36,7 +36,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Student()
+        home: Student(),
+         routes: {
+          Student.routeName: (context) => Student(),
+         },
          // initialRoute: '/student-details',
         // home: StudentDashboard(),
         // NotificationScreen(),

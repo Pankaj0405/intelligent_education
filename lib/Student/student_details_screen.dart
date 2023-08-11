@@ -29,7 +29,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
     PersonalInfoScreen(),
     ParentsInfoScreen(),
     EmergencyInfoScreen(),
-    ReferenceInfoScreen(),
+    // ReferenceInfoScreen(),
   ];
 
   Future _getImageFromGallery() async {
@@ -143,7 +143,7 @@ _infoController.uploadToStorage(this.image!);
             // SizedBox(height: 10),
             Obx(()=>Text(
               _authController.name.value.toString().toUpperCase(),
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),),
             const SizedBox(height: 10),
             // MainAxisAlignment.spaceEvenly,
