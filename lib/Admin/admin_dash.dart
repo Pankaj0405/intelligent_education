@@ -2,8 +2,14 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/Admin/student.dart';
+import 'package:intelligent_education/Admin/colleges.dart';
+import 'package:intelligent_education/Admin/notification.dart';
+import 'package:intelligent_education/Admin/status.dart';
+import 'package:intelligent_education/Admin/user.dart';
 import 'package:intelligent_education/controllers/auth_controller.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+import 'courses.dart';
 
 class AdminDash extends StatefulWidget {
   const AdminDash({super.key});
@@ -15,23 +21,57 @@ class AdminDash extends StatefulWidget {
 
 class AdminDashState extends State<AdminDash> {
   final _authController = Get.put(AuthController());
+
+  var alertStyle = AlertStyle(
+    animationType: AnimationType.fromBottom,
+    isCloseButton: false,
+    isOverlayTapDismiss: false,
+    descStyle: const TextStyle(fontWeight: FontWeight.bold),
+    descTextAlign: TextAlign.start,
+    animationDuration: const Duration(milliseconds: 400),
+    alertBorder: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(4.0),
+      side: const BorderSide(
+        color: Colors.grey,
+      ),
+    ),
+    titleStyle: const TextStyle(
+      color: Colors.red,
+    ),
+    // alertAlignment: Alignment.center,
+  );
+
   logoutDialog() {
-    AlertDialog(
-      content: const Text('Do you want to logout?'),
-      actions: [
-        TextButton(
+    Alert(
+      context: context,
+      style: alertStyle,
+      desc: 'Do you want to logout?',
+      buttons: [
+        DialogButton(
             onPressed: () {
               _authController.signOut();
             },
             child: const Text('Yes')),
-        TextButton(
+        DialogButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
             child: const Text('No')),
       ],
-    );
+    ).show();
   }
+
+  // var elevatedButtonStyle = ElevatedButton.styleFrom(
+  //   primary: Colors.blue,
+  //   onPrimary: Colors.black,
+  //   elevation: 10,
+  //   textStyle: const TextStyle(fontSize: 30),
+  //   shadowColor: Colors.black,
+  //   padding: EdgeInsets.all(10.r),
+  //   shape: RoundedRectangleBorder(
+  //     borderRadius: BorderRadius.circular(20.0.r),
+  //   ),
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -51,130 +91,155 @@ class AdminDashState extends State<AdminDash> {
               ),
             ),
           ),
-          title: const Text(
+          title: Text(
             "Admin Name",
             style: TextStyle(
               fontWeight: FontWeight.normal,
-              fontFamily: "Avenir",
-              color: Colors.black,
-              fontSize: 25,
+              // fontFamily: "Avenir",
+              color: Colors.white,
+              fontSize: 25.sp,
             ),
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: const Icon(Icons.exit_to_app),
               color: Colors.black,
               onPressed: () {
-                _authController.signOut();
+                // _authController.signOut();
+                logoutDialog();
               },
             ),
           ],
         ),
         body: GridView.count(
           crossAxisCount: 2,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
+          mainAxisSpacing: 20.h,
+          crossAxisSpacing: 20.w,
           padding: const EdgeInsets.all(30),
           children: [
-            ElevatedButton.icon(
-              onPressed: () {
-                // Handle button press
-                Navigator.pushNamed(context, 'college');
-              },
-              icon: const Icon(Icons.school),
-              label: const Text('College'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                onPrimary: Colors.black,
-                padding: const EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                // Handle course button press
-                Navigator.pushNamed(context, 'course');
-              },
-              icon: const Icon(Icons.book),
-              label: const Text('Course'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                onPrimary: Colors.black,
-                padding: const EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Get.to(() => Student());
-                Get.to(const Student());
-              },
-              icon: const Icon(Icons.person),
-              label: const Text('Student'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                onPrimary: Colors.black,
-                padding: const EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                // Handle status button press
-                Navigator.pushNamed(context, 'status');
-              },
-              icon: const Icon(Icons.check),
-              label: const Text('Status'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                onPrimary: Colors.black,
-                padding: const EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                // Handle notification button press
-                Navigator.pushNamed(context, '/notification');
-              },
-              icon: const Icon(Icons.notifications),
-              label: const Text('Notification'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                onPrimary: Colors.black,
-                padding: const EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                // Handle details button press
-                Navigator.pushNamed(context, 'details');
-              },
-              icon: const Icon(Icons.info),
-              label: const Text('Details'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                onPrimary: Colors.black,
-                padding: const EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-            ),
+            gridViewData(Icons.school, 'Colleges', () => Get.to(const College())),
+            gridViewData(Icons.book, 'Courses', () => Get.to(const Courses())),
+            gridViewData(Icons.people, 'Users', () => Get.to(const Student())),
+            gridViewData(Icons.checklist, 'Status', () => Get.to(const StatusScreen())),
+            gridViewData(Icons.notifications, 'Notifications', () => Get.to(NotificationScreen())),
+            gridViewData(Icons.info, 'Details', () => {}),
+
+            // ElevatedButton.icon(
+            //   onPressed: () {
+            //     // Handle button press
+            //     // Navigator.pushNamed(context, 'college');
+            //     Get.to(const College());
+            //   },
+            //   icon: Icon(Icons.school,size: 30.r,),
+            //   label: const Text('College'),
+            //   style: elevatedButtonStyle,
+            // ),
+            // ElevatedButton.icon(
+            //   onPressed: () {
+            //     // Handle course button press
+            //     Navigator.pushNamed(context, 'course');
+            //   },
+            //   icon: const Icon(Icons.book),
+            //   label: const Text('Course'),
+            //   style: ElevatedButton.styleFrom(
+            //     primary: Colors.blue,
+            //     onPrimary: Colors.black,
+            //     padding: const EdgeInsets.all(10),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(20.0),
+            //     ),
+            //   ),
+            // ),
+            // ElevatedButton.icon(
+            //   onPressed: () {
+            //     Get.to(() => Student());
+            //     Get.to(const Student());
+            //   },
+            //   icon: const Icon(Icons.person),
+            //   label: const Text('Student'),
+            //   style: ElevatedButton.styleFrom(
+            //     primary: Colors.blue,
+            //     onPrimary: Colors.black,
+            //     padding: const EdgeInsets.all(10),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(20.0),
+            //     ),
+            //   ),
+            // ),
+            // ElevatedButton.icon(
+            //   onPressed: () {
+            //     // Handle status button press
+            //     Navigator.pushNamed(context, 'status');
+            //   },
+            //   icon: const Icon(Icons.check),
+            //   label: const Text('Status'),
+            //   style: ElevatedButton.styleFrom(
+            //     primary: Colors.blue,
+            //     onPrimary: Colors.black,
+            //     padding: const EdgeInsets.all(10),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(20.0),
+            //     ),
+            //   ),
+            // ),
+            // ElevatedButton.icon(
+            //   onPressed: () {
+            //     // Handle notification button press
+            //     Navigator.pushNamed(context, '/notification');
+            //   },
+            //   icon: const Icon(Icons.notifications),
+            //   label: const Text('Notification'),
+            //   style: ElevatedButton.styleFrom(
+            //     primary: Colors.blue,
+            //     onPrimary: Colors.black,
+            //     padding: const EdgeInsets.all(10),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(20.0),
+            //     ),
+            //   ),
+            // ),
+            // ElevatedButton.icon(
+            //   onPressed: () {
+            //     // Handle details button press
+            //     Navigator.pushNamed(context, 'details');
+            //   },
+            //   icon: const Icon(Icons.info),
+            //   label: const Text('Details'),
+            //   style: ElevatedButton.styleFrom(
+            //     primary: Colors.blue,
+            //     onPrimary: Colors.black,
+            //     padding: const EdgeInsets.all(10),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(20.0),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
+}
+
+Widget gridViewData (IconData icon, String title, Function() onTap) {
+  return SizedBox.fromSize(
+    size: Size(20.w,20.h),
+    child: Material(
+      elevation: 10,
+      color: Colors.blue,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0.r),),
+      child: InkWell(
+        splashColor: Colors.black54,
+        onTap: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon,size: 35.h,),
+            Text(title,style: TextStyle(fontSize: 25.sp),),
+          ],
+        ),
+      ),
+    ),
+  );
 }

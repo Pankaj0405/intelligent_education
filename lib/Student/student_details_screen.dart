@@ -112,7 +112,7 @@ _infoController.uploadToStorage(this.image!);
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Student's Detail"),
+          title: const Text("Personal Details"),
         ),
         body: Column(
           // crossAxisAlignment: CrossAxisAlignment.stretch,

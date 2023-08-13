@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import './Admin/college_assign.dart';
 import './Admin/courses.dart';
 import './Admin/status.dart';
-import './Admin/student.dart';
+import './Admin/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './Student/messaging_screen.dart';
 import './Student/student_details_screen.dart';
@@ -36,10 +36,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Student(),
-         routes: {
-          Student.routeName: (context) => Student(),
-         },
+        home: const LoginScreen(),
          // initialRoute: '/student-details',
         // home: StudentDashboard(),
         // NotificationScreen(),

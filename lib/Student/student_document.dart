@@ -44,7 +44,7 @@ class _StudentDocumentState extends State<StudentDocument> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: const Text('Document'),
+        title: const Text('Documents'),
         centerTitle: true,
         leading: const Icon(Icons.school),
       ),
@@ -58,7 +58,7 @@ class _StudentDocumentState extends State<StudentDocument> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Upload Document',
+                  'Upload Documents',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,

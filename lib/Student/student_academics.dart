@@ -18,36 +18,36 @@ class _AcademicDetailsState extends State<AcademicDetails> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: Text('Academics'),
+        title: const Text('Academics'),
         centerTitle: true,
         leading: const Icon(FontAwesomeIcons.book),
       ),
           body: SingleChildScrollView(
             child: Column(
               children: [
+                const ListTile(
+                  leading: Text(
+                    'Academics',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                  trailing: Icon(
+                    Icons.add_circle_outline,
+                    color: Colors.black,
+                  ),
+                ),
                 Container(
                   margin: EdgeInsets.only(
-                    top: 20.h,
+                    // top: 20.h,
                     left: 20.w,
                     right: 20.w,
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey,
+                    color: Colors.grey[400],
                   ),
-                  height: MediaQuery.of(context).size.height * 0.60,
+                  // height: MediaQuery.of(context).size.height * 0.60,
                   child: Column(
                     children: [
-                      const ListTile(
-                        leading: Text(
-                          'Academics',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                        ),
-                        trailing: Icon(
-                          Icons.add_circle_outline,
-                          color: Colors.black,
-                        ),
-                      ),
                       listTileFieldInfo('Institute Name: '),
                       listTileFieldInfo('Country: '),
                       listTileFieldInfo('Course: '),
@@ -88,7 +88,7 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                         ],
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       ElevatedButton(
                         onPressed: () {},
@@ -102,38 +102,58 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                     ],
                   ),
                 ),
+                Divider(
+                  color: Colors.black,
+                  indent: 100.w,
+                  endIndent: 100.w,
+                  thickness: 2,),
+                const ListTile(
+                  leading: Text(
+                    'Edit/Remove',
+                    style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                  trailing: Icon(
+                    Icons.edit_note,
+                    color: Colors.black,
+                  ),
+                ),
+                // const Padding(
+                //   padding: EdgeInsets.only(
+                //     top: 10,
+                //     left: 20,
+                //   ),
+                //   child: Align(
+                //     alignment: Alignment.topLeft,
+                //     child: Text(
+                //       "Edit / Remove",
+                //       style: TextStyle(
+                //         // fontFamily: 'Pacifico',
+                //         fontWeight: FontWeight.bold,
+                //         fontSize: 25.0,
+                //         // letterSpacing: 2.0,
+                //         // wordSpacing: 4.0
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Container(
-                  margin: const EdgeInsets.all(20),
+                  margin: EdgeInsets.only(
+                    left: 20.w,
+                    right: 20.w,
+                    bottom: 20.h,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey,
+                    color: Colors.grey[400],
                   ),
                   child: Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          top: 10,
-                          left: 20,
-                        ),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Edit / Remove",
-                            style: TextStyle(
-                              // fontFamily: 'Pacifico',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25.0,
-                              // letterSpacing: 2.0,
-                              // wordSpacing: 4.0
-                            ),
-                          ),
-                        ),
-                      ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          left: 10,
-                          right: 10,
+                        padding: EdgeInsets.only(
+                          top: 10.h,
+                          left: 10.w,
+                          right: 10.w,
                         ),
                         child: TextField(
                           style: const TextStyle(color: Colors.black),

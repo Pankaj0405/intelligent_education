@@ -18,7 +18,7 @@ class MyInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 16),
+      margin: const EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,8 +36,9 @@ class MyInputField extends StatelessWidget {
                   controller: controller,
 
                   decoration: InputDecoration(
+                    fillColor: Colors.white70,
                     hintText: hint,
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       color: Colors.black
                     ),
                   ),
