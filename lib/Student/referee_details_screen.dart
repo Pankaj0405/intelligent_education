@@ -1,6 +1,7 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../constants.dart';
 import '../Widgets/details_field.dart';
 
 class RefereeDetails extends StatefulWidget {
@@ -42,7 +43,7 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey[400],
+                  color: boxColor,
                 ),
                 // height: MediaQuery.of(context).size.height * 0.70,
                 child: Column(
@@ -57,37 +58,6 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                     const SizedBox(
                       height: 10,
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     const Text('From: ', style: TextStyle(fontSize: 18)),
-                    //     SizedBox(
-                    //       height: 30,
-                    //       width: 70,
-                    //       child: TextField(
-                    //         style: const TextStyle(color: Colors.black),
-                    //         cursorColor: Colors.blue,
-                    //         decoration: InputDecoration(
-                    //             border: OutlineInputBorder(
-                    //               borderRadius: BorderRadius.circular(10),
-                    //             )),
-                    //       ),
-                    //     ),
-                    //     const Text('To: ', style: TextStyle(fontSize: 18)),
-                    //     SizedBox(
-                    //       height: 30,
-                    //       width: 70,
-                    //       child: TextField(
-                    //         style: const TextStyle(color: Colors.black),
-                    //         cursorColor: Colors.blue,
-                    //         decoration: InputDecoration(
-                    //             border: OutlineInputBorder(
-                    //               borderRadius: BorderRadius.circular(10),
-                    //             )),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
@@ -95,6 +65,7 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          backgroundColor: layoutColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           )),
@@ -102,12 +73,6 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                     ),
                   ],
                 ),
-              ),
-              Divider(
-                color: Colors.black,
-                indent: 100.w,
-                endIndent: 100.w,
-                thickness: 2,
               ),
               const ListTile(
                 leading: Text(
@@ -127,7 +92,7 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey[400],
+                  color: boxColor,
                 ),
                 child: Column(
                   children: [
@@ -161,13 +126,17 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                             child: CheckboxListTile(
+                                activeColor: layoutColor,
                                 value: referee1,
                                 onChanged: (bool? value) {
                                   setState(() {
                                     referee1 = value!;
                                   });
                                 },
-                                title: const Text('Experience 1')),
+                                title: const Text(
+                                  'Experience 1',
+                                  overflow: TextOverflow.ellipsis,
+                                )),
                           );
                         },
                       ),

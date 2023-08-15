@@ -1,7 +1,7 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import '../constants.dart';
 
 class StudentDocument extends StatefulWidget {
   const StudentDocument({super.key});
@@ -103,7 +103,8 @@ class _StudentDocumentState extends State<StudentDocument> {
                       width: 70,
                       child: Text(
                         fileName.toString(),
-                        style: const TextStyle(fontSize: 16, color: Colors.black),
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.black),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -120,13 +121,13 @@ class _StudentDocumentState extends State<StudentDocument> {
               flex: 0,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                    backgroundColor: layoutColor,
                     shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                )),
+                      borderRadius: BorderRadius.circular(20),
+                    )),
                 onPressed: () {
                   result = null;
-                  setState(() {
-                  });
+                  setState(() {});
                 },
                 child: const Text(
                   'UPLOAD',
@@ -145,10 +146,9 @@ class _StudentDocumentState extends State<StudentDocument> {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(10),
-                // height: MediaQuery.of(context).size.height * 0.65,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  color: Colors.grey[400],
+                  color: boxColor,
                 ),
                 child: Column(
                   children: [
@@ -178,41 +178,38 @@ class _StudentDocumentState extends State<StudentDocument> {
                         color: Colors.black,
                       ),
                     ),
-                    // SingleChildScrollView(
-                    //   child:
-                      Expanded(
-                        child: SizedBox(
-                          // height: MediaQuery.of(context).size.height * 0.55,
-                          child:
-                          ListView.builder(
-                              itemCount: 15,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const Icon(Icons.delete),
-                                      const SizedBox(),
-                                      GestureDetector(
-                                          onTap: () {}, child: const Text('View')),
-                                      const SizedBox(
-                                        width: 2,
-                                      ),
-                                      const SizedBox(
-                                          width: 100,
-                                          child: Text(
-                                            'Document Name',
-                                            overflow: TextOverflow.ellipsis,
-                                          )),
-                                      const Text('Status'),
-                                    ],
-                                  ),
-                                );
-                              }),
-                         ),
+                    Expanded(
+                      child: SizedBox(
+                        child: ListView.builder(
+                            itemCount: 15,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    const Icon(Icons.delete),
+                                    const SizedBox(),
+                                    GestureDetector(
+                                        onTap: () {},
+                                        child: const Text('View')),
+                                    const SizedBox(
+                                      width: 2,
+                                    ),
+                                    const SizedBox(
+                                        width: 100,
+                                        child: Text(
+                                          'Document Name',
+                                          overflow: TextOverflow.ellipsis,
+                                        )),
+                                    const Text('Status'),
+                                  ],
+                                ),
+                              );
+                            }),
                       ),
+                    ),
                     // ),
                   ],
                 ),

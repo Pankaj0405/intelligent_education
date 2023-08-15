@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/controllers/firestoremethods.dart';
-import 'package:intelligent_education/models/parent_info.dart';
+import '../constants.dart';
+import '../controllers/firestoremethods.dart';
+import '../models/parent_info.dart';
 import '../Widgets/info_field.dart';
 
 class ParentsInfoScreen extends StatefulWidget {
+  const ParentsInfoScreen({super.key});
+
   @override
   State<ParentsInfoScreen> createState() => _ParentsInfoScreenState();
 }
@@ -19,38 +22,35 @@ class _ParentsInfoScreenState extends State<ParentsInfoScreen> {
     super.initState();
     _fetchExistingParentInfo();
   }
-  final TextEditingController fatherNameController =
-  TextEditingController();
+
+  final TextEditingController fatherNameController = TextEditingController();
 
   final TextEditingController fatherOccupationController =
-  TextEditingController();
+      TextEditingController();
 
-  final TextEditingController motherNameController =
-  TextEditingController();
+  final TextEditingController motherNameController = TextEditingController();
 
   final TextEditingController motherOccupationController =
-  TextEditingController();
+      TextEditingController();
 
-  final TextEditingController addressController =
-  TextEditingController();
+  final TextEditingController addressController = TextEditingController();
 
-  final TextEditingController emailController =
-  TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
-  final TextEditingController mobileController =
-  TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
   void _fetchExistingParentInfo() async {
-    ParentInfo? existingParentInfo =
-    await _infoController.getFirstParentInfo();
+    ParentInfo? existingParentInfo = await _infoController.getFirstParentInfo();
     print(existingParentInfo);
-    if (existingParentInfo!= null) {
+    if (existingParentInfo != null) {
       // Update the input fields with the existing data
       setState(() {
-        isDataSubmitted=true;
+        isDataSubmitted = true;
         fatherNameController.text = existingParentInfo.fathername ?? '';
-        fatherOccupationController.text = existingParentInfo.fatheroccupation ?? '';
+        fatherOccupationController.text =
+            existingParentInfo.fatheroccupation ?? '';
         motherNameController.text = existingParentInfo.mothername ?? '';
-        motherOccupationController.text = existingParentInfo.motheroccupation ?? '';
+        motherOccupationController.text =
+            existingParentInfo.motheroccupation ?? '';
         addressController.text = existingParentInfo.address ?? '';
         emailController.text = existingParentInfo.email ?? '';
         mobileController.text = existingParentInfo.mobileno ?? '';
@@ -80,48 +80,52 @@ class _ParentsInfoScreenState extends State<ParentsInfoScreen> {
           buildInfoField('Mobile Number', mobileController),
           const SizedBox(height: 16.0),
           Center(
-            child: isDataSubmitted?ElevatedButton(
-              onPressed: () =>null,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.grey),
-              ),
-              child: const Text('Submit'),
-            ): ElevatedButton(
-              onPressed: () =>_addParentInfoToDb(),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
-              ),
-              child: const Text('Submit'),
-            ),
+            child: isDataSubmitted
+                ? ElevatedButton(
+                    onPressed: () => null,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.grey),
+                    ),
+                    child: const Text('Submit'),
+                  )
+                : ElevatedButton(
+                    onPressed: () => _addParentInfoToDb(),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(layoutColor),
+                    ),
+                    child: const Text('Submit'),
+                  ),
           )
         ],
       ),
     );
   }
+
   _addParentInfoToDb() async {
     if (_areFieldsEmpty()) {
       Get.snackbar("Error", "Please fill all fields");
     } else {
-      ParentInfo? existingParentInfo = await _infoController.getFirstParentInfo();
+      ParentInfo? existingParentInfo =
+          await _infoController.getFirstParentInfo();
       if (existingParentInfo != null) {
         // Data already exists, show a message or handle as needed
         Get.snackbar("Info", "Parent information already submitted");
       } else {
         setState(() {
-          isDataSubmitted=true;
+          isDataSubmitted = true;
         });
         await _infoController.uploadParentInfo(
-          fatherNameController.text,
-          fatherOccupationController.text,
-          motherNameController.text,
-          motherOccupationController.text,
-          addressController.text,
-          emailController.text,
-          mobileController.text
-        );
+            fatherNameController.text,
+            fatherOccupationController.text,
+            motherNameController.text,
+            motherOccupationController.text,
+            addressController.text,
+            emailController.text,
+            mobileController.text);
       }
     }
   }
+
   bool _areFieldsEmpty() {
     return fatherNameController.text.isEmpty ||
         fatherOccupationController.text.isEmpty ||

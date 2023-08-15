@@ -1,9 +1,10 @@
+import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/Student/student_dashboard.dart';
+import 'package:intelligent_education/constants.dart';
 import 'package:intelligent_education/controllers/auth_controller.dart';
+import 'package:intelligent_education/reset_password.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -41,12 +42,16 @@ class StudentState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Icon(
-                      CupertinoIcons.person_alt_circle,
-                      size: 100,
-                      color: Colors.black,
+                    CircleAvatar(
+                      backgroundColor: Colors.grey[200],
+                      radius: 50.r,
+                      child: Icon(
+                        FontAwesomeIcons.user,
+                        size: 60.r,
+                        color: Colors.black,
+                      ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 20.h),
                     TextField(
                       style: const TextStyle(color: Colors.black),
                       controller: emailController,
@@ -75,10 +80,12 @@ class StudentState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                       child: ElevatedButton(
-                        onPressed: (){
-_authController.loginUser(emailController.text, passController.text);
+                        onPressed: () {
+                          _authController.loginUser(
+                              emailController.text, passController.text);
                         },
                         style: ElevatedButton.styleFrom(
+                            backgroundColor: layoutColor,
                             padding: const EdgeInsets.all(10.0),
                             textStyle: const TextStyle(fontSize: 20),
                             shape: RoundedRectangleBorder(
@@ -96,11 +103,14 @@ _authController.loginUser(emailController.text, passController.text);
                       children: [
                         const Text('Don\'t remember Password?'),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(ResetPassword());
+                          },
                           child: const Text(
                             'Click here',
                             style: TextStyle(
                               decoration: TextDecoration.underline,
+                              color: Color(0xFF3571E9),
                             ),
                           ),
                         ),

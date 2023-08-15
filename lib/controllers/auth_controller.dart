@@ -3,17 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intelligent_education/Admin/admin_dash.dart';
-import 'package:intelligent_education/Admin/user.dart';
-import 'package:intelligent_education/Student/student_dashboard.dart';
-import 'package:intelligent_education/constants.dart';
-import 'package:intelligent_education/login_screen.dart';
-import 'package:intelligent_education/models/user.dart' as model;
+import '../Admin/admin_dash.dart';
+import '../Student/student_dashboard.dart';
+import '../constants.dart';
+import '../login_screen.dart';
+import '../models/user.dart' as model;
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-  Rx<String?> logintype1 = Rx<String?>(null);
+  Rx<String?> loginType1 = Rx<String?>(null);
   Rx<String?> name = Rx<String?>(null);
   late Rx<User?> _user;
   late Rx<File?> _pickedImage;
@@ -32,16 +30,16 @@ class AuthController extends GetxController {
 
   setInitialScreen(User? user) {
     if (user == null) {
-      Get.offAll(() => LoginScreen());
+      Get.offAll(() => const LoginScreen());
     } else {
-      setScreeen();
+      setScreen();
       getUserData();
     }
   }
 
   //register user
   void registerUser(String username, String phone, String email,
-      String password, String logintype) async {
+      String password, String loginType) async {
     FirebaseApp secondaryApp = await Firebase.initializeApp(
       name: 'SecondaryApp',
       options: Firebase.app().options,
@@ -50,7 +48,7 @@ class AuthController extends GetxController {
       if (username.isNotEmpty &&
           phone.isNotEmpty &&
           email.isNotEmpty &&
-          logintype.isNotEmpty &&
+          loginType.isNotEmpty &&
           password.isNotEmpty) {
         // save a user
         UserCredential cred = await FirebaseAuth.instanceFor(app: secondaryApp)
@@ -61,7 +59,7 @@ class AuthController extends GetxController {
             phone: phone,
             email: email,
             uid: cred.user!.uid,
-            logintype: logintype);
+            logintype: loginType);
         await firestore
             .collection('users')
             .doc(cred.user!.uid)
@@ -80,7 +78,7 @@ class AuthController extends GetxController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
-        print('log sucess');
+        print('log success');
       } else {
         Get.snackbar('Error Logging in', "Please enter all the field");
       }
@@ -103,17 +101,17 @@ class AuthController extends GetxController {
     // setInitialScreen(firebaseAuth.currentUser);
   }
 
-  setScreeen() async {
+  setScreen() async {
     DocumentSnapshot userDoc = await firestore
         .collection('users')
         .doc(firebaseAuth.currentUser!.uid)
         .get();
     final userData = userDoc.data()! as dynamic;
-    logintype1.value = userData['logintype'];
-    if (logintype1.value == 'Student') {
-      Get.to(() => StudentDashboard());
+    loginType1.value = userData['logintype'];
+    if (loginType1.value == 'Student') {
+      Get.to(() => const StudentDashboard());
     } else {
-      Get.to(() => AdminDash());
+      Get.to(() => const AdminDash());
     }
   }
 }

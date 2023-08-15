@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../constants.dart';
 import '../Widgets/details_field.dart';
 
 class StudentExperience extends StatefulWidget {
   const StudentExperience({super.key});
-
-  // static const routeName = '/student-experience';
 
   @override
   State<StudentExperience> createState() => _StudentExperienceState();
@@ -30,8 +29,7 @@ class _StudentExperienceState extends State<StudentExperience> {
             const ListTile(
               leading: Text(
                 'Experience',
-                style:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               trailing: Icon(
                 Icons.add_circle_outline,
@@ -45,7 +43,7 @@ class _StudentExperienceState extends State<StudentExperience> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.grey[400],
+                color: boxColor,
               ),
               // height: MediaQuery.of(context).size.height * 0.60,
               child: Column(
@@ -95,6 +93,7 @@ class _StudentExperienceState extends State<StudentExperience> {
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
+                        backgroundColor: layoutColor,
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -104,41 +103,16 @@ class _StudentExperienceState extends State<StudentExperience> {
                 ],
               ),
             ),
-             Divider(
-              color: Colors.black,
-               indent: 100.w,
-               endIndent: 100.w,
-               thickness: 2,),
             const ListTile(
               leading: Text(
                 'Edit/Remove',
-                style:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               trailing: Icon(
                 Icons.edit_note,
                 color: Colors.black,
               ),
             ),
-            //  Padding(
-            //   padding: EdgeInsets.only(
-            //     // top: 20.h,
-            //     left: 20.w,
-            //   ),
-            //   child: const Align(
-            //     alignment: Alignment.topLeft,
-            //     child: Text(
-            //       "Edit / Remove",
-            //       style: TextStyle(
-            //         // fontFamily: 'Pacifico',
-            //         fontWeight: FontWeight.bold,
-            //         fontSize: 25.0,
-            //         // letterSpacing: 2.0,
-            //         // wordSpacing: 4.0
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Container(
               margin: EdgeInsets.only(
                 left: 20.w,
@@ -147,7 +121,7 @@ class _StudentExperienceState extends State<StudentExperience> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.grey[400],
+                color: boxColor,
               ),
               child: Column(
                 children: [
@@ -181,13 +155,17 @@ class _StudentExperienceState extends State<StudentExperience> {
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                           child: CheckboxListTile(
+                              activeColor: layoutColor,
                               value: experience1,
                               onChanged: (bool? value) {
                                 setState(() {
                                   experience1 = value!;
                                 });
                               },
-                              title: const Text('Experience 1')),
+                              title: const Text(
+                                'Experience 1',
+                                overflow: TextOverflow.ellipsis,
+                              )),
                         );
                       },
                     ),

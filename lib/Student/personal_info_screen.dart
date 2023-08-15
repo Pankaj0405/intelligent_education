@@ -1,14 +1,15 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/Widgets/input_field.dart';
-import 'package:intelligent_education/controllers/firestoremethods.dart';
-import 'package:intelligent_education/models/personal_info.dart';
+import '../Widgets/input_field.dart';
+import '../constants.dart';
+import '../controllers/firestoremethods.dart';
+import '../models/personal_info.dart';
 import 'package:intl/intl.dart';
 import '../Widgets/info_field.dart';
 
 class PersonalInfoScreen extends StatefulWidget {
+  const PersonalInfoScreen({super.key});
+
   @override
   State<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
 }
@@ -23,57 +24,57 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     _fetchExistingPersonalInfo();
   }
 
+  DateTime _selectedDob = DateTime.now();
+  DateTime _selectedIssueDate = DateTime.now();
+  DateTime _selectedExpiryDate = DateTime.now();
+  final TextEditingController nameController = TextEditingController();
 
+  final TextEditingController genderController = TextEditingController();
 
-  DateTime _selecteddob = DateTime.now();
-  DateTime _selectedissuedate = DateTime.now();
-  DateTime _selectedexpirydate = DateTime.now();
-  final TextEditingController nameController =
-  TextEditingController();
-
-  final TextEditingController genderController =
-  TextEditingController();
-
-  final TextEditingController nationalityController =
-  TextEditingController();
+  final TextEditingController nationalityController = TextEditingController();
 
   final TextEditingController currentAddressController =
-  TextEditingController();
+      TextEditingController();
 
-  final TextEditingController passportlocationController =
-  TextEditingController();
+  final TextEditingController passportLocationController =
+      TextEditingController();
 
-  final TextEditingController permanentaddressController =
-  TextEditingController();
+  final TextEditingController permanentAddressController =
+      TextEditingController();
 
-  final TextEditingController passportNoController =
-  TextEditingController();
+  final TextEditingController passportNoController = TextEditingController();
 
   void _fetchExistingPersonalInfo() async {
-   PersonalInfo? existingPersonalInfo =
-   await _infoController.getFirstPersonalInfo();
-print(existingPersonalInfo);
-   if (existingPersonalInfo!= null) {
-     // Update the input fields with the existing data
-     setState(() {
-       isDataSubmitted=true;
-       nameController.text = existingPersonalInfo.fullname ?? '';
-       _selecteddob = DateFormat.yMd().parse(existingPersonalInfo.dateofbirth ?? '');
-       genderController.text = existingPersonalInfo.gender ?? '';
-       nationalityController.text = existingPersonalInfo.nationality ?? '';
-       currentAddressController.text = existingPersonalInfo.currentaddress ?? '';
-       permanentaddressController.text = existingPersonalInfo.permanentaddress ?? '';
-       passportNoController.text = existingPersonalInfo.passportno ?? '';
-       passportlocationController.text = existingPersonalInfo.passportlocation ?? '';
-       _selectedissuedate = DateFormat.yMd().parse(existingPersonalInfo.issuedate ?? '');
-       _selectedexpirydate = DateFormat.yMd().parse(existingPersonalInfo.expirydate ?? '');
-     });
-   }
- }
+    PersonalInfo? existingPersonalInfo =
+        await _infoController.getFirstPersonalInfo();
+    print(existingPersonalInfo);
+    if (existingPersonalInfo != null) {
+      // Update the input fields with the existing data
+      setState(() {
+        isDataSubmitted = true;
+        nameController.text = existingPersonalInfo.fullname ?? '';
+        _selectedDob =
+            DateFormat.yMd().parse(existingPersonalInfo.dateofbirth ?? '');
+        genderController.text = existingPersonalInfo.gender ?? '';
+        nationalityController.text = existingPersonalInfo.nationality ?? '';
+        currentAddressController.text =
+            existingPersonalInfo.currentaddress ?? '';
+        permanentAddressController.text =
+            existingPersonalInfo.permanentaddress ?? '';
+        passportNoController.text = existingPersonalInfo.passportno ?? '';
+        passportLocationController.text =
+            existingPersonalInfo.passportlocation ?? '';
+        _selectedIssueDate =
+            DateFormat.yMd().parse(existingPersonalInfo.issuedate ?? '');
+        _selectedExpiryDate =
+            DateFormat.yMd().parse(existingPersonalInfo.expirydate ?? '');
+      });
+    }
+  }
 
-@override
+  @override
   Widget build(BuildContext context) {
-   _fetchExistingPersonalInfo();
+    _fetchExistingPersonalInfo();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -87,7 +88,7 @@ print(existingPersonalInfo);
           buildInfoField('Full Name', nameController),
           MyInputField(
             title: "Date of Birth",
-            hint:  DateFormat.yMd().format(_selecteddob),
+            hint: DateFormat.yMd().format(_selectedDob),
             widget: IconButton(
               icon: const Icon(
                 Icons.calendar_today_outlined,
@@ -101,12 +102,12 @@ print(existingPersonalInfo);
           buildInfoField('Gender', genderController),
           buildInfoField('Nationality', nationalityController),
           buildInfoField('Current Address', currentAddressController),
-          buildInfoField('Permanent Address', permanentaddressController),
+          buildInfoField('Permanent Address', permanentAddressController),
           buildInfoField('Passport No', passportNoController),
-          buildInfoField('Passport Issue Location', passportlocationController),
+          buildInfoField('Passport Issue Location', passportLocationController),
           MyInputField(
             title: "Passport Issue Date",
-            hint: DateFormat.yMd().format(_selectedissuedate),
+            hint: DateFormat.yMd().format(_selectedIssueDate),
             widget: IconButton(
               icon: const Icon(
                 Icons.calendar_today_outlined,
@@ -119,7 +120,7 @@ print(existingPersonalInfo);
           ),
           MyInputField(
             title: "Passport Expiry Date",
-            hint: DateFormat.yMd().format(_selectedexpirydate),
+            hint: DateFormat.yMd().format(_selectedExpiryDate),
             widget: IconButton(
               icon: const Icon(
                 Icons.calendar_today_outlined,
@@ -130,64 +131,67 @@ print(existingPersonalInfo);
               },
             ),
           ),
-
           const SizedBox(height: 16.0),
           Center(
-
-            child: isDataSubmitted?ElevatedButton(
-              onPressed: () =>null,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.grey),
-              ),
-              child: const Text('Submit'),
-            ): ElevatedButton(
-              onPressed: () =>_addPersonalInfoToDb(),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
-              ),
-              child: const Text('Submit'),
-            ),
+            child: isDataSubmitted
+                ? ElevatedButton(
+                    onPressed: () => null,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.grey),
+                    ),
+                    child: const Text('Submit'),
+                  )
+                : ElevatedButton(
+                    onPressed: () => _addPersonalInfoToDb(),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(layoutColor),
+                    ),
+                    child: const Text('Submit'),
+                  ),
           ),
         ],
       ),
     );
   }
+
   _addPersonalInfoToDb() async {
     if (_areFieldsEmpty()) {
       Get.snackbar("Error", "Please fill all fields");
     } else {
-      PersonalInfo? existingPersonalInfo = await _infoController.getFirstPersonalInfo();
+      PersonalInfo? existingPersonalInfo =
+          await _infoController.getFirstPersonalInfo();
       if (existingPersonalInfo != null) {
         // Data already exists, show a message or handle as needed
         Get.snackbar("Info", "Personal information already submitted");
       } else {
         setState(() {
-isDataSubmitted=true;
+          isDataSubmitted = true;
         });
         await _infoController.uploadPersonalInfo(
             nameController.text,
-            DateFormat.yMd().format(_selecteddob),
+            DateFormat.yMd().format(_selectedDob),
             genderController.text,
             nationalityController.text,
             currentAddressController.text,
-            permanentaddressController.text,
+            permanentAddressController.text,
             passportNoController.text,
-            passportlocationController.text,
-            DateFormat.yMd().format(_selectedissuedate),
-            DateFormat.yMd().format(_selectedexpirydate)
-        );
+            passportLocationController.text,
+            DateFormat.yMd().format(_selectedIssueDate),
+            DateFormat.yMd().format(_selectedExpiryDate));
       }
     }
   }
+
   bool _areFieldsEmpty() {
     return nameController.text.isEmpty ||
         genderController.text.isEmpty ||
         nationalityController.text.isEmpty ||
         currentAddressController.text.isEmpty ||
-        permanentaddressController.text.isEmpty ||
+        permanentAddressController.text.isEmpty ||
         passportNoController.text.isEmpty ||
-        passportlocationController.text.isEmpty;
+        passportLocationController.text.isEmpty;
   }
+
   _getDateFromUser() async {
     DateTime? _pickerDate = await showDatePicker(
         context: context,
@@ -196,7 +200,7 @@ isDataSubmitted=true;
         lastDate: DateTime(2121));
     if (_pickerDate != null) {
       setState(() {
-        _selecteddob = _pickerDate;
+        _selectedDob = _pickerDate;
       });
     } else {
       print("It is null or somthing is wrong");

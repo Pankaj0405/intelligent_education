@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intelligent_education/Widgets/admin_text_field.dart';
+import '../Widgets/admin_text_field.dart';
+import '../constants.dart';
 
 class College extends StatefulWidget {
   const College({super.key});
@@ -17,7 +18,6 @@ class CollegeState extends State<College> {
 
   final _collegeNameController = TextEditingController();
   final _addressController = TextEditingController();
-  // void onPressed() {}
 
   @override
   Widget build(BuildContext context) {
@@ -25,40 +25,24 @@ class CollegeState extends State<College> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-            centerTitle: true,
-            leading: const Icon(Icons.school),
-            title: const Text(
-              "Colleges",
-              style: TextStyle(
-                  // fontFamily: 'Pacifico',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
-                  // letterSpacing: 2.0,
-                  // wordSpacing: 4.0),
-            ),),),
+          centerTitle: true,
+          leading: const Icon(Icons.school),
+          title: const Text(
+            "Colleges",
+            style: TextStyle(
+              // fontFamily: 'Pacifico',
+              fontWeight: FontWeight.bold,
+              fontSize: 30.0,
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // const SizedBox(height: 30),
-
-              // Heading 1
-              // const Padding(
-              //   padding: EdgeInsets.fromLTRB(10, 0, 170, 0),
-              //   child: Text(
-              //     "Add College",
-              //     style: TextStyle(
-              //         // fontFamily: 'Pacifico',
-              //         fontWeight: FontWeight.bold,
-              //         fontSize: 25.0,
-              //         letterSpacing: 2.0,
-              //         wordSpacing: 4.0),
-              //   ),
-              // ),
               const ListTile(
                 leading: Text(
-                  'Add Course',
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  'Add College',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
                 trailing: Icon(
                   Icons.add_circle_outline,
@@ -71,68 +55,17 @@ class CollegeState extends State<College> {
                   left: 20.w,
                   right: 20.w,
                 ),
-                // padding: const EdgeInsets.all(3.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey[400],
+                  color: boxColor,
                 ),
                 child: Column(
                   children: [
                     // College Name
-                    adminTextField('College Name', _collegeNameController, TextInputType.text),
-                    adminTextField('Address', _addressController, TextInputType.text),
-                    // Card(
-                    //   color: Colors.white,
-                    //   margin: const EdgeInsets.symmetric(
-                    //       vertical: 8.0, horizontal: 25.0),
-                    //   child: ListTile(
-                    //     title: TextField(
-                    //       textAlign: TextAlign.center,
-                    //       keyboardType: TextInputType.text,
-                    //       decoration: InputDecoration(
-                    //         hintText: 'College Name',
-                    //         hintStyle: const TextStyle(fontSize: 16),
-                    //         border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(8),
-                    //           borderSide: const BorderSide(
-                    //             width: 0,
-                    //             style: BorderStyle.none,
-                    //           ),
-                    //         ),
-                    //         filled: true,
-                    //         contentPadding: const EdgeInsets.all(16),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-
-                    // Address
-                    // Card(
-                    //   color: Colors.white,
-                    //   margin: const EdgeInsets.symmetric(
-                    //       vertical: 10.0, horizontal: 25.0),
-                    //   child: ListTile(
-                    //     title: TextField(
-                    //       textAlign: TextAlign.center,
-                    //       keyboardType: TextInputType.text,
-                    //       decoration: InputDecoration(
-                    //         hintText: 'Address',
-                    //         hintStyle: const TextStyle(fontSize: 16),
-                    //         border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(8),
-                    //           borderSide: const BorderSide(
-                    //             width: 0,
-                    //             style: BorderStyle.none,
-                    //           ),
-                    //         ),
-                    //         filled: true,
-                    //         contentPadding: const EdgeInsets.all(16),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-
-                    // Deadline
+                    adminTextField('College Name', _collegeNameController,
+                        TextInputType.text),
+                    adminTextField(
+                        'Address', _addressController, TextInputType.text),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -165,32 +98,27 @@ class CollegeState extends State<College> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(200, 0, 0, 20),
                       child: ElevatedButton(
-                          onPressed: () {}, child: const Text('ADD')),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: layoutColor,
+                        ),
+                        child: const Text('ADD'),
+                      ),
                     ),
                   ],
                 ),
               ),
-              // const SizedBox(height: 50),
-              Divider(
-                height: 20.h,
-                color: Colors.black,
-                indent: 100.w,
-                endIndent: 100.w,
-                thickness: 2,),
               // Heading 2
               const ListTile(
                 leading: Text(
                   'Edit/Remove',
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
                 trailing: Icon(
                   Icons.edit_note,
                   color: Colors.black,
                 ),
               ),
-
-              // const SizedBox(height: 15),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
@@ -199,22 +127,10 @@ class CollegeState extends State<College> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey[400],
+                  color: boxColor,
                 ),
                 child: Column(
                   children: [
-                    // Search
-                    // const Card(
-                    //   color: Colors.white,
-                    //   margin: EdgeInsets.symmetric(
-                    //       vertical: 10.0, horizontal: 25.0),
-                    //   child: ListTile(
-                    //     leading: Icon(Icons.search),
-                    //     title: Text('Search'),
-                    //   ),
-                    // ),
-
-                    // checkbox
                     Padding(
                       padding: EdgeInsets.only(
                         top: 10.h,
@@ -245,18 +161,22 @@ class CollegeState extends State<College> {
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                             child: CheckboxListTile(
+                                // checkColor: const Color(0xFFDEDEDE),
+                                activeColor: layoutColor,
                                 value: college1,
                                 onChanged: (bool? value) {
                                   setState(() {
                                     college1 = value!;
                                   });
                                 },
-                                title: const Text('College 1')),
+                                title: const Text(
+                                  'College 1',
+                                  overflow: TextOverflow.ellipsis,
+                                )),
                           );
                         },
                       ),
                     ),
-                    // const Divider(height: 0),
 
                     // add/delete button
                     Row(

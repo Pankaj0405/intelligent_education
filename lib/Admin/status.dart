@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../constants.dart';
 
 class StatusScreen extends StatefulWidget {
   const StatusScreen({super.key});
@@ -44,47 +45,28 @@ class Project extends State<StatusScreen> {
         resizeToAvoidBottomInset: false,
         // backgroundColor: Colors.white,
         appBar: AppBar(
-            centerTitle: true,
-            leading: const Icon(Icons.checklist),
-            title: const Text(
-              "Status",
+          centerTitle: true,
+          leading: const Icon(Icons.checklist),
+          title: const Text("Status",
               style: TextStyle(
-                  // fontFamily: 'Pacifico',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
-                  // letterSpacing: 2.0,
-                  // wordSpacing: 4.0),
-            )),),
+                fontWeight: FontWeight.bold,
+                fontSize: 30.0,
+              )),
+        ),
         body: Column(
           children: [
             // const SizedBox(height: 30),
-           Container(
-             alignment: Alignment.topLeft,
-             padding: EdgeInsets.only(
-               top: 10.h,
-               left: 10.w,
-             ),
-             child: const Text(
-                'Status',
-                style:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.only(
+                top: 10.h,
+                left: 10.w,
               ),
-           ),
-            // Heading 1
-            // const Padding(
-            //   padding: EdgeInsets.fromLTRB(10, 0, 230, 0),
-            //   child: Text(
-            //     "Details",
-            //     style: TextStyle(
-            //         // fontFamily: 'Pacifico',
-            //         fontWeight: FontWeight.bold,
-            //         fontSize: 25.0,
-            //         letterSpacing: 2.0,
-            //         wordSpacing: 4.0),
-            //   ),
-            // ),
-
-            // const SizedBox(height: 15),
+              child: const Text(
+                'Status',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              ),
+            ),
             Container(
               margin: EdgeInsets.only(
                 left: 20.w,
@@ -96,7 +78,7 @@ class Project extends State<StatusScreen> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.grey[400],
+                color: boxColor,
               ),
               child: Column(
                 children: [
@@ -130,7 +112,9 @@ class Project extends State<StatusScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 10.h,),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   Container(
                     width: 150.w,
                     decoration: BoxDecoration(
@@ -161,10 +145,18 @@ class Project extends State<StatusScreen> {
                       },
                     ),
                   ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: layoutColor,
+                      ),
+                      child: const Text('CHECK'))
                 ],
               ),
             ),
-
 
             // const SizedBox(height: 60),
 
@@ -178,8 +170,7 @@ class Project extends State<StatusScreen> {
               ),
               child: const Text(
                 'Selected Students',
-                style:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
             ),
             Container(
@@ -190,7 +181,7 @@ class Project extends State<StatusScreen> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.grey[400],
+                color: boxColor,
               ),
               child: Column(
                 children: [
@@ -230,7 +221,10 @@ class Project extends State<StatusScreen> {
                                   student1 = value!;
                                 });
                               },
-                              title: const Text('Student 1')),
+                              title: const Text(
+                                'Student 1',
+                                overflow: TextOverflow.ellipsis,
+                              )),
                         );
                       },
                     ),
@@ -253,62 +247,6 @@ class Project extends State<StatusScreen> {
                 ],
               ),
             ),
-            // const Padding(
-            //   padding: EdgeInsets.fromLTRB(10, 0, 100, 0),
-            //   child: Text(
-            //     "Selected Students",
-            //     style: TextStyle(
-            //         // fontFamily: 'Pacifico',
-            //         fontWeight: FontWeight.bold,
-            //         fontSize: 25.0,
-            //         letterSpacing: 2.0,
-            //         wordSpacing: 4.0),
-            //   ),
-            // ),
-            //
-            // const SizedBox(height: 15),
-
-            // checkbox
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            //   child: CheckboxListTile(
-            //       value: student1,
-            //       onChanged: (bool? value) {
-            //         setState(() {
-            //           student1 = value!;
-            //         });
-            //       },
-            //       title: const Text('Student 1')),
-            // ),
-            // const Divider(height: 0),
-            //
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            //   child: CheckboxListTile(
-            //     value: student2,
-            //     onChanged: (bool? value) {
-            //       setState(() {
-            //         student2 = value!;
-            //       });
-            //     },
-            //     title: const Text('Student 2'),
-            //   ),
-            // ),
-            // const Divider(height: 0),
-            //
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            //   child: CheckboxListTile(
-            //     value: student3,
-            //     onChanged: (bool? value) {
-            //       setState(() {
-            //         student3 = value!;
-            //       });
-            //     },
-            //     title: const Text('Student 3'),
-            //   ),
-            // ),
-            // const Divider(height: 0),
           ],
         ),
       ),

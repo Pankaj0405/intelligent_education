@@ -1,16 +1,14 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import '../constants.dart';
 import '../Student/referee_details_screen.dart';
 import '../Student/student_academics.dart';
-import '../Student/student_details_screen.dart';
+import '../Student/student_dash_details_screen.dart';
 import '../Student/student_document.dart';
 import '../Student/student_experience.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/firestoremethods.dart';
-// import 'package:intelligent_education/login_screen.dart';
-// import 'package:intelligent_education/Student/student_document.dart';
 
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({super.key});
@@ -24,31 +22,37 @@ class _StudentDashboardState extends State<StudentDashboard> {
   final _authController = Get.put(AuthController());
   final _infoController = Get.put(InfoController());
 
-
   @override
   Widget build(BuildContext context) {
     _authController.getUserData();
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: Obx(()=>Text(_authController.name.value.toString().toUpperCase(),),),
-        centerTitle: true,
-        leading:  Obx(()=>Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            radius: 5,
-            backgroundImage: _infoController.profilePhotoget.value!=null?NetworkImage(_infoController.profilePhotoget.value!):
-            const NetworkImage("https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
+        title: Obx(
+          () => Text(
+            _authController.name.value.toString().toUpperCase(),
           ),
-        ),),
+        ),
+        centerTitle: true,
+        leading: Obx(
+          () => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundColor: layoutColor,
+              radius: 5,
+              backgroundImage: _infoController.profilePhotoGet.value != null
+                  ? NetworkImage(_infoController.profilePhotoGet.value!)
+                  : const NetworkImage(
+                      "https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
+            ),
+          ),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8),
             child: IconButton(
-                icon: const Icon(Icons.notifications),
-                onPressed: () {
-                  // Navigator.pushNamed(context, '/notification');
-                },
+              icon: const Icon(Icons.notifications),
+              onPressed: () {},
             ),
           ),
         ],
@@ -60,7 +64,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: Colors.grey[400],
+          color: boxColor,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,10 +72,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
             Expanded(
               flex: 7,
               child: SizedBox(
-                // height: MediaQuery.of(context).size.height * 0.75,
-                child:
-                ListView.builder(
-                    // scrollDirection: Axis.vertical,
+                child: ListView.builder(
                     itemCount: 5,
                     itemBuilder: (BuildContext ctx, int index) {
                       return const ListTile(
@@ -89,12 +90,9 @@ class _StudentDashboardState extends State<StudentDashboard> {
                           'Course Name',
                           style: TextStyle(fontSize: 18),
                         ),
-                        // trailing: CircularProgressIndicator(
-                        //   value: 4,
-                        // ),
                       );
                     }),
-               ),
+              ),
             ),
             Expanded(
               flex: 1,
@@ -106,7 +104,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                         // _authController.signOut();
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+                          backgroundColor: layoutColor,
                           padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -141,24 +139,27 @@ class _StudentDashboardState extends State<StudentDashboard> {
             const SizedBox(
               height: 30,
             ),
-        Obx(()=>GestureDetector(
-              onTap: () {},
-              child: CircleAvatar(
-                backgroundImage: _infoController.profilePhotoget.value!=null?NetworkImage(_infoController.profilePhotoget.value!):
-                const NetworkImage("https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
-                radius: 60,
+            Obx(
+              () => GestureDetector(
+                onTap: () {},
+                child: CircleAvatar(
+                  backgroundImage: _infoController.profilePhotoGet.value != null
+                      ? NetworkImage(_infoController.profilePhotoGet.value!)
+                      : const NetworkImage(
+                          "https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
+                  radius: 60,
+                ),
               ),
-            ),),
+            ),
             const SizedBox(
               height: 10,
             ),
             Align(
               alignment: Alignment.center,
               child: Text(
-                  _authController.name.value.toString().toUpperCase(),
+                _authController.name.value.toString().toUpperCase(),
                 style: const TextStyle(fontSize: 20),
               ),
-
             ),
             const SizedBox(
               height: 10,
@@ -167,7 +168,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
               title: const Text('Personal Details'),
               trailing: const Icon(Icons.edit),
               onTap: () {
-                Get.to(StudentDetailsScreen());
+                Get.to(const StudentDetailsScreen());
               },
             ),
             ListTile(
@@ -175,7 +176,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
               trailing: const Icon(Icons.edit),
               onTap: () {
                 Get.to(const StudentDocument());
-                // Navigator.pop(context);
               },
             ),
             ListTile(
@@ -183,23 +183,21 @@ class _StudentDashboardState extends State<StudentDashboard> {
               trailing: const Icon(Icons.edit),
               onTap: () {
                 Get.to(const StudentExperience());
-                // Navigator.pop(context);
               },
             ),
-            listTile('Academics',
-                    () => Get.to(const AcademicDetails())),
-            listTile('Referee Details',
-                    () => Get.to(const RefereeDetails())),
+            listTile('Academics', () => Get.to(const AcademicDetails())),
+            listTile('Referee Details', () => Get.to(const RefereeDetails())),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
             ),
             TextButton(
               onPressed: () {
-              _authController.signOut();
-              // Get.off(()=> const LoginScreen());
-            },
-                child: const Text('Logout',
-                style: TextStyle(fontSize: 18),),
+                _authController.signOut();
+              },
+              child: const Text(
+                'Logout',
+                style: TextStyle(fontSize: 18, color: Color(0xFF3571E9)),
+              ),
             ),
           ],
         ),
@@ -207,7 +205,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
     ));
   }
 }
-Widget listTile (String title, Function() onTap) {
+
+Widget listTile(String title, Function() onTap) {
   return ListTile(
     title: Text(title),
     trailing: const Icon(Icons.edit),

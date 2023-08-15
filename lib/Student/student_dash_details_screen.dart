@@ -5,16 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intelligent_education/controllers/auth_controller.dart';
-import 'package:intelligent_education/controllers/firestoremethods.dart';
+import '../controllers/auth_controller.dart';
+import '../controllers/firestoremethods.dart';
+import '../constants.dart';
 import './personal_info_screen.dart';
 import './parents_info_screen.dart';
 import './emergency_info_screen.dart';
-import './reference_info_screen.dart';
 
 class StudentDetailsScreen extends StatefulWidget {
-
-  static const routeName = '/student-details';
+  const StudentDetailsScreen({super.key});
 
   @override
   _StudentDetailsScreenState createState() => _StudentDetailsScreenState();
@@ -26,10 +25,9 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
   int _selectedIndex = 0;
   File? image;
   final List<Widget> _widgetOptions = [
-    PersonalInfoScreen(),
-    ParentsInfoScreen(),
-    EmergencyInfoScreen(),
-    // ReferenceInfoScreen(),
+    const PersonalInfoScreen(),
+    const ParentsInfoScreen(),
+    const EmergencyInfoScreen(),
   ];
 
   Future _getImageFromGallery() async {
@@ -39,7 +37,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
       final imageTemp = File(image.path);
       setState(() {
         this.image = imageTemp;
-_infoController.uploadToStorage(this.image!);
+        _infoController.uploadToStorage(this.image!);
       });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
@@ -118,33 +116,39 @@ _infoController.uploadToStorage(this.image!);
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Obx(()=> GestureDetector(
-                onTap: () {
-
-                  _infoController.profilePhotoget.value == null?_showBottomSheet():null;
-                },
-                child: _infoController.profilePhotoget.value == null? CircleAvatar(
-                  radius: radius,
-                  backgroundImage: (image != null)? FileImage(image!
-                  ) : null,
-                  child: (image != null)
-                      ? null
-                      : Icon(
-                          Icons.person,
-                          size: MediaQuery.of(context).size.width * 0.2,
-                          color: Colors.white,
-                        ),
-                ): CircleAvatar(
-                  backgroundImage: NetworkImage(_infoController.profilePhotoget.value!),
-                  radius: radius,
-                )
-              ),
+            Obx(
+              () => GestureDetector(
+                  onTap: () {
+                    _infoController.profilePhotoGet.value == null
+                        ? _showBottomSheet()
+                        : null;
+                  },
+                  child: _infoController.profilePhotoGet.value == null
+                      ? CircleAvatar(
+                          radius: radius,
+                          backgroundImage:
+                              (image != null) ? FileImage(image!) : null,
+                          child: (image != null)
+                              ? null
+                              : Icon(
+                                  Icons.person,
+                                  size: MediaQuery.of(context).size.width * 0.2,
+                                  color: Colors.white,
+                                ),
+                        )
+                      : CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              _infoController.profilePhotoGet.value!),
+                          radius: radius,
+                        )),
             ),
             // SizedBox(height: 10),
-            Obx(()=>Text(
-              _authController.name.value.toString().toUpperCase(),
-              style: const TextStyle(fontSize: 20),
-            ),),
+            Obx(
+              () => Text(
+                _authController.name.value.toString().toUpperCase(),
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
             const SizedBox(height: 10),
             // MainAxisAlignment.spaceEvenly,
             SingleChildScrollView(
@@ -152,12 +156,12 @@ _infoController.uploadToStorage(this.image!);
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // SizedBox(
-                  //   width: 7,
-                  // ),
                   Padding(
                     padding: const EdgeInsets.all(3),
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: layoutColor,
+                      ),
                       onPressed: () {
                         setState(() {
                           _selectedIndex = 0;
@@ -166,12 +170,12 @@ _infoController.uploadToStorage(this.image!);
                       child: const Text('Personal\n    Info'),
                     ),
                   ),
-                  // SizedBox(
-                  //   width: 7,
-                  // ),
                   Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: layoutColor,
+                      ),
                       onPressed: () {
                         setState(() {
                           _selectedIndex = 1;
@@ -180,10 +184,12 @@ _infoController.uploadToStorage(this.image!);
                       child: const Text("Parents'\n    Info"),
                     ),
                   ),
-                  // SizedBox(width: 7),
                   Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: layoutColor,
+                      ),
                       onPressed: () {
                         setState(() {
                           _selectedIndex = 2;
@@ -192,18 +198,6 @@ _infoController.uploadToStorage(this.image!);
                       child: const Text('Emergency\n    Info'),
                     ),
                   ),
-                  // SizedBox(width: 7),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(3.0),
-                  //   child: ElevatedButton(
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         _selectedIndex = 3;
-                  //       });
-                  //     },
-                  //     child: const Text('Reference\n    Info'),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/Widgets/admin_text_field.dart';
-// import 'package:intelligent_education/constants.dart';
-import 'package:intelligent_education/controllers/auth_controller.dart';
+import '../Widgets/admin_text_field.dart';
+import '../constants.dart';
+import '../controllers/auth_controller.dart';
 
 class Student extends StatefulWidget {
   const Student({super.key});
@@ -42,47 +41,27 @@ class StudentState extends State<Student> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-            centerTitle: true,
+          centerTitle: true,
           leading: const Icon(Icons.people),
-            title: const Text(
-              "Users",
+          title: const Text("Users",
               style: TextStyle(
-                  // fontFamily: 'Pacifico',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
-                  // letterSpacing: 2.0,
-                  // wordSpacing: 4.0),
-            )),),
+                fontWeight: FontWeight.bold,
+                fontSize: 30.0,
+              )),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // const SizedBox(height: 30),
-
-              // Heading 1
-              // const Padding(
-              //   padding: EdgeInsets.fromLTRB(10, 0, 170, 0),
-              //   child: Text(
-              //     "Add User",
-              //     style: TextStyle(
-              //         // fontFamily: 'Pacifico',
-              //         fontWeight: FontWeight.bold,
-              //         fontSize: 25.0,
-              //         // letterSpacing: 2.0,
-              //         // wordSpacing: 4.0),
-              //   ),),
-              // ),
               const ListTile(
                 leading: Text(
                   'Add User',
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
                 trailing: Icon(
                   Icons.add_circle_outline,
                   color: Colors.black,
                 ),
               ),
-              // const SizedBox(height: 15),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
@@ -90,79 +69,15 @@ class StudentState extends State<Student> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey[400],
+                  color: boxColor,
                 ),
                 child: Column(
                   children: [
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //       vertical: 10.0, horizontal: 25.0),
-                    //   child: TextField(
-                    //     textAlign: TextAlign.center,
-                    //     keyboardType: TextInputType.text,
-                    //     controller: _nameController,
-                    //     decoration: InputDecoration(
-                    //       hintText: 'Name',
-                    //       hintStyle: const TextStyle(fontSize: 16),
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(8),
-                    //         borderSide: const BorderSide(
-                    //           width: 0,
-                    //           style: BorderStyle.none,
-                    //         ),
-                    //       ),
-                    //       filled: true,
-                    //       contentPadding: const EdgeInsets.all(16),
-                    //     ),
-                    //   ),
-                    // ),
                     adminTextField('Name', _nameController, TextInputType.text),
-                    adminTextField('Email', _emailController, TextInputType.emailAddress),
-                    adminTextField('Phone No.', _phoneController, TextInputType.phone),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //       vertical: 10.0, horizontal: 25.0),
-                    //   child: TextField(
-                    //     textAlign: TextAlign.center,
-                    //     keyboardType: TextInputType.emailAddress,
-                    //     controller: _emailController,
-                    //     decoration: InputDecoration(
-                    //       hintText: 'E-mail',
-                    //       hintStyle: const TextStyle(fontSize: 16),
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(8),
-                    //         borderSide: const BorderSide(
-                    //           width: 0,
-                    //           style: BorderStyle.none,
-                    //         ),
-                    //       ),
-                    //       filled: true,
-                    //       contentPadding: const EdgeInsets.all(16),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //       vertical: 10.0, horizontal: 25.0),
-                    //   child: TextField(
-                    //     textAlign: TextAlign.center,
-                    //     keyboardType: TextInputType.phone,
-                    //     controller: _phoneController,
-                    //     decoration: InputDecoration(
-                    //       hintText: 'Phone no.',
-                    //       hintStyle: const TextStyle(fontSize: 16),
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(8),
-                    //         borderSide: const BorderSide(
-                    //           width: 0,
-                    //           style: BorderStyle.none,
-                    //         ),
-                    //       ),
-                    //       filled: true,
-                    //       contentPadding: const EdgeInsets.all(16),
-                    //     ),
-                    //   ),
-                    // ),
+                    adminTextField(
+                        'Email', _emailController, TextInputType.emailAddress),
+                    adminTextField(
+                        'Phone No.', _phoneController, TextInputType.phone),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 25.0),
@@ -228,32 +143,25 @@ class StudentState extends State<Student> {
 
                             emptyFields();
                           },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: layoutColor,
+                          ),
                           child: const Text('ADD')),
                     ),
                   ],
                 ),
               ),
-              // const SizedBox(height: 50),
-              Divider(
-                height: 20.h,
-                color: Colors.black,
-                indent: 100.w,
-                endIndent: 100.w,
-                thickness: 2,),
               // Heading 2
               const ListTile(
                 leading: Text(
                   'Edit/Remove',
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
                 trailing: Icon(
                   Icons.edit_note,
                   color: Colors.black,
                 ),
               ),
-
-              // const SizedBox(height: 15),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
@@ -263,7 +171,7 @@ class StudentState extends State<Student> {
                 padding: const EdgeInsets.all(3.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey[400],
+                  color: boxColor,
                 ),
                 child: Column(
                   children: [
@@ -278,7 +186,6 @@ class StudentState extends State<Student> {
                         style: const TextStyle(color: Colors.black),
                         cursorColor: Colors.blue,
                         decoration: InputDecoration(
-                          // focusColor: Colors.white,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -301,64 +208,20 @@ class StudentState extends State<Student> {
                             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                             child: CheckboxListTile(
                                 value: student1,
+                                activeColor: layoutColor,
                                 onChanged: (bool? value) {
                                   setState(() {
                                     student1 = value!;
                                   });
                                 },
-                                title: const Text('Student 1')),
+                                title: const Text(
+                                  'Student 1',
+                                  overflow: TextOverflow.ellipsis,
+                                )),
                           );
                         },
                       ),
                     ),
-                    // const Divider(height: 0),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                    //   child: CheckboxListTile(
-                    //     value: college2,
-                    //     onChanged: (bool? value) {
-                    //       setState(() {
-                    //         college2 = value!;
-                    //       });
-                    //     },
-                    //     title: const Text('Student 2'),
-                    //   ),
-                    // ),
-                    // const Divider(height: 0),
-                    //
-                    // Padding(
-                    //   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                    //   child: CheckboxListTile(
-                    //     value: college3,
-                    //     onChanged: (bool? value) {
-                    //       setState(() {
-                    //         college3 = value!;
-                    //       });
-                    //     },
-                    //     title: const Text('Student 3'),
-                    //   ),
-                    // ),
-                    // const Divider(height: 0),
-
-                    // add/delete button
-                    // ListTile(
-                    //   title: Row(
-                    //     children: <Widget>[
-                    //       Padding(
-                    //         padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
-                    //         child: ElevatedButton(
-                    //             onPressed: () {}, child: const Text('Edit')),
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    //         child: ElevatedButton(
-                    //             onPressed: () {},
-                    //             child: const Text('Remove')),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // )
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

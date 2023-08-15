@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../constants.dart';
 
 class CollegeAssign extends StatefulWidget {
   const CollegeAssign({super.key});
@@ -9,134 +11,236 @@ class CollegeAssign extends StatefulWidget {
 }
 
 class CollegeAssignState extends State<CollegeAssign> {
-  String dropdownvalue = 'College 1';
+  String collegeDropDown = 'Select';
+  String courseDropDown = 'Select';
+  String studentDropDown = 'Select';
 
   // List of items in our dropdown menu
   var items = [
+    'Select',
     'College 1',
     'College 2',
     'College 3',
     'College 4',
     'College 5',
   ];
+
+  var items2 = [
+    'Select',
+    'Course 1',
+    'Course 2',
+  ];
+
+  var items3 = [
+    'Select',
+    'Student 1',
+    'Student 2',
+    'Student 3',
+  ];
+
   void onPressed() {}
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-              centerTitle: true,
-              title: const Text(
-                "College-assign",
-                style: TextStyle(
-                    // fontFamily: 'Pacifico',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
-                    letterSpacing: 2.0,
-                    wordSpacing: 4.0),
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          centerTitle: true,
+          leading: const Icon(Icons.info),
+          title: const Text("College Assign",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30.0,
               )),
-          body: SingleChildScrollView(
-            child: SizedBox(
-              child: Column(
-                children: [
-                  const SizedBox(height: 30),
-                  Container(
-                    margin: const EdgeInsets.all(15.0),
-                    padding: const EdgeInsets.all(3.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
-                    child: Column(
-                      children: [
-                        // Student Name
-                        Card(
-                          color: Colors.white,
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 25.0),
-                          child: ListTile(
-                            title: TextField(
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                hintText: 'Student Name',
-                                hintStyle: const TextStyle(fontSize: 16),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.none,
-                                  ),
-                                ),
-                                filled: true,
-                                contentPadding: const EdgeInsets.all(16),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // College
-                        Card(
-                          color: Colors.white,
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 25.0),
-                          child: ListTile(
-                            title: TextField(
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                hintText: 'College',
-                                hintStyle: const TextStyle(fontSize: 16),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.none,
-                                  ),
-                                ),
-                                filled: true,
-                                contentPadding: const EdgeInsets.all(16),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        DropdownButton(
-                          // Initial Value
-                          value: dropdownvalue,
-
-                          // Down Arrow Icon
-                          icon: const Icon(Icons.keyboard_arrow_down),
-
-                          // Array list of items
-                          items: items.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
-                          // After selecting the desired option,it will
-                          // change button value to selected value
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownvalue = newValue!;
-                            });
-                          },
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
-                          child: ElevatedButton(
-                              onPressed: onPressed, child: const Text('Add')),
-                        ),
-                      ],
-                    ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                  padding: EdgeInsets.only(
+                    top: 10.h,
+                    left: 10.w,
                   ),
-                  const SizedBox(height: 50),
-                ],
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Assign Colleges',
+                    style:
+                        TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold),
+                  )),
+              // const SizedBox(height: 30),
+              Container(
+                margin: EdgeInsets.only(
+                  top: 10.h,
+                  left: 20.w,
+                  right: 20.w,
+                ),
+                padding: EdgeInsets.only(
+                  top: 10.h,
+                  left: 20.w,
+                  right: 20.w,
+                  bottom: 10.h,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: boxColor,
+                ),
+                child: Column(
+                  children: [
+                    // Student Name
+                    Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.only(
+                          bottom: 10.h,
+                        ),
+                        child: Text(
+                          'Student: ',
+                          style: TextStyle(
+                              fontSize: 25.sp, fontWeight: FontWeight.w500),
+                        )),
+                    Container(
+                      width: 200.w,
+                      margin: EdgeInsets.only(
+                        bottom: 10.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white70,
+                      ),
+                      alignment: Alignment.center,
+                      // borderRadius: BorderRadius.circular(10.r),
+                      child: DropdownButton(
+                        // Initial Value
+                        dropdownColor: Colors.white,
+                        value: studentDropDown,
+
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of items
+                        items: items3.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            studentDropDown = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    // College
+                    Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.only(
+                          bottom: 10.h,
+                        ),
+                        child: Text(
+                          'College: ',
+                          style: TextStyle(
+                              fontSize: 25.sp, fontWeight: FontWeight.w500),
+                        )),
+                    Container(
+                      width: 200.w,
+                      margin: EdgeInsets.only(
+                        bottom: 10.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white70,
+                      ),
+                      alignment: Alignment.center,
+                      // borderRadius: BorderRadius.circular(10.r),
+                      child: DropdownButton(
+                        // Initial Value
+                        dropdownColor: Colors.white,
+                        value: collegeDropDown,
+
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of items
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            collegeDropDown = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    // Course
+                    Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.only(
+                          bottom: 10.h,
+                        ),
+                        child: Text(
+                          'Course: ',
+                          style: TextStyle(
+                              fontSize: 25.sp, fontWeight: FontWeight.w500),
+                        )),
+                    Container(
+                      width: 200.w,
+                      margin: EdgeInsets.only(
+                        bottom: 10.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white70,
+                      ),
+                      alignment: Alignment.center,
+                      // borderRadius: BorderRadius.circular(10.r),
+                      child: DropdownButton(
+                        // Initial Value
+                        dropdownColor: Colors.white,
+                        value: courseDropDown,
+
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of items
+                        items: items2.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            courseDropDown = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: layoutColor,
+                          ),
+                          onPressed: onPressed,
+                          child: const Text('ADD')),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
+        ),
       ),
     );
   }

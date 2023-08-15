@@ -1,15 +1,17 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:intelligent_education/Admin/colleges.dart';
-import 'package:intelligent_education/Admin/notification.dart';
-import 'package:intelligent_education/Admin/status.dart';
-import 'package:intelligent_education/Admin/user.dart';
-import 'package:intelligent_education/controllers/auth_controller.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
-import 'courses.dart';
+import 'package:get/get.dart';
+import '../Admin/college_assign.dart';
+import '../Admin/colleges.dart';
+import '../Admin/notification.dart';
+import '../Admin/status.dart';
+import '../Admin/student_details.dart';
+import '../Admin/user.dart';
+import '../constants.dart';
+import '../controllers/auth_controller.dart';
+import './courses.dart';
 
 class AdminDash extends StatefulWidget {
   const AdminDash({super.key});
@@ -24,10 +26,13 @@ class AdminDashState extends State<AdminDash> {
 
   var alertStyle = AlertStyle(
     animationType: AnimationType.fromBottom,
+    descPadding: EdgeInsets.only(
+      top: 10.h,
+    ),
     isCloseButton: false,
     isOverlayTapDismiss: false,
     descStyle: const TextStyle(fontWeight: FontWeight.bold),
-    descTextAlign: TextAlign.start,
+    descTextAlign: TextAlign.center,
     animationDuration: const Duration(milliseconds: 400),
     alertBorder: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(4.0),
@@ -35,10 +40,6 @@ class AdminDashState extends State<AdminDash> {
         color: Colors.grey,
       ),
     ),
-    titleStyle: const TextStyle(
-      color: Colors.red,
-    ),
-    // alertAlignment: Alignment.center,
   );
 
   logoutDialog() {
@@ -48,37 +49,33 @@ class AdminDashState extends State<AdminDash> {
       desc: 'Do you want to logout?',
       buttons: [
         DialogButton(
+            color: layoutColor,
             onPressed: () {
               _authController.signOut();
             },
-            child: const Text('Yes')),
+            child: const Text(
+              'YES',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
         DialogButton(
+            color: layoutColor,
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('No')),
+            child: const Text(
+              'NO',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
       ],
     ).show();
   }
-
-  // var elevatedButtonStyle = ElevatedButton.styleFrom(
-  //   primary: Colors.blue,
-  //   onPrimary: Colors.black,
-  //   elevation: 10,
-  //   textStyle: const TextStyle(fontSize: 30),
-  //   shadowColor: Colors.black,
-  //   padding: EdgeInsets.all(10.r),
-  //   shape: RoundedRectangleBorder(
-  //     borderRadius: BorderRadius.circular(20.0.r),
-  //   ),
-  // );
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue,
+          // backgroundColor: Colors.blue,
           leading: const Padding(
             padding: EdgeInsets.all(6.0),
             child: CircleAvatar(
@@ -94,7 +91,7 @@ class AdminDashState extends State<AdminDash> {
           title: Text(
             "Admin Name",
             style: TextStyle(
-              fontWeight: FontWeight.normal,
+              fontWeight: FontWeight.bold,
               // fontFamily: "Avenir",
               color: Colors.white,
               fontSize: 25.sp,
@@ -103,7 +100,7 @@ class AdminDashState extends State<AdminDash> {
           actions: [
             IconButton(
               icon: const Icon(Icons.exit_to_app),
-              color: Colors.black,
+              color: Colors.white,
               onPressed: () {
                 // _authController.signOut();
                 logoutDialog();
@@ -117,103 +114,17 @@ class AdminDashState extends State<AdminDash> {
           crossAxisSpacing: 20.w,
           padding: const EdgeInsets.all(30),
           children: [
-            gridViewData(Icons.school, 'Colleges', () => Get.to(const College())),
+            gridViewData(
+                Icons.school, 'Colleges', () => Get.to(const College())),
             gridViewData(Icons.book, 'Courses', () => Get.to(const Courses())),
             gridViewData(Icons.people, 'Users', () => Get.to(const Student())),
-            gridViewData(Icons.checklist, 'Status', () => Get.to(const StatusScreen())),
-            gridViewData(Icons.notifications, 'Notifications', () => Get.to(NotificationScreen())),
-            gridViewData(Icons.info, 'Details', () => {}),
-
-            // ElevatedButton.icon(
-            //   onPressed: () {
-            //     // Handle button press
-            //     // Navigator.pushNamed(context, 'college');
-            //     Get.to(const College());
-            //   },
-            //   icon: Icon(Icons.school,size: 30.r,),
-            //   label: const Text('College'),
-            //   style: elevatedButtonStyle,
-            // ),
-            // ElevatedButton.icon(
-            //   onPressed: () {
-            //     // Handle course button press
-            //     Navigator.pushNamed(context, 'course');
-            //   },
-            //   icon: const Icon(Icons.book),
-            //   label: const Text('Course'),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.blue,
-            //     onPrimary: Colors.black,
-            //     padding: const EdgeInsets.all(10),
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(20.0),
-            //     ),
-            //   ),
-            // ),
-            // ElevatedButton.icon(
-            //   onPressed: () {
-            //     Get.to(() => Student());
-            //     Get.to(const Student());
-            //   },
-            //   icon: const Icon(Icons.person),
-            //   label: const Text('Student'),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.blue,
-            //     onPrimary: Colors.black,
-            //     padding: const EdgeInsets.all(10),
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(20.0),
-            //     ),
-            //   ),
-            // ),
-            // ElevatedButton.icon(
-            //   onPressed: () {
-            //     // Handle status button press
-            //     Navigator.pushNamed(context, 'status');
-            //   },
-            //   icon: const Icon(Icons.check),
-            //   label: const Text('Status'),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.blue,
-            //     onPrimary: Colors.black,
-            //     padding: const EdgeInsets.all(10),
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(20.0),
-            //     ),
-            //   ),
-            // ),
-            // ElevatedButton.icon(
-            //   onPressed: () {
-            //     // Handle notification button press
-            //     Navigator.pushNamed(context, '/notification');
-            //   },
-            //   icon: const Icon(Icons.notifications),
-            //   label: const Text('Notification'),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.blue,
-            //     onPrimary: Colors.black,
-            //     padding: const EdgeInsets.all(10),
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(20.0),
-            //     ),
-            //   ),
-            // ),
-            // ElevatedButton.icon(
-            //   onPressed: () {
-            //     // Handle details button press
-            //     Navigator.pushNamed(context, 'details');
-            //   },
-            //   icon: const Icon(Icons.info),
-            //   label: const Text('Details'),
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.blue,
-            //     onPrimary: Colors.black,
-            //     padding: const EdgeInsets.all(10),
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(20.0),
-            //     ),
-            //   ),
-            // ),
+            gridViewData(
+                Icons.checklist, 'Status', () => Get.to(const StatusScreen())),
+            gridViewData(Icons.notifications, 'Notifications',
+                () => Get.to(NotificationScreen())),
+            gridViewData(FontAwesomeIcons.university, 'College \n Assign',
+                () => Get.to(const CollegeAssign())),
+            gridViewData(Icons.info, 'Details', () => Get.to(StudentDetails())),
           ],
         ),
       ),
@@ -221,22 +132,30 @@ class AdminDashState extends State<AdminDash> {
   }
 }
 
-Widget gridViewData (IconData icon, String title, Function() onTap) {
+Widget gridViewData(IconData icon, String title, Function() onTap) {
   return SizedBox.fromSize(
-    size: Size(20.w,20.h),
+    size: Size(20.w, 20.h),
     child: Material(
       elevation: 10,
-      color: Colors.blue,
+      color: layoutColor,
+      // const Color(0xFF3571E9),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0.r),),
+        borderRadius: BorderRadius.circular(20.0.r),
+      ),
       child: InkWell(
         splashColor: Colors.black54,
         onTap: onTap,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon,size: 35.h,),
-            Text(title,style: TextStyle(fontSize: 25.sp),),
+            Icon(
+              icon,
+              size: 35.h,
+            ),
+            Text(
+              title,
+              style: TextStyle(fontSize: 23.sp),
+            ),
           ],
         ),
       ),

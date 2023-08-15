@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/controllers/firestoremethods.dart';
-import 'package:intelligent_education/models/emergency_info.dart';
+import '../constants.dart';
+import '../controllers/firestoremethods.dart';
+import '../models/emergency_info.dart';
 import '../Widgets/info_field.dart';
 
 class EmergencyInfoScreen extends StatefulWidget {
+  const EmergencyInfoScreen({super.key});
 
   @override
   State<EmergencyInfoScreen> createState() => _EmergencyInfoScreenState();
@@ -20,28 +22,24 @@ class _EmergencyInfoScreenState extends State<EmergencyInfoScreen> {
     super.initState();
     _fetchExistingEmergencyInfo();
   }
-  final TextEditingController nameController =
-  TextEditingController();
 
-  final TextEditingController genderController =
-  TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
-  final TextEditingController relationController =
-  TextEditingController();
+  final TextEditingController genderController = TextEditingController();
 
-  final TextEditingController addressController =
-  TextEditingController();
+  final TextEditingController relationController = TextEditingController();
 
-  final TextEditingController phoneController =
-  TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+
+  final TextEditingController phoneController = TextEditingController();
   void _fetchExistingEmergencyInfo() async {
     EmergencyInfo? existingEmergencyInfo =
-    await _infoController.getFirstEmergencyInfo();
+        await _infoController.getFirstEmergencyInfo();
     print(existingEmergencyInfo);
-    if (existingEmergencyInfo!= null) {
+    if (existingEmergencyInfo != null) {
       // Update the input fields with the existing data
       setState(() {
-        isDataSubmitted=true;
+        isDataSubmitted = true;
         nameController.text = existingEmergencyInfo.fullname ?? '';
         genderController.text = existingEmergencyInfo.gender ?? '';
         relationController.text = existingEmergencyInfo.relationship ?? '';
@@ -71,46 +69,51 @@ class _EmergencyInfoScreenState extends State<EmergencyInfoScreen> {
           buildInfoField('Phone', phoneController),
           const SizedBox(height: 16.0),
           Center(
-            child: isDataSubmitted?ElevatedButton(
-              onPressed: () =>null,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.grey),
-              ),
-              child: const Text('Submit'),
-            ): ElevatedButton(
-              onPressed: () =>_addEmergencyInfoToDb(),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
-              ),
-              child: const Text('Submit'),
-            ),
+            child: isDataSubmitted
+                ? ElevatedButton(
+                    onPressed: () => null,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.grey),
+                    ),
+                    child: const Text('Submit'),
+                  )
+                : ElevatedButton(
+                    onPressed: () => _addEmergencyInfoToDb(),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(layoutColor),
+                    ),
+                    child: const Text('Submit'),
+                  ),
           )
         ],
       ),
     );
   }
+
   _addEmergencyInfoToDb() async {
     if (_areFieldsEmpty()) {
       Get.snackbar("Error", "Please fill all fields");
     } else {
-      EmergencyInfo? existingEmergencyInfo = await _infoController.getFirstEmergencyInfo();
+      EmergencyInfo? existingEmergencyInfo =
+          await _infoController.getFirstEmergencyInfo();
       if (existingEmergencyInfo != null) {
         // Data already exists, show a message or handle as needed
         Get.snackbar("Info", "Parent information already submitted");
       } else {
         setState(() {
-          isDataSubmitted=true;
+          isDataSubmitted = true;
         });
         await _infoController.uploadEmergencyInfo(
-            nameController.text,
-            genderController.text,
-relationController.text,
-            addressController.text,
-            phoneController.text,
+          nameController.text,
+          genderController.text,
+          relationController.text,
+          addressController.text,
+          phoneController.text,
         );
       }
     }
   }
+
   bool _areFieldsEmpty() {
     return nameController.text.isEmpty ||
         genderController.text.isEmpty ||

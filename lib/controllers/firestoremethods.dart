@@ -1,73 +1,76 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:intelligent_education/models/personal_info.dart' as personal;
-import 'package:intelligent_education/models/parent_info.dart' as parent;
-import 'package:intelligent_education/models/emergency_info.dart' as emergency;
+import '../models/personal_info.dart' as personal;
+import '../models/parent_info.dart' as parent;
+import '../models/emergency_info.dart' as emergency;
 import 'package:get/get.dart';
-import 'package:intelligent_education/models/userDetails.dart';
+import '../models/userDetails.dart';
 import 'package:uuid/uuid.dart';
 
 class InfoController extends GetxController {
-  Rx<String?> profilePhotoget = Rx<String?>(null);
+  Rx<String?> profilePhotoGet = Rx<String?>(null);
   var firebaseAuth = FirebaseAuth.instance;
   var firebaseStorage = FirebaseStorage.instance;
-  var firestore = FirebaseFirestore.instance;
+  var fireStore = FirebaseFirestore.instance;
   @override
   void onReady() {
     // TODO: implement onReady
-   getFirstPersonalInfo();
-   getFirstParentInfo();
-   getImage();
+    getFirstPersonalInfo();
+    getFirstParentInfo();
+    getImage();
     super.onReady();
   }
 
   uploadPersonalInfo(
-  String? fullname,
-  String? dateofbirth,
-  String?  gender,
-  String? nationality,
-  String? currentaddress,
-  String? permanentaddress,
-  String? passportno,
-  String? passportlocation,
-  String? issuedate,
-  String? expirydate,) async {
+    String? fullName,
+    String? dateOfBirth,
+    String? gender,
+    String? nationality,
+    String? currentAddress,
+    String? permanentAddress,
+    String? passportNo,
+    String? passportLocation,
+    String? issueDate,
+    String? expiryDate,
+  ) async {
     try {
       String uid = firebaseAuth.currentUser!.uid;
 
       DocumentSnapshot userDoc =
-      await firestore.collection('users').doc(uid).get();
+          await fireStore.collection('users').doc(uid).get();
 // get id
-      String personalInfoId = Uuid().v1();
-      personal.PersonalInfo personaladd=personal.PersonalInfo(
-      id: personalInfoId,
-        uid: uid,
-        fullname: fullname,
-        dateofbirth: dateofbirth,
-        gender: gender,
-        nationality: nationality,
-        currentaddress: currentaddress,
-        permanentaddress: permanentaddress,
-        passportno: passportno,
-        passportlocation: passportlocation,
-        issuedate:  issuedate,
-        expirydate: expirydate
-      );
+      String personalInfoId = const Uuid().v1();
+      personal.PersonalInfo personalAdd = personal.PersonalInfo(
+          id: personalInfoId,
+          uid: uid,
+          fullname: fullName,
+          dateofbirth: dateOfBirth,
+          gender: gender,
+          nationality: nationality,
+          currentaddress: currentAddress,
+          permanentaddress: permanentAddress,
+          passportno: passportNo,
+          passportlocation: passportLocation,
+          issuedate: issueDate,
+          expirydate: expiryDate);
 
-
-      await firestore.collection('userDetails').doc(uid).collection('personalInfo')
-          .doc(personalInfoId).set(personaladd.toJson());
+      await fireStore
+          .collection('userDetails')
+          .doc(uid)
+          .collection('personalInfo')
+          .doc(personalInfoId)
+          .set(personalAdd.toJson());
     } catch (e) {
       Get.snackbar('Error uploading Info', e.toString());
     }
   }
+
   Future<personal.PersonalInfo?> getFirstPersonalInfo() async {
     String uid = firebaseAuth.currentUser!.uid;
     try {
-      QuerySnapshot snapshot = await firestore
+      QuerySnapshot snapshot = await fireStore
           .collection('userDetails')
           .doc(uid)
           .collection('personalInfo')
@@ -87,6 +90,7 @@ class InfoController extends GetxController {
       return null;
     }
   }
+
   void uploadToStorage(File image) async {
     String uid = firebaseAuth.currentUser!.uid;
     Reference ref = firebaseStorage
@@ -94,57 +98,67 @@ class InfoController extends GetxController {
         .child('profilePics')
         .child(firebaseAuth.currentUser!.uid);
 
-    UploadTask uploadTask =  ref.putFile(image);
-    TaskSnapshot snap=await uploadTask;
-    String downloadUrl= await snap.ref.getDownloadURL();
-    UserDetails userDetails1=UserDetails( uid: uid,photoUrl: downloadUrl);
-    await firestore.collection('userDetails')
-        .doc(uid).set(userDetails1.toJson());
+    UploadTask uploadTask = ref.putFile(image);
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
+    UserDetails userDetails1 = UserDetails(uid: uid, photoUrl: downloadUrl);
+    await fireStore
+        .collection('userDetails')
+        .doc(uid)
+        .set(userDetails1.toJson());
   }
-  getImage() async {
-    DocumentSnapshot userDoc =
-    await firestore.collection('userDetails').doc(firebaseAuth.currentUser!.uid).get();
-    final userData = userDoc.data()! as dynamic;
-    profilePhotoget.value= userData['photoUrl'];
 
+  getImage() async {
+    DocumentSnapshot userDoc = await fireStore
+        .collection('userDetails')
+        .doc(firebaseAuth.currentUser!.uid)
+        .get();
+    final userData = userDoc.data()! as dynamic;
+    profilePhotoGet.value = userData['photoUrl'];
   }
+
   uploadParentInfo(
-  String? fathername,
-  String? fatheroccupation,
-  String?  mothername,
-  String? motheroccupation,
-  String? address,
-  String? email,
-  String? mobileno,) async {
+    String? fatherName,
+    String? fatherOccupation,
+    String? motherName,
+    String? motherOccupation,
+    String? address,
+    String? email,
+    String? mobileNo,
+  ) async {
     try {
       String uid = firebaseAuth.currentUser!.uid;
 
       DocumentSnapshot userDoc =
-      await firestore.collection('users').doc(uid).get();
+          await fireStore.collection('users').doc(uid).get();
 // get id
-      String parentInfoId = Uuid().v1();
-      parent.ParentInfo parentadd=parent.ParentInfo(
+      String parentInfoId = const Uuid().v1();
+      parent.ParentInfo parentAdd = parent.ParentInfo(
           id: parentInfoId,
           uid: uid,
-        fathername: fathername,
-        fatheroccupation: fatheroccupation,
-        mothername: mothername,
-        motheroccupation: motheroccupation,
-        address: address,
-        email: email,
-        mobileno: mobileno);
+          fathername: fatherName,
+          fatheroccupation: fatherOccupation,
+          mothername: motherName,
+          motheroccupation: motherOccupation,
+          address: address,
+          email: email,
+          mobileno: mobileNo);
 
-
-      await firestore.collection('userDetails').doc(uid).collection('parentInfo')
-          .doc(parentInfoId).set(parentadd.toJson());
+      await fireStore
+          .collection('userDetails')
+          .doc(uid)
+          .collection('parentInfo')
+          .doc(parentInfoId)
+          .set(parentAdd.toJson());
     } catch (e) {
       Get.snackbar('Error uploading Info', e.toString());
     }
   }
+
   Future<parent.ParentInfo?> getFirstParentInfo() async {
     String uid = firebaseAuth.currentUser!.uid;
     try {
-      QuerySnapshot snapshot = await firestore
+      QuerySnapshot snapshot = await fireStore
           .collection('userDetails')
           .doc(uid)
           .collection('parentInfo')
@@ -164,40 +178,45 @@ class InfoController extends GetxController {
       return null;
     }
   }
+
   uploadEmergencyInfo(
-  String? fullname,
-  String?  gender,
-  String? relationship,
-  String? address,
-  String? mobileno,) async {
+    String? fullName,
+    String? gender,
+    String? relationship,
+    String? address,
+    String? mobileNo,
+  ) async {
     try {
       String uid = firebaseAuth.currentUser!.uid;
 
       DocumentSnapshot userDoc =
-      await firestore.collection('users').doc(uid).get();
+          await fireStore.collection('users').doc(uid).get();
 // get id
-      String emergencyInfoId = Uuid().v1();
-      emergency.EmergencyInfo emergencyadd=emergency.EmergencyInfo(
+      String emergencyInfoId = const Uuid().v1();
+      emergency.EmergencyInfo emergencyAdd = emergency.EmergencyInfo(
           id: emergencyInfoId,
           uid: uid,
-        fullname: fullname,
-        gender: gender,
-        relationship: relationship,
-        address: address,
-        mobileno: mobileno
-      );
+          fullname: fullName,
+          gender: gender,
+          relationship: relationship,
+          address: address,
+          mobileno: mobileNo);
 
-
-      await firestore.collection('userDetails').doc(uid).collection('emergencyInfo')
-          .doc(emergencyInfoId).set(emergencyadd.toJson());
+      await fireStore
+          .collection('userDetails')
+          .doc(uid)
+          .collection('emergencyInfo')
+          .doc(emergencyInfoId)
+          .set(emergencyAdd.toJson());
     } catch (e) {
       Get.snackbar('Error uploading Info', e.toString());
     }
   }
+
   Future<emergency.EmergencyInfo?> getFirstEmergencyInfo() async {
     String uid = firebaseAuth.currentUser!.uid;
     try {
-      QuerySnapshot snapshot = await firestore
+      QuerySnapshot snapshot = await fireStore
           .collection('userDetails')
           .doc(uid)
           .collection('emergencyInfo')

@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../constants.dart';
 import 'package:intl/intl.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -29,30 +30,25 @@ class _NotificationState extends State<NotificationScreen> {
         centerTitle: true,
         leading: const Icon(
           CupertinoIcons.bell,
-          // color: Colors.black,
-          // size: 30.sp,
         ),
         title: Text(
           "Notifications",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-// fontFamily:"Avenir",
-            // color: Colors.black,
             fontSize: 25.sp,
           ),
         ),
       ),
       body: Container(
-        // height: MediaQuery.of(context).size.height * 0.7,
         margin: EdgeInsets.only(
-          top: 50.h,
+          top: 20.h,
           left: 20.w,
           right: 20.w,
           bottom: 120.h,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.grey[400],
+          color: boxColor,
         ),
         child: Column(
           children: [
@@ -133,11 +129,12 @@ class _NotificationState extends State<NotificationScreen> {
               ),
             ),
             GestureDetector(
+              onTap: () {},
               child: Container(
                 height: 44.h,
                 margin: EdgeInsets.all(15.sp),
                 decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: layoutColor,
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     boxShadow: [
                       BoxShadow(
@@ -152,7 +149,7 @@ class _NotificationState extends State<NotificationScreen> {
                     Text(
                       "SEND",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold),
                     ),
