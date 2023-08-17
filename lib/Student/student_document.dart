@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constants.dart';
 
 class StudentDocument extends StatefulWidget {
@@ -45,31 +46,30 @@ class _StudentDocumentState extends State<StudentDocument> {
         child: Scaffold(
       appBar: AppBar(
         title: const Text('Documents'),
-        centerTitle: true,
         leading: const Icon(Icons.school),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Expanded(
+            Expanded(
               flex: 0,
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Upload Documents',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 25.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
-            const Expanded(
+            Expanded(
               flex: 0,
               child: SizedBox(
-                height: 20,
+                height: 20.h,
               ),
             ),
             Expanded(
@@ -77,10 +77,10 @@ class _StudentDocumentState extends State<StudentDocument> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text(
+                  Text(
                     'Document: ',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                     ),
                   ),
                   isLoading
@@ -90,31 +90,30 @@ class _StudentDocumentState extends State<StudentDocument> {
                             pickFile();
                           },
                           child: Container(
-                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                            padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
                             decoration: BoxDecoration(
                               border: Border.all(),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
                             child: const Text('Select'),
                           ),
                         ),
                   if (result != null)
                     SizedBox(
-                      width: 70,
+                      width: 70.w,
                       child: Text(
                         fileName.toString(),
-                        style:
-                            const TextStyle(fontSize: 16, color: Colors.black),
+                        style: TextStyle(fontSize: 16.sp, color: Colors.black),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                 ],
               ),
             ),
-            const Expanded(
+            Expanded(
               flex: 0,
               child: SizedBox(
-                height: 20,
+                height: 20.h,
               ),
             ),
             Expanded(
@@ -123,31 +122,31 @@ class _StudentDocumentState extends State<StudentDocument> {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: layoutColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     )),
                 onPressed: () {
                   result = null;
                   setState(() {});
                 },
-                child: const Text(
+                child: Text(
                   'UPLOAD',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 20.sp,
                   ),
                 ),
               ),
             ),
-            const Expanded(
+            Expanded(
               flex: 0,
               child: SizedBox(
-                height: 20,
+                height: 20.h,
               ),
             ),
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10.r),
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  borderRadius: BorderRadius.all(Radius.circular(20.r)),
                   color: boxColor,
                 ),
                 child: Column(
@@ -170,11 +169,11 @@ class _StudentDocumentState extends State<StudentDocument> {
                         ],
                       ),
                     ),
-                    const Expanded(
+                    Expanded(
                       flex: 0,
                       child: Divider(
-                        height: 10,
-                        thickness: 1.5,
+                        height: 10.h,
+                        thickness: 1.5.h,
                         color: Colors.black,
                       ),
                     ),
@@ -184,7 +183,7 @@ class _StudentDocumentState extends State<StudentDocument> {
                             itemCount: 15,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(8.0.r),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -194,12 +193,12 @@ class _StudentDocumentState extends State<StudentDocument> {
                                     GestureDetector(
                                         onTap: () {},
                                         child: const Text('View')),
-                                    const SizedBox(
-                                      width: 2,
+                                    SizedBox(
+                                      width: 2.w,
                                     ),
-                                    const SizedBox(
-                                        width: 100,
-                                        child: Text(
+                                    SizedBox(
+                                        width: 100.w,
+                                        child: const Text(
                                           'Document Name',
                                           overflow: TextOverflow.ellipsis,
                                         )),

@@ -8,7 +8,7 @@ Widget listTileFieldInfo(String text) {
     child: ListTile(
       leading: Text(
         text,
-        style: const TextStyle(fontSize: 18),
+        style: TextStyle(fontSize: 18.sp),
       ),
       trailing: SizedBox(
         height: 30.h,
@@ -25,7 +25,7 @@ Widget listTileFieldInfo(String text) {
                 right: 5.w,
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               )),
         ),
       ),

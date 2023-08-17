@@ -46,7 +46,7 @@ class ResetPassword extends StatelessWidget {
                 right: 20.w,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 color: boxColor,
               ),
               child: Column(

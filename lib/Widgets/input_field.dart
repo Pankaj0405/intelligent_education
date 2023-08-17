@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyInputField extends StatelessWidget {
   final String title;
@@ -18,7 +17,7 @@ class MyInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 16),
+      margin: EdgeInsets.only(top: 16.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,17 +29,13 @@ class MyInputField extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
-
                   readOnly: widget == null ? false : true,
                   autofocus: false,
                   controller: controller,
-
                   decoration: InputDecoration(
                     fillColor: Colors.white70,
                     hintText: hint,
-                    hintStyle: const TextStyle(
-                      color: Colors.black
-                    ),
+                    hintStyle: const TextStyle(color: Colors.black),
                   ),
                 ),
               ),

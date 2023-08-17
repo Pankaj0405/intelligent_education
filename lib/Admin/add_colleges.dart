@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import '../Widgets/title_list_tile.dart';
+import '../controllers/auth_controller.dart';
 import '../Widgets/admin_text_field.dart';
 import '../constants.dart';
 
 class College extends StatefulWidget {
   const College({super.key});
-  static const routeName = '/college';
 
   @override
   State<College> createState() => CollegeState();
 }
 
 class CollegeState extends State<College> {
+  final _authController = Get.put(AuthController());
   bool college1 = true;
   bool college2 = true;
   bool college3 = true;
 
   final _collegeNameController = TextEditingController();
   final _addressController = TextEditingController();
+  final _deadlineController = TextEditingController();
+
+  void emptyFields() {
+    _collegeNameController.text = "";
+    _addressController.text = "";
+    _deadlineController.text = "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,38 +35,22 @@ class CollegeState extends State<College> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          centerTitle: true,
           leading: const Icon(Icons.school),
           title: const Text(
             "Colleges",
-            style: TextStyle(
-              // fontFamily: 'Pacifico',
-              fontWeight: FontWeight.bold,
-              fontSize: 30.0,
-            ),
           ),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const ListTile(
-                leading: Text(
-                  'Add College',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                trailing: Icon(
-                  Icons.add_circle_outline,
-                  color: Colors.black,
-                ),
-              ),
-              // const SizedBox(height: 15),
+              titleListTile('Add College'),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
                   right: 20.w,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   color: boxColor,
                 ),
                 child: Column(
@@ -68,27 +62,28 @@ class CollegeState extends State<College> {
                         'Address', _addressController, TextInputType.text),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         color: Colors.white,
                       ),
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 25.0),
+                      margin: EdgeInsets.symmetric(
+                          vertical: 10.0.h, horizontal: 25.0.w),
                       child: ListTile(
                         title: TextField(
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.datetime,
+                          controller: _deadlineController,
                           decoration: InputDecoration(
                             hintText: 'Deadline',
-                            hintStyle: const TextStyle(fontSize: 16),
+                            hintStyle: TextStyle(fontSize: 16.sp),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                               borderSide: const BorderSide(
                                 width: 0,
                                 style: BorderStyle.none,
                               ),
                             ),
                             filled: true,
-                            contentPadding: const EdgeInsets.all(16),
+                            contentPadding: EdgeInsets.all(16.r),
                           ),
                         ),
                         trailing: const Icon(Icons.date_range),
@@ -96,9 +91,15 @@ class CollegeState extends State<College> {
                     ),
 
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(200, 0, 0, 20),
+                      padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _authController.registerCollege(
+                              _collegeNameController.text,
+                              _addressController.text,
+                              _deadlineController.text);
+                          emptyFields();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: layoutColor,
                         ),
@@ -109,16 +110,7 @@ class CollegeState extends State<College> {
                 ),
               ),
               // Heading 2
-              const ListTile(
-                leading: Text(
-                  'Edit/Remove',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                trailing: Icon(
-                  Icons.edit_note,
-                  color: Colors.black,
-                ),
-              ),
+              editListTile(),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
@@ -126,7 +118,7 @@ class CollegeState extends State<College> {
                   bottom: 20.h,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   color: boxColor,
                 ),
                 child: Column(
@@ -143,7 +135,7 @@ class CollegeState extends State<College> {
                         decoration: InputDecoration(
                           // focusColor: Colors.white,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           prefixIcon: const Icon(Icons.search),
                           prefixIconColor: Colors.black,
@@ -159,7 +151,7 @@ class CollegeState extends State<College> {
                         itemCount: 10,
                         itemBuilder: (context, int) {
                           return Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
                             child: CheckboxListTile(
                                 // checkColor: const Color(0xFFDEDEDE),
                                 activeColor: layoutColor,

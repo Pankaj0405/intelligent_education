@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget buildInfoField(String label, TextEditingController controller) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    padding: EdgeInsets.symmetric(vertical: 8.0.h),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -16,8 +17,6 @@ Widget buildInfoField(String label, TextEditingController controller) {
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.grey[200],
-
-
           ),
         ),
       ],

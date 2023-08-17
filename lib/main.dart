@@ -18,10 +18,20 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       builder: (context, child) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Intelligent Education',
         theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xFF7A98E5),
+          appBarTheme: AppBarTheme(
+            centerTitle: true,
+            backgroundColor: const Color(0xFF7A98E5),
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25.sp,
+            ),
+            iconTheme: IconThemeData(
+              size: 25.r,
+              color: Colors.white,
+              opacity: 0.8,
+            ),
           ),
         ),
         home: const LoginScreen(),

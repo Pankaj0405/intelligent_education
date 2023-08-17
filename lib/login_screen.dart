@@ -2,13 +2,12 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/constants.dart';
-import 'package:intelligent_education/controllers/auth_controller.dart';
-import 'package:intelligent_education/reset_password.dart';
+import '../constants.dart';
+import '../controllers/auth_controller.dart';
+import '../reset_password.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-  static const routeName = '/login';
 
   @override
   State<LoginScreen> createState() => StudentState();
@@ -60,10 +59,10 @@ class StudentState extends State<LoginScreen> {
                           filled: true,
                           labelText: "Username",
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           )),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     TextField(
                       style: const TextStyle(),
                       controller: passController,
@@ -73,12 +72,12 @@ class StudentState extends State<LoginScreen> {
                           filled: true,
                           labelText: "Password",
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           )),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                      padding: EdgeInsets.fromLTRB(30.w, 10.h, 30.w, 10.h),
                       child: ElevatedButton(
                         onPressed: () {
                           _authController.loginUser(
@@ -86,10 +85,10 @@ class StudentState extends State<LoginScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: layoutColor,
-                            padding: const EdgeInsets.all(10.0),
-                            textStyle: const TextStyle(fontSize: 20),
+                            padding: EdgeInsets.all(10.0.r),
+                            textStyle: TextStyle(fontSize: 20.sp),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                              borderRadius: BorderRadius.circular(20.0.r),
                             )),
                         child: const Text(
                           'Login',
@@ -97,7 +96,7 @@ class StudentState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

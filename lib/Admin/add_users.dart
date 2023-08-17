@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../Widgets/title_list_tile.dart';
 import '../Widgets/admin_text_field.dart';
 import '../constants.dart';
 import '../controllers/auth_controller.dart';
@@ -41,34 +42,21 @@ class StudentState extends State<Student> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          centerTitle: true,
           leading: const Icon(Icons.people),
           title: const Text("Users",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
-              )),
+              ),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const ListTile(
-                leading: Text(
-                  'Add User',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                trailing: Icon(
-                  Icons.add_circle_outline,
-                  color: Colors.black,
-                ),
-              ),
+              titleListTile('Add User'),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
                   right: 20.w,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   color: boxColor,
                 ),
                 child: Column(
@@ -79,8 +67,8 @@ class StudentState extends State<Student> {
                     adminTextField(
                         'Phone No.', _phoneController, TextInputType.phone),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 25.0),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.0.h, horizontal: 25.0.w),
                       child: TextField(
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.text,
@@ -89,9 +77,9 @@ class StudentState extends State<Student> {
                         controller: _passController,
                         decoration: InputDecoration(
                           hintText: 'Password',
-                          hintStyle: const TextStyle(fontSize: 16),
+                          hintStyle: TextStyle(fontSize: 16.sp),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(8.r),
                             borderSide: const BorderSide(
                               width: 0,
                               style: BorderStyle.none,
@@ -99,20 +87,31 @@ class StudentState extends State<Student> {
                           ),
                           filled: true,
                           fillColor: Colors.white70,
-                          contentPadding: const EdgeInsets.all(16),
+                          contentPadding: EdgeInsets.all(16.sp),
                         ),
                       ),
                     ),
                     Container(
-                      width: 100.w,
+                      width: double.maxFinite,
+                      margin: EdgeInsets.only(
+                        top: 10.h,
+                        left: 20.w,
+                        right: 20.w,
+                        bottom: 10.h,
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
+                      ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5.r),
                         color: Colors.white70,
                       ),
                       alignment: Alignment.center,
                       child: DropdownButton(
+                        isExpanded: true,
                         focusColor: Colors.grey,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         value: dropdownvalue,
                         onChanged: (String? value) {
                           setState(() {
@@ -124,14 +123,14 @@ class StudentState extends State<Student> {
                             value: items,
                             child: Text(
                               items,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18.sp),
                             ),
                           );
                         }).toList(),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(200, 0, 0, 20),
+                      padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
                       child: ElevatedButton(
                           onPressed: () {
                             _authController.registerUser(
@@ -140,7 +139,6 @@ class StudentState extends State<Student> {
                                 _emailController.text,
                                 _passController.text,
                                 dropdownvalue);
-
                             emptyFields();
                           },
                           style: ElevatedButton.styleFrom(
@@ -151,17 +149,7 @@ class StudentState extends State<Student> {
                   ],
                 ),
               ),
-              // Heading 2
-              const ListTile(
-                leading: Text(
-                  'Edit/Remove',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                trailing: Icon(
-                  Icons.edit_note,
-                  color: Colors.black,
-                ),
-              ),
+              editListTile(),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,

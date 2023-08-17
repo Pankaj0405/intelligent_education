@@ -5,7 +5,6 @@ import '../constants.dart';
 class StatusScreen extends StatefulWidget {
   const StatusScreen({super.key});
 
-  static const routeName = '/status';
   get cartItem => null;
 
   @override
@@ -36,7 +35,11 @@ class Project extends State<StatusScreen> {
     'Course Name 4',
     'Course Name 5',
   ];
-  void onPressed() {}
+  var textStyle = TextStyle(
+    overflow: TextOverflow.fade,
+    color: Colors.black,
+    fontSize: 15.sp,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -45,209 +48,219 @@ class Project extends State<StatusScreen> {
         resizeToAvoidBottomInset: false,
         // backgroundColor: Colors.white,
         appBar: AppBar(
-          centerTitle: true,
           leading: const Icon(Icons.checklist),
-          title: const Text("Status",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
-              )),
+          title: const Text(
+            "Status",
+          ),
         ),
-        body: Column(
-          children: [
-            // const SizedBox(height: 30),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(
-                top: 10.h,
-                left: 10.w,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              // const SizedBox(height: 30),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(
+                  top: 10.h,
+                  left: 10.w,
+                ),
+                child: Text(
+                  'Status',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.sp),
+                ),
               ),
-              child: const Text(
-                'Status',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                left: 20.w,
-                right: 20.w,
-              ),
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 10.h,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: boxColor,
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    width: 150.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white70,
-                    ),
-                    alignment: Alignment.center,
-                    child: DropdownButton(
-                      // Initial Value
-                      value: dropdownvalue1,
-
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
-
-                      // Array list of college
-                      items: college.map((String college) {
-                        return DropdownMenuItem(
-                          value: college,
-                          child: Text(college),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue1 = newValue!;
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Container(
-                    width: 150.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white70,
-                    ),
-                    alignment: Alignment.center,
-                    child: DropdownButton(
-                      // Initial Value
-                      value: dropdownvalue2,
-
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
-
-                      // Array list of courses
-                      items: course.map((String courses) {
-                        return DropdownMenuItem(
-                          value: courses,
-                          child: Text(courses),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue2 = newValue!;
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: layoutColor,
+              Container(
+                margin: EdgeInsets.only(
+                  top: 10.h,
+                  left: 20.w,
+                  right: 20.w,
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 10.h,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.r),
+                  color: boxColor,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.maxFinite,
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
                       ),
-                      child: const Text('CHECK'))
-                ],
-              ),
-            ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.r),
+                        color: Colors.white70,
+                      ),
+                      alignment: Alignment.center,
+                      child: DropdownButton(
+                        borderRadius: BorderRadius.circular(10.r),
+                        isExpanded: true,
+                        // Initial Value
+                        value: dropdownvalue1,
+                        style: textStyle,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
 
-            // const SizedBox(height: 60),
-
-            // Heading 2
-            Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(
-                top: 10.h,
-                left: 10.w,
-                bottom: 10.h,
-              ),
-              child: const Text(
-                'Selected Students',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                left: 20.w,
-                right: 20.w,
-                bottom: 20.h,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: boxColor,
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 10.h,
-                      left: 10.w,
-                      right: 10.w,
+                        // Array list of college
+                        items: college.map((String college) {
+                          return DropdownMenuItem(
+                            value: college,
+                            child: Text(college),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue1 = newValue!;
+                          });
+                        },
+                      ),
                     ),
-                    child: TextField(
-                      style: const TextStyle(color: Colors.black),
-                      cursorColor: Colors.blue,
-                      decoration: InputDecoration(
-                        // focusColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Container(
+                      width: double.maxFinite,
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.r),
+                        color: Colors.white70,
+                      ),
+                      alignment: Alignment.center,
+                      child: DropdownButton(
+                        borderRadius: BorderRadius.circular(10.r),
+                        isExpanded: true,
+                        // Initial Value
+                        value: dropdownvalue2,
+                        style: textStyle,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of courses
+                        items: course.map((String courses) {
+                          return DropdownMenuItem(
+                            value: courses,
+                            child: Text(courses),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue2 = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: layoutColor,
                         ),
-                        prefixIcon: const Icon(Icons.search),
-                        prefixIconColor: Colors.black,
-                        fillColor: Colors.white70,
-                        filled: true,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: ListView.builder(
-                      // shrinkWrap: true,
-                      itemCount: 10,
-                      itemBuilder: (context, int) {
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                          child: CheckboxListTile(
-                              value: student1,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  student1 = value!;
-                                });
-                              },
-                              title: const Text(
-                                'Student 1',
-                                overflow: TextOverflow.ellipsis,
-                              )),
-                        );
-                      },
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        splashColor: Colors.white,
-                        onPressed: () {},
-                        icon: const Icon(Icons.edit),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ],
-                  ),
-                  // const Divider(height: 0),
-                ],
+                        child: const Text('CHECK'))
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              // Heading 2
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(
+                  top: 10.h,
+                  left: 10.w,
+                  bottom: 10.h,
+                ),
+                child: Text(
+                  'Selected Students',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.sp),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: 20.w,
+                  right: 20.w,
+                  bottom: 20.h,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.r),
+                  color: boxColor,
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 10.h,
+                        left: 10.w,
+                        right: 10.w,
+                      ),
+                      child: TextField(
+                        style: const TextStyle(color: Colors.black),
+                        cursorColor: Colors.blue,
+                        decoration: InputDecoration(
+                          // focusColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          prefixIcon: const Icon(Icons.search),
+                          prefixIconColor: Colors.black,
+                          fillColor: Colors.white70,
+                          filled: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: ListView.builder(
+                        // shrinkWrap: true,
+                        itemCount: 10,
+                        itemBuilder: (context, int) {
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
+                            child: CheckboxListTile(
+                                value: student1,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    student1 = value!;
+                                  });
+                                },
+                                title: const Text(
+                                  'Student 1',
+                                  overflow: TextOverflow.ellipsis,
+                                )),
+                          );
+                        },
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          splashColor: Colors.white,
+                          onPressed: () {},
+                          icon: const Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
+                    // const Divider(height: 0),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

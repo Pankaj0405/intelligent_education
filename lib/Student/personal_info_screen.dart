@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../Widgets/input_field.dart';
 import '../constants.dart';
@@ -76,15 +77,15 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   Widget build(BuildContext context) {
     _fetchExistingPersonalInfo();
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Personal Information',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           buildInfoField('Full Name', nameController),
           MyInputField(
             title: "Date of Birth",
@@ -131,7 +132,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               },
             ),
           ),
-          const SizedBox(height: 16.0),
+          SizedBox(height: 16.0.h),
           Center(
             child: isDataSubmitted
                 ? ElevatedButton(

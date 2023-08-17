@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../constants.dart';
 import '../controllers/firestoremethods.dart';
@@ -62,15 +63,15 @@ class _ParentsInfoScreenState extends State<ParentsInfoScreen> {
   Widget build(BuildContext context) {
     _fetchExistingParentInfo();
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Parents\' Information',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           buildInfoField('Father\'s Name', fatherNameController),
           buildInfoField('Father\'s Occupation', fatherOccupationController),
           buildInfoField('Mother\'s Name', motherNameController),
@@ -78,7 +79,7 @@ class _ParentsInfoScreenState extends State<ParentsInfoScreen> {
           buildInfoField('Address', addressController),
           buildInfoField('Email', emailController),
           buildInfoField('Mobile Number', mobileController),
-          const SizedBox(height: 16.0),
+          SizedBox(height: 16.0.h),
           Center(
             child: isDataSubmitted
                 ? ElevatedButton(

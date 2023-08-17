@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:get/get.dart';
 import '../Admin/college_assign.dart';
-import '../Admin/colleges.dart';
-import '../Admin/notification.dart';
+import '../Admin/add_colleges.dart';
+import '../Admin/add_notifications.dart';
 import '../Admin/status.dart';
 import '../Admin/student_details.dart';
-import '../Admin/user.dart';
+import '../Admin/add_users.dart';
 import '../constants.dart';
 import '../controllers/auth_controller.dart';
-import './courses.dart';
+import './add_courses.dart';
 
 class AdminDash extends StatefulWidget {
   const AdminDash({super.key});
@@ -75,10 +75,9 @@ class AdminDashState extends State<AdminDash> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          // backgroundColor: Colors.blue,
-          leading: const Padding(
-            padding: EdgeInsets.all(6.0),
-            child: CircleAvatar(
+          leading: Padding(
+            padding: EdgeInsets.all(6.0.r),
+            child: const CircleAvatar(
               // radius: 15.r,
               backgroundColor: Colors.white,
               child: Icon(
@@ -88,14 +87,8 @@ class AdminDashState extends State<AdminDash> {
               ),
             ),
           ),
-          title: Text(
+          title: const Text(
             "Admin Name",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              // fontFamily: "Avenir",
-              color: Colors.white,
-              fontSize: 25.sp,
-            ),
           ),
           actions: [
             IconButton(
@@ -112,7 +105,7 @@ class AdminDashState extends State<AdminDash> {
           crossAxisCount: 2,
           mainAxisSpacing: 20.h,
           crossAxisSpacing: 20.w,
-          padding: const EdgeInsets.all(30),
+          padding: EdgeInsets.all(30.r),
           children: [
             gridViewData(
                 Icons.school, 'Colleges', () => Get.to(const College())),

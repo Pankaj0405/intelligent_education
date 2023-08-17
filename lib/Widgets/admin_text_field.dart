@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget adminTextField (String text, TextEditingController controller, TextInputType type) {
+Widget adminTextField(
+    String text, TextEditingController controller, TextInputType type) {
   return Padding(
-    padding: const EdgeInsets.symmetric(
-        vertical: 10.0, horizontal: 25.0),
+    padding: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 25.0.w),
     child: TextField(
       textAlign: TextAlign.center,
       keyboardType: type,
       controller: controller,
       decoration: InputDecoration(
         hintText: text,
-        hintStyle: const TextStyle(fontSize: 16),
+        hintStyle: TextStyle(fontSize: 16.sp),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: const BorderSide(
             width: 0,
             style: BorderStyle.none,
@@ -20,7 +21,7 @@ Widget adminTextField (String text, TextEditingController controller, TextInputT
         ),
         filled: true,
         fillColor: Colors.white70,
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: EdgeInsets.all(16.r),
       ),
     ),
   );

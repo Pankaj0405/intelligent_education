@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intelligent_education/Widgets/title_list_tile.dart';
 import '../constants.dart';
 import '../Widgets/details_field.dart';
 
@@ -20,29 +21,19 @@ class _StudentExperienceState extends State<StudentExperience> {
         child: Scaffold(
       appBar: AppBar(
         title: const Text('Experience'),
-        centerTitle: true,
         leading: const Icon(FontAwesomeIcons.wrench),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const ListTile(
-              leading: Text(
-                'Experience',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-              trailing: Icon(
-                Icons.add_circle_outline,
-                color: Colors.black,
-              ),
-            ),
+            titleListTile('Experience'),
             Container(
               margin: EdgeInsets.only(
                 left: 20.w,
                 right: 20.w,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 color: boxColor,
               ),
               // height: MediaQuery.of(context).size.height * 0.60,
@@ -53,35 +44,35 @@ class _StudentExperienceState extends State<StudentExperience> {
                   listTileFieldInfo('Job Title: '),
                   listTileFieldInfo('Contact No.: '),
                   listTileFieldInfo('Salary/Stipend: '),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Text('From: ', style: TextStyle(fontSize: 18)),
+                      Text('From: ', style: TextStyle(fontSize: 18.sp)),
                       SizedBox(
-                        height: 30,
-                        width: 70,
+                        height: 30.h,
+                        width: 70.w,
                         child: TextField(
                           style: const TextStyle(color: Colors.black),
                           cursorColor: Colors.blue,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10.r),
                           )),
                         ),
                       ),
-                      const Text('To: ', style: TextStyle(fontSize: 18)),
+                      Text('To: ', style: TextStyle(fontSize: 18.sp)),
                       SizedBox(
-                        height: 30,
-                        width: 70,
+                        height: 30.h,
+                        width: 70.w,
                         child: TextField(
                           style: const TextStyle(color: Colors.black),
                           cursorColor: Colors.blue,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10.r),
                           )),
                         ),
                       ),
@@ -94,25 +85,16 @@ class _StudentExperienceState extends State<StudentExperience> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                         backgroundColor: layoutColor,
-                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                        padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                         )),
                     child: const Text('SUBMIT'),
                   ),
                 ],
               ),
             ),
-            const ListTile(
-              leading: Text(
-                'Edit/Remove',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-              trailing: Icon(
-                Icons.edit_note,
-                color: Colors.black,
-              ),
-            ),
+            editListTile(),
             Container(
               margin: EdgeInsets.only(
                 left: 20.w,
@@ -120,7 +102,7 @@ class _StudentExperienceState extends State<StudentExperience> {
                 bottom: 20.h,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 color: boxColor,
               ),
               child: Column(
@@ -137,7 +119,7 @@ class _StudentExperienceState extends State<StudentExperience> {
                       decoration: InputDecoration(
                         // focusColor: Colors.white,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
                         prefixIcon: const Icon(Icons.search),
                         prefixIconColor: Colors.black,
@@ -153,7 +135,7 @@ class _StudentExperienceState extends State<StudentExperience> {
                       itemCount: 10,
                       itemBuilder: (context, int) {
                         return Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                          padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
                           child: CheckboxListTile(
                               activeColor: layoutColor,
                               value: experience1,

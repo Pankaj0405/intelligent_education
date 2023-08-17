@@ -61,7 +61,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
   void _showBottomSheet() {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height * 0.2,
@@ -73,8 +73,8 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                padding: const EdgeInsets.only(
-                  bottom: 20,
+                padding: EdgeInsets.only(
+                  bottom: 20.h,
                 ),
                 onPressed: () {
                   _getImageFromCamera();
@@ -86,8 +86,8 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                 ),
               ),
               IconButton(
-                padding: const EdgeInsets.only(
-                  bottom: 20,
+                padding: EdgeInsets.only(
+                  bottom: 20.h,
                 ),
                 onPressed: () {
                   _getImageFromGallery();
@@ -109,7 +109,6 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: const Text("Personal Details"),
         ),
         body: Column(
@@ -146,10 +145,10 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
             Obx(
               () => Text(
                 _authController.name.value.toString().toUpperCase(),
-                style: const TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20.sp),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             // MainAxisAlignment.spaceEvenly,
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -157,7 +156,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(3),
+                    padding: EdgeInsets.all(3.r),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: layoutColor,
@@ -171,7 +170,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
+                    padding: EdgeInsets.all(3.0.r),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: layoutColor,
@@ -185,7 +184,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
+                    padding: EdgeInsets.all(3.0.r),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: layoutColor,
@@ -201,7 +200,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Expanded(
               flex: 10,
               child: SingleChildScrollView(

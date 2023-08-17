@@ -1,5 +1,6 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../constants.dart';
 import '../Student/referee_details_screen.dart';
@@ -33,13 +34,12 @@ class _StudentDashboardState extends State<StudentDashboard> {
             _authController.name.value.toString().toUpperCase(),
           ),
         ),
-        centerTitle: true,
         leading: Obx(
           () => Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: CircleAvatar(
               backgroundColor: layoutColor,
-              radius: 5,
+              radius: 5.r,
               backgroundImage: _infoController.profilePhotoGet.value != null
                   ? NetworkImage(_infoController.profilePhotoGet.value!)
                   : const NetworkImage(
@@ -49,7 +49,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             child: IconButton(
               icon: const Icon(Icons.notifications),
               onPressed: () {},
@@ -60,10 +60,10 @@ class _StudentDashboardState extends State<StudentDashboard> {
       body: Container(
         height: MediaQuery.of(context).size.height * 0.95,
         // width: double.infinity,
-        margin: const EdgeInsets.all(20),
-        padding: const EdgeInsets.all(10),
+        margin: EdgeInsets.all(20.r),
+        padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          borderRadius: BorderRadius.all(Radius.circular(20.r)),
           color: boxColor,
         ),
         child: Column(
@@ -75,20 +75,20 @@ class _StudentDashboardState extends State<StudentDashboard> {
                 child: ListView.builder(
                     itemCount: 5,
                     itemBuilder: (BuildContext ctx, int index) {
-                      return const ListTile(
+                      return ListTile(
                         tileColor: Colors.white,
                         leading: Icon(
                           FontAwesomeIcons.university,
                           color: Colors.black,
-                          size: 35,
+                          size: 35.r,
                         ),
                         title: Text(
                           'College Name',
-                          style: TextStyle(fontSize: 22),
+                          style: TextStyle(fontSize: 22.sp),
                         ),
                         subtitle: Text(
                           'Course Name',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18.sp),
                         ),
                       );
                     }),
@@ -105,23 +105,23 @@ class _StudentDashboardState extends State<StudentDashboard> {
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: layoutColor,
-                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           )),
-                      child: const Text(
+                      child: Text(
                         '     Book \nAppointment',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                          fontSize: 15.sp,
                         ),
                       )),
                   IconButton(
                     icon: const Icon(
                       FontAwesomeIcons.solidComments,
                     ),
-                    iconSize: 30,
+                    iconSize: 30.r,
                     color: Colors.black,
                     onPressed: () {
                       // Navigator.pushNamed(context, '/messaging-screen');

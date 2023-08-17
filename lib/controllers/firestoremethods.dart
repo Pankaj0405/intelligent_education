@@ -196,11 +196,11 @@ class InfoController extends GetxController {
       emergency.EmergencyInfo emergencyAdd = emergency.EmergencyInfo(
           id: emergencyInfoId,
           uid: uid,
-          fullname: fullName,
+          fullName: fullName,
           gender: gender,
           relationship: relationship,
           address: address,
-          mobileno: mobileNo);
+          mobileNo: mobileNo);
 
       await fireStore
           .collection('userDetails')

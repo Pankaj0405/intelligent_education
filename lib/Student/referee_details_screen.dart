@@ -1,6 +1,7 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intelligent_education/Widgets/title_list_tile.dart';
 import '../constants.dart';
 import '../Widgets/details_field.dart';
 
@@ -20,29 +21,19 @@ class _RefereeDetailsState extends State<RefereeDetails> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Referee Details'),
-          centerTitle: true,
           leading: const Icon(FontAwesomeIcons.idBadge),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const ListTile(
-                leading: Text(
-                  'Referee',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                trailing: Icon(
-                  Icons.add_circle_outline,
-                  color: Colors.black,
-                ),
-              ),
+              titleListTile('Referee'),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
                   right: 20.w,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   color: boxColor,
                 ),
                 // height: MediaQuery.of(context).size.height * 0.70,
@@ -55,8 +46,8 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                     listTileFieldInfo('Work Email: '),
                     listTileFieldInfo('Contact No.: '),
                     listTileFieldInfo('Address: '),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 10.h,
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
@@ -64,26 +55,17 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
                           backgroundColor: layoutColor,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           )),
                       child: const Text('SUBMIT'),
                     ),
                   ],
                 ),
               ),
-              const ListTile(
-                leading: Text(
-                  'Edit/Remove',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                trailing: Icon(
-                  Icons.edit_note,
-                  color: Colors.black,
-                ),
-              ),
+              editListTile(),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
@@ -91,7 +73,7 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                   bottom: 20.h,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   color: boxColor,
                 ),
                 child: Column(
@@ -108,7 +90,7 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                         decoration: InputDecoration(
                           // focusColor: Colors.white,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           prefixIcon: const Icon(Icons.search),
                           prefixIconColor: Colors.black,
@@ -124,7 +106,7 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                         itemCount: 10,
                         itemBuilder: (context, int) {
                           return Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
                             child: CheckboxListTile(
                                 activeColor: layoutColor,
                                 value: referee1,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../constants.dart';
 import '../controllers/firestoremethods.dart';
@@ -40,11 +41,11 @@ class _EmergencyInfoScreenState extends State<EmergencyInfoScreen> {
       // Update the input fields with the existing data
       setState(() {
         isDataSubmitted = true;
-        nameController.text = existingEmergencyInfo.fullname ?? '';
+        nameController.text = existingEmergencyInfo.fullName ?? '';
         genderController.text = existingEmergencyInfo.gender ?? '';
         relationController.text = existingEmergencyInfo.relationship ?? '';
         addressController.text = existingEmergencyInfo.address ?? '';
-        phoneController.text = existingEmergencyInfo.mobileno ?? '';
+        phoneController.text = existingEmergencyInfo.mobileNo ?? '';
       });
     }
   }
@@ -53,21 +54,21 @@ class _EmergencyInfoScreenState extends State<EmergencyInfoScreen> {
   Widget build(BuildContext context) {
     _fetchExistingEmergencyInfo();
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Emergency Information',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           buildInfoField('Name of Guardian', nameController),
           buildInfoField('Gender', genderController),
           buildInfoField('Relationship', relationController),
           buildInfoField('Address', addressController),
           buildInfoField('Phone', phoneController),
-          const SizedBox(height: 16.0),
+          SizedBox(height: 16.0.h),
           Center(
             child: isDataSubmitted
                 ? ElevatedButton(

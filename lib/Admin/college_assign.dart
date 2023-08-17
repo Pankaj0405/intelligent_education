@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import '../controllers/auth_controller.dart';
 import '../constants.dart';
 
 class CollegeAssign extends StatefulWidget {
@@ -11,6 +13,8 @@ class CollegeAssign extends StatefulWidget {
 }
 
 class CollegeAssignState extends State<CollegeAssign> {
+  final _authController = Get.put(AuthController());
+
   String collegeDropDown = 'Select';
   String courseDropDown = 'Select';
   String studentDropDown = 'Select';
@@ -23,6 +27,7 @@ class CollegeAssignState extends State<CollegeAssign> {
     'College 3',
     'College 4',
     'College 5',
+    'Quantum University Mandawar Roorkee Haridwar nkdwjkdddl ofiodsofvfr'
   ];
 
   var items2 = [
@@ -38,7 +43,18 @@ class CollegeAssignState extends State<CollegeAssign> {
     'Student 3',
   ];
 
-  void onPressed() {}
+  void defaultValue() {
+    collegeDropDown = 'Select';
+    courseDropDown = 'Select';
+    studentDropDown = 'Select';
+    setState(() {});
+  }
+
+  var textStyle = TextStyle(
+    overflow: TextOverflow.fade,
+    color: Colors.black,
+    fontSize: 15.sp,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +62,10 @@ class CollegeAssignState extends State<CollegeAssign> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          centerTitle: true,
           leading: const Icon(Icons.info),
-          title: const Text("College Assign",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
-              )),
+          title: const Text(
+            "College Assign",
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -69,7 +82,6 @@ class CollegeAssignState extends State<CollegeAssign> {
                     style:
                         TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold),
                   )),
-              // const SizedBox(height: 30),
               Container(
                 margin: EdgeInsets.only(
                   top: 10.h,
@@ -83,7 +95,7 @@ class CollegeAssignState extends State<CollegeAssign> {
                   bottom: 10.h,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   color: boxColor,
                 ),
                 child: Column(
@@ -100,21 +112,27 @@ class CollegeAssignState extends State<CollegeAssign> {
                               fontSize: 25.sp, fontWeight: FontWeight.w500),
                         )),
                     Container(
-                      width: 200.w,
+                      width: double.maxFinite,
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
+                      ),
                       margin: EdgeInsets.only(
                         bottom: 10.h,
                       ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5.r),
                         color: Colors.white70,
                       ),
                       alignment: Alignment.center,
                       // borderRadius: BorderRadius.circular(10.r),
                       child: DropdownButton(
+                        borderRadius: BorderRadius.circular(10.r),
+                        isExpanded: true,
                         // Initial Value
                         dropdownColor: Colors.white,
                         value: studentDropDown,
-
+                        style: textStyle,
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
 
@@ -146,19 +164,27 @@ class CollegeAssignState extends State<CollegeAssign> {
                               fontSize: 25.sp, fontWeight: FontWeight.w500),
                         )),
                     Container(
-                      width: 200.w,
+                      // height: 40.h,
+                      width: double.maxFinite,
                       margin: EdgeInsets.only(
                         bottom: 10.h,
                       ),
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
+                      ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5.r),
                         color: Colors.white70,
                       ),
                       alignment: Alignment.center,
                       // borderRadius: BorderRadius.circular(10.r),
                       child: DropdownButton(
+                        borderRadius: BorderRadius.circular(10.r),
+                        isExpanded:true,
                         // Initial Value
                         dropdownColor: Colors.white,
+                        style: textStyle,
                         value: collegeDropDown,
 
                         // Down Arrow Icon
@@ -192,19 +218,26 @@ class CollegeAssignState extends State<CollegeAssign> {
                               fontSize: 25.sp, fontWeight: FontWeight.w500),
                         )),
                     Container(
-                      width: 200.w,
+                      width: double.maxFinite,
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
+                      ),
                       margin: EdgeInsets.only(
                         bottom: 10.h,
                       ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5.r),
                         color: Colors.white70,
                       ),
                       alignment: Alignment.center,
                       // borderRadius: BorderRadius.circular(10.r),
                       child: DropdownButton(
+                        borderRadius: BorderRadius.circular(10.r),
+                        isExpanded: true,
                         // Initial Value
                         dropdownColor: Colors.white,
+                        style: textStyle,
                         value: courseDropDown,
 
                         // Down Arrow Icon
@@ -227,13 +260,16 @@ class CollegeAssignState extends State<CollegeAssign> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
+                      padding: EdgeInsets.fromLTRB(200.w, 0, 0, 0),
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: layoutColor,
                           ),
-                          onPressed: onPressed,
-                          child: const Text('ADD')),
+                          onPressed: () {
+                            _authController.assignCollege(studentDropDown, collegeDropDown, courseDropDown);
+                            defaultValue();
+                          },
+                          child: const Text('ASSIGN')),
                     ),
                   ],
                 ),

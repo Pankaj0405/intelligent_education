@@ -8,6 +8,10 @@ import '../Student/student_dashboard.dart';
 import '../constants.dart';
 import '../login_screen.dart';
 import '../models/user.dart' as model;
+import '../models/college.dart' as college_model;
+import '../models/course.dart' as course_model;
+import '../models/notification.dart' as notification_model;
+import '../models/assign_college.dart' as assign_college_model;
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -64,11 +68,12 @@ class AuthController extends GetxController {
             .collection('users')
             .doc(cred.user!.uid)
             .set(user.toJson());
+        Get.snackbar('Alert Message', 'User successfully created');
       } else {
         Get.snackbar('Error creating Account', "Please enter all the field");
       }
     } catch (e) {
-      Get.snackbar('Error creating a account', e.toString());
+      Get.snackbar('Error creating an Account', e.toString());
       print(e.toString());
     }
   }
@@ -112,6 +117,80 @@ class AuthController extends GetxController {
       Get.to(() => const StudentDashboard());
     } else {
       Get.to(() => const AdminDash());
+    }
+  }
+
+  void registerCollege(
+      String collegeName, String address, String deadline) async {
+    try {
+      if (collegeName.isNotEmpty && address.isNotEmpty && deadline.isNotEmpty) {
+        college_model.College college = college_model.College(
+            collegeName: collegeName, deadline: deadline, address: address);
+        await firestore.collection('colleges').doc().set(college.toJson());
+        Get.snackbar('Alert Message', 'College successfully added');
+      } else {
+        Get.snackbar('Error adding College', "Please enter all the field");
+      }
+    } catch (e) {
+      Get.snackbar('Error adding College', e.toString());
+      print(e.toString());
+    }
+  }
+
+  void registerCourse(String courseName, String collegeName) async {
+    try {
+      if (collegeName.isNotEmpty && courseName != 'Select') {
+        course_model.Course course = course_model.Course(
+            courseName: courseName, collegeName: collegeName);
+        await firestore.collection('courses').doc().set(course.toJson());
+        Get.snackbar('Alert Message', 'Course successfully added');
+      } else {
+        Get.snackbar('Error adding Course', "Please enter all the field");
+      }
+    } catch (e) {
+      Get.snackbar('Error adding Course', e.toString());
+      print(e.toString());
+    }
+  }
+
+  void sendNotification(String title, String date, String message) async {
+    try {
+      if (title.isNotEmpty && date.isNotEmpty && message.isNotEmpty) {
+        notification_model.Notification notification =
+            notification_model.Notification(
+                title: title, date: date, message: message);
+        await firestore
+            .collection('notifications')
+            .doc()
+            .set(notification.toJson());
+        Get.snackbar('Alert Message', 'Notification successfully sent');
+      } else {
+        Get.snackbar(
+            'Error sending Notification', "Please enter all the field");
+      }
+    } catch (e) {
+      Get.snackbar('Error sending Notification', e.toString());
+      print(e.toString());
+    }
+  }
+
+  void assignCollege(String student, String college, String course) async {
+    try {
+      if (student != 'Select' && course != 'Select' && college != 'Select') {
+        assign_college_model.AssignCollege assignCollege =
+            assign_college_model.AssignCollege(
+                course: course, college: college, student: student);
+        await firestore
+            .collection('assign colleges')
+            .doc()
+            .set(assignCollege.toJson());
+        Get.snackbar('Alert Message', 'College successfully assigned');
+      } else {
+        Get.snackbar('Error assigning College', "Please select all the field");
+      }
+    } catch (e) {
+      Get.snackbar('Error assigning College', e.toString());
+      print(e.toString());
     }
   }
 }

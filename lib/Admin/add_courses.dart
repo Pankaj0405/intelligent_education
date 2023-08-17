@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import '../Widgets/title_list_tile.dart';
+import '../controllers/auth_controller.dart';
 import '../constants.dart';
 import '../Widgets/admin_text_field.dart';
 
@@ -11,18 +14,20 @@ class Courses extends StatefulWidget {
 }
 
 class CourseState extends State<Courses> {
+  final _authController = Get.put(AuthController());
   // checkbox
   bool course1 = true;
   bool course2 = true;
   bool course3 = true;
 
   // Initial Selected Value
-  String dropdownvalue = 'College 1';
+  String dropDownValue = 'Select';
 
   final _courseNameController = TextEditingController();
 
   // List of items in our dropdown menu
   var items = [
+    'Select',
     'College 1',
     'College 2',
     'College 3',
@@ -30,7 +35,11 @@ class CourseState extends State<Courses> {
     'College 5',
   ];
 
-  void onPressed() {}
+  void emptyFields() {
+    _courseNameController.text = "";
+    dropDownValue = "Select";
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +47,21 @@ class CourseState extends State<Courses> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          centerTitle: true,
           leading: const Icon(Icons.book),
           title: const Text(
             "Courses",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 30.0,
-            ),
           ),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const ListTile(
+              ListTile(
                 leading: Text(
                   'Add Course',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 25.sp),
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.add_circle_outline,
                   color: Colors.black,
                 ),
@@ -69,7 +74,7 @@ class CourseState extends State<Courses> {
                 // padding: const EdgeInsets.all(3.0),
 
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   color: boxColor,
                 ),
                 child: Column(
@@ -78,17 +83,33 @@ class CourseState extends State<Courses> {
                     adminTextField('Course Name', _courseNameController,
                         TextInputType.text),
                     Container(
-                      width: 100.w,
+                      width: double.maxFinite,
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
+                      ),
+                      margin: EdgeInsets.only(
+                        bottom: 10.h,
+                        left: 20.w,
+                        right: 20.w,
+                      ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5.r),
                         color: Colors.white70,
                       ),
                       alignment: Alignment.center,
                       // borderRadius: BorderRadius.circular(10.r),
                       child: DropdownButton(
+                        borderRadius: BorderRadius.circular(10.r),
+                        isExpanded: true,
+                        style: TextStyle(
+                          overflow: TextOverflow.fade,
+                          color: Colors.black,
+                          fontSize: 15.sp,
+                        ),
                         // Initial Value
                         dropdownColor: Colors.white,
-                        value: dropdownvalue,
+                        value: dropDownValue,
 
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
@@ -104,16 +125,20 @@ class CourseState extends State<Courses> {
                         // change button value to selected value
                         onChanged: (String? newValue) {
                           setState(() {
-                            dropdownvalue = newValue!;
+                            dropDownValue = newValue!;
                           });
                         },
                       ),
                     ),
 
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(200, 0, 0, 20),
+                      padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
                       child: ElevatedButton(
-                        onPressed: onPressed,
+                        onPressed: () {
+                          _authController.registerCourse(
+                              _courseNameController.text, dropDownValue);
+                          emptyFields();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: layoutColor,
                         ),
@@ -124,16 +149,7 @@ class CourseState extends State<Courses> {
                 ),
               ),
               // Heading 2
-              const ListTile(
-                leading: Text(
-                  'Edit/Remove',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                trailing: Icon(
-                  Icons.edit_note,
-                  color: Colors.black,
-                ),
-              ),
+              editListTile(),
               Container(
                 margin: EdgeInsets.only(
                   left: 20.w,
@@ -141,7 +157,7 @@ class CourseState extends State<Courses> {
                   bottom: 20.h,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   color: boxColor,
                 ),
                 child: Column(
@@ -158,7 +174,7 @@ class CourseState extends State<Courses> {
                         decoration: InputDecoration(
                           // focusColor: Colors.white,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           prefixIcon: const Icon(Icons.search),
                           prefixIconColor: Colors.black,
@@ -173,7 +189,7 @@ class CourseState extends State<Courses> {
                         itemCount: 10,
                         itemBuilder: (context, int) {
                           return Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
                             child: CheckboxListTile(
                                 activeColor: layoutColor,
                                 value: course1,
