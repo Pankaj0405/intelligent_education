@@ -129,42 +129,69 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.45,
                     child: ListView.builder(
                       // shrinkWrap: true,
-                      itemCount: 10,
+                      itemCount: 2,
                       itemBuilder: (context, int) {
-                        return Padding(
-                          padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                          child: CheckboxListTile(
-                              activeColor: layoutColor,
-                              value: academic1,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  academic1 = value!;
-                                });
-                              },
-                              title: const Text(
-                                'Academic 1',
-                                overflow: TextOverflow.ellipsis,
-                              )),
+                        return Card(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 10.h,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          color: Colors.white70,
+                          elevation: 10,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10.h,
+                            ),
+                            child: Column(
+                              children: [
+                                cardListTile('Institute Name: ', 'ABC company'),
+                                cardListTile('Country: ', 'India'),
+                                cardListTile('Course: ', 'B. Tech'),
+                                cardListTile('Level of Study: ', 'Graduation'),
+                                cardListTile('Percentage/CGPA: ', '8'),
+                                cardListTile('From: ', '2020'),
+                                cardListTile('To: ', '2024'),
+                              ],
+                            ),
+                          ),
                         );
+                        // return Padding(
+                        //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
+                        //   child: CheckboxListTile(
+                        //       activeColor: layoutColor,
+                        //       value: academic1,
+                        //       onChanged: (bool? value) {
+                        //         setState(() {
+                        //           academic1 = value!;
+                        //         });
+                        //       },
+                        //       title: const Text(
+                        //         'Academic 1',
+                        //         overflow: TextOverflow.ellipsis,
+                        //       )),
+                        // );
                       },
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.edit),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //     IconButton(
+                  //       onPressed: () {},
+                  //       icon: const Icon(Icons.edit),
+                  //     ),
+                  //     IconButton(
+                  //       onPressed: () {},
+                  //       icon: const Icon(Icons.delete),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),

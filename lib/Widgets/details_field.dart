@@ -45,7 +45,7 @@ Widget cardListTile(String title, String value) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(child: Text(title,style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500),)),
-        Expanded(child: Text(value, maxLines: 5,style: TextStyle(fontSize: 18.sp),))
+        Expanded(child: Text(value, style: TextStyle(fontSize: 18.sp),))
       ],
     ),
   );

@@ -13,13 +13,13 @@ import '../controllers/firestoremethods.dart';
 
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({super.key});
-  static const routeName = '/student-dashboard';
 
   @override
   State<StudentDashboard> createState() => _StudentDashboardState();
 }
 
 class _StudentDashboardState extends State<StudentDashboard> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   final _authController = Get.put(AuthController());
   final _infoController = Get.put(InfoController());
 
@@ -28,6 +28,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
     _authController.getUserData();
     return SafeArea(
         child: Scaffold(
+      key: _key,
       appBar: AppBar(
         title: Obx(
           () => Text(
@@ -41,13 +42,18 @@ class _StudentDashboardState extends State<StudentDashboard> {
         leading: Obx(
           () => Padding(
             padding: EdgeInsets.all(8.0.r),
-            child: CircleAvatar(
-              backgroundColor: layoutColor,
-              radius: 5.r,
-              backgroundImage: _infoController.profilePhotoGet.value != null
-                  ? NetworkImage(_infoController.profilePhotoGet.value!)
-                  : const NetworkImage(
-                      "https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
+            child: InkWell(
+              onTap: () {
+                _key.currentState!.openDrawer();
+              },
+              child: CircleAvatar(
+                backgroundColor: layoutColor,
+                radius: 5.r,
+                backgroundImage: _infoController.profilePhotoGet.value != null
+                    ? NetworkImage(_infoController.profilePhotoGet.value!)
+                    : const NetworkImage(
+                        "https://cdn-icons-png.flaticon.com/512/2815/2815428.png"),
+              ),
             ),
           ),
         ),
