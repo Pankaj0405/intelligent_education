@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../Widgets/details_field.dart';
 import '../Widgets/title_list_tile.dart';
 import '../controllers/auth_controller.dart';
 import '../constants.dart';
@@ -41,6 +42,7 @@ bool course1 = false;
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
           // leading: const Icon(Icons.book),
@@ -180,42 +182,48 @@ bool course1 = false;
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.45,
                       child: ListView.builder(
                         itemCount: 10,
                         itemBuilder: (context, int) {
-                          return Padding(
-                            padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                            child: CheckboxListTile(
-                                activeColor: layoutColor,
-                                value: course1,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    course1 = value!;
-                                  });
-                                },
-                                title: const Text(
-                                  'Course 1',
-                                  overflow: TextOverflow.ellipsis,
-                                )),
+                          return Card(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 10.h,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            color: Colors.white70,
+                            elevation: 10,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10.h,
+                              ),
+                              child: Column(
+                                children: [
+                                  cardListTile('Course Name: ', 'Bachelor in Technology'),
+                                ],
+                              ),
+                            ),
                           );
                         },
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          splashColor: Colors.white,
-                          onPressed: () {},
-                          icon: const Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     IconButton(
+                    //       splashColor: Colors.white,
+                    //       onPressed: () {},
+                    //       icon: const Icon(Icons.edit),
+                    //     ),
+                    //     IconButton(
+                    //       onPressed: () {},
+                    //       icon: const Icon(Icons.delete),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

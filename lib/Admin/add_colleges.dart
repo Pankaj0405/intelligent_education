@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../Widgets/details_field.dart';
 import '../Widgets/title_list_tile.dart';
 import '../controllers/auth_controller.dart';
 import '../Widgets/admin_text_field.dart';
@@ -144,46 +145,52 @@ class CollegeState extends State<College> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.45,
                       child: ListView.builder(
                         // shrinkWrap: true,
-                        itemCount: 10,
+                        itemCount: 2,
                         itemBuilder: (context, int) {
-                          return Padding(
-                            padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                            child: CheckboxListTile(
-                                // checkColor: const Color(0xFFDEDEDE),
-                                activeColor: layoutColor,
-                                value: college1,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    college1 = value!;
-                                  });
-                                },
-                                title: const Text(
-                                  'College 1',
-                                  overflow: TextOverflow.ellipsis,
-                                )),
+                          return Card(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 10.h,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            color: Colors.white70,
+                            elevation: 10,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10.h,
+                              ),
+                              child: Column(
+                                children: [
+                                  cardListTile('College Name: ', 'ABC College'),
+                                  cardListTile('Address: ', 'Roorkee, India'),
+                                ],
+                              ),
+                            ),
                           );
                         },
                       ),
                     ),
 
                     // add/delete button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          splashColor: Colors.white,
-                          onPressed: () {},
-                          icon: const Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     IconButton(
+                    //       splashColor: Colors.white,
+                    //       onPressed: () {},
+                    //       icon: const Icon(Icons.edit),
+                    //     ),
+                    //     IconButton(
+                    //       onPressed: () {},
+                    //       icon: const Icon(Icons.delete),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
