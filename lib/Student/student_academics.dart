@@ -21,7 +21,7 @@ class _AcademicDetailsState extends State<AcademicDetails> {
         child: Scaffold(
       appBar: AppBar(
         title: const Text('Academics'),
-        leading: const Icon(FontAwesomeIcons.book),
+        // leading: const Icon(FontAwesomeIcons.book),
       ),
       body: SingleChildScrollView(
         child: Column(

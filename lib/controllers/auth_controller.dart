@@ -121,11 +121,11 @@ class AuthController extends GetxController {
   }
 
   void registerCollege(
-      String collegeName, String address, String deadline) async {
+      String collegeName, String address) async {
     try {
-      if (collegeName.isNotEmpty && address.isNotEmpty && deadline.isNotEmpty) {
+      if (collegeName.isNotEmpty && address.isNotEmpty) {
         college_model.College college = college_model.College(
-            collegeName: collegeName, deadline: deadline, address: address);
+            collegeName: collegeName, address: address);
         await firestore.collection('colleges').doc().set(college.toJson());
         Get.snackbar('Alert Message', 'College successfully added');
       } else {
@@ -137,11 +137,11 @@ class AuthController extends GetxController {
     }
   }
 
-  void registerCourse(String courseName, String collegeName) async {
+  void registerCourse(String courseName) async {
     try {
-      if (collegeName.isNotEmpty && courseName != 'Select') {
+      if (courseName != 'Select') {
         course_model.Course course = course_model.Course(
-            courseName: courseName, collegeName: collegeName);
+            courseName: courseName);
         await firestore.collection('courses').doc().set(course.toJson());
         Get.snackbar('Alert Message', 'Course successfully added');
       } else {
@@ -174,12 +174,12 @@ class AuthController extends GetxController {
     }
   }
 
-  void assignCollege(String student, String college, String course) async {
+  void assignCollege(String student, String college, String course, String deadline) async {
     try {
-      if (student != 'Select' && course != 'Select' && college != 'Select') {
+      if (student != 'Select' && course != 'Select' && college != 'Select' && deadline.isNotEmpty) {
         assign_college_model.AssignCollege assignCollege =
             assign_college_model.AssignCollege(
-                course: course, college: college, student: student);
+                course: course, college: college, student: student, deadline: deadline);
         await firestore
             .collection('assign colleges')
             .doc()

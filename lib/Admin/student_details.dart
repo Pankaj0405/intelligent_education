@@ -18,7 +18,7 @@ class _StudentDetailsState extends State<StudentDetails> {
         child: Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: const Icon(Icons.info),
+        // leading: const Icon(Icons.info),
         title: const Text(
           "Students' Details",
         ),

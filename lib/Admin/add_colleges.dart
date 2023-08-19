@@ -35,7 +35,7 @@ class CollegeState extends State<College> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: const Icon(Icons.school),
+          // leading: const Icon(Icons.school),
           title: const Text(
             "Colleges",
           ),
@@ -60,35 +60,35 @@ class CollegeState extends State<College> {
                         TextInputType.text),
                     adminTextField(
                         'Address', _addressController, TextInputType.text),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white,
-                      ),
-                      margin: EdgeInsets.symmetric(
-                          vertical: 10.0.h, horizontal: 25.0.w),
-                      child: ListTile(
-                        title: TextField(
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.datetime,
-                          controller: _deadlineController,
-                          decoration: InputDecoration(
-                            hintText: 'Deadline',
-                            hintStyle: TextStyle(fontSize: 16.sp),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            filled: true,
-                            contentPadding: EdgeInsets.all(16.r),
-                          ),
-                        ),
-                        trailing: const Icon(Icons.date_range),
-                      ),
-                    ),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(8.r),
+                    //     color: Colors.white,
+                    //   ),
+                    //   margin: EdgeInsets.symmetric(
+                    //       vertical: 10.0.h, horizontal: 25.0.w),
+                    //   child: ListTile(
+                    //     title: TextField(
+                    //       textAlign: TextAlign.center,
+                    //       keyboardType: TextInputType.datetime,
+                    //       controller: _deadlineController,
+                    //       decoration: InputDecoration(
+                    //         hintText: 'Deadline',
+                    //         hintStyle: TextStyle(fontSize: 16.sp),
+                    //         border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(8.r),
+                    //           borderSide: const BorderSide(
+                    //             width: 0,
+                    //             style: BorderStyle.none,
+                    //           ),
+                    //         ),
+                    //         filled: true,
+                    //         contentPadding: EdgeInsets.all(16.r),
+                    //       ),
+                    //     ),
+                    //     trailing: const Icon(Icons.date_range),
+                    //   ),
+                    // ),
 
                     Padding(
                       padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
@@ -96,8 +96,7 @@ class CollegeState extends State<College> {
                         onPressed: () {
                           _authController.registerCollege(
                               _collegeNameController.text,
-                              _addressController.text,
-                              _deadlineController.text);
+                              _addressController.text);
                           emptyFields();
                         },
                         style: ElevatedButton.styleFrom(

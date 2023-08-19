@@ -21,7 +21,7 @@ class _RefereeDetailsState extends State<RefereeDetails> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Referee Details'),
-          leading: const Icon(FontAwesomeIcons.idBadge),
+          // leading: const Icon(FontAwesomeIcons.idBadge),
         ),
         body: SingleChildScrollView(
           child: Column(

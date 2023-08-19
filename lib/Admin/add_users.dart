@@ -42,7 +42,7 @@ class StudentState extends State<Student> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: const Icon(Icons.people),
+          // leading: const Icon(Icons.people),
           title: const Text("Users",
               ),
         ),

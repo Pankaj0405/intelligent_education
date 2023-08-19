@@ -46,7 +46,7 @@ class _StudentDocumentState extends State<StudentDocument> {
         child: Scaffold(
       appBar: AppBar(
         title: const Text('Documents'),
-        leading: const Icon(Icons.school),
+        // leading: const Icon(Icons.school),
       ),
       body: Padding(
         padding: EdgeInsets.all(8.0.r),

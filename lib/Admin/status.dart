@@ -48,7 +48,7 @@ class Project extends State<StatusScreen> {
         resizeToAvoidBottomInset: false,
         // backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: const Icon(Icons.checklist),
+          // leading: const Icon(Icons.checklist),
           title: const Text(
             "Status",
           ),

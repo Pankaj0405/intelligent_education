@@ -14,6 +14,7 @@ class CollegeAssign extends StatefulWidget {
 
 class CollegeAssignState extends State<CollegeAssign> {
   final _authController = Get.put(AuthController());
+  final _deadlineController = TextEditingController();
 
   String collegeDropDown = 'Select';
   String courseDropDown = 'Select';
@@ -62,7 +63,7 @@ class CollegeAssignState extends State<CollegeAssign> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: const Icon(Icons.info),
+          // leading: const Icon(Icons.info),
           title: const Text(
             "College Assign",
           ),
@@ -259,6 +260,37 @@ class CollegeAssignState extends State<CollegeAssign> {
                         },
                       ),
                     ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white,
+                      ),
+                      margin: EdgeInsets.symmetric(
+                           vertical: 10.0.h,
+                        // horizontal: 10.0.w
+                         ),
+                      child: ListTile(
+                        title: TextField(
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.datetime,
+                          controller: _deadlineController,
+                          decoration: InputDecoration(
+                            hintText: 'Deadline',
+                            hintStyle: TextStyle(fontSize: 16.sp),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            filled: true,
+                            contentPadding: EdgeInsets.all(16.r),
+                          ),
+                        ),
+                        trailing: const Icon(Icons.date_range),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(200.w, 0, 0, 0),
                       child: ElevatedButton(
@@ -266,7 +298,7 @@ class CollegeAssignState extends State<CollegeAssign> {
                             backgroundColor: layoutColor,
                           ),
                           onPressed: () {
-                            _authController.assignCollege(studentDropDown, collegeDropDown, courseDropDown);
+                            _authController.assignCollege(studentDropDown, collegeDropDown, courseDropDown, _deadlineController.text);
                             defaultValue();
                           },
                           child: const Text('ASSIGN')),

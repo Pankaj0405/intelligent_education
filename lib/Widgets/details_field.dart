@@ -32,3 +32,21 @@ Widget listTileFieldInfo(String text) {
     ),
   );
 }
+
+Widget cardListTile(String title, String value) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 20.w,
+      right: 10.w,
+      top: 10.h,
+    ),
+    child: Row(
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(child: Text(title,style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500),)),
+        Expanded(child: Text(value, maxLines: 5,style: TextStyle(fontSize: 18.sp),))
+      ],
+    ),
+  );
+}

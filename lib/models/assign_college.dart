@@ -4,17 +4,20 @@ class AssignCollege {
   String student;
   String college;
   String course;
+  String deadline;
 
   AssignCollege({
     required this.course,
     required this.college,
     required this.student,
+    required this.deadline,
   });
 
   Map<String, dynamic> toJson() => {
         'Student': student,
         'College': college,
         'Course': course,
+        'Deadline': deadline,
       };
 
   static AssignCollege fromSnap(DocumentSnapshot snap) {
@@ -22,6 +25,8 @@ class AssignCollege {
     return AssignCollege(
         course: snapshot['Student'],
         college: snapshot['College'],
-        student: snapshot['Course']);
+        student: snapshot['Course'],
+        deadline: snapshot['Deadline'],
+    );
   }
 }
