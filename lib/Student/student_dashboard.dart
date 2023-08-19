@@ -32,6 +32,10 @@ class _StudentDashboardState extends State<StudentDashboard> {
         title: Obx(
           () => Text(
             _authController.name.value.toString().toUpperCase(),
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ),
         leading: Obx(
@@ -60,22 +64,23 @@ class _StudentDashboardState extends State<StudentDashboard> {
       body: Container(
         height: MediaQuery.of(context).size.height * 0.95,
         // width: double.infinity,
-        margin: EdgeInsets.all(20.r),
         padding: EdgeInsets.all(10.r),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.r)),
-          color: boxColor,
-        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              flex: 7,
-              child: SizedBox(
-                child: ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      return ListTile(
+              child: ListView.builder(
+                shrinkWrap: true,
+                  itemCount: 20,
+                  itemBuilder: (BuildContext ctx, int index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: boxColor
+                      ),
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: ListTile(
+
                         tileColor: Colors.white,
                         leading: Icon(
                           FontAwesomeIcons.university,
@@ -90,46 +95,11 @@ class _StudentDashboardState extends State<StudentDashboard> {
                           'Course Name',
                           style: TextStyle(fontSize: 18.sp),
                         ),
-                      );
-                    }),
-              ),
+                      ),
+                    );
+                  }),
             ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        // _authController.signOut();
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: layoutColor,
-                          padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.r),
-                          )),
-                      child: Text(
-                        '     Book \nAppointment',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.sp,
-                        ),
-                      )),
-                  IconButton(
-                    icon: const Icon(
-                      FontAwesomeIcons.solidComments,
-                    ),
-                    iconSize: 30.r,
-                    color: Colors.black,
-                    onPressed: () {
-                      // Navigator.pushNamed(context, '/messaging-screen');
-                    },
-                  ),
-                ],
-              ),
-            ),
+
           ],
         ),
       ),
@@ -202,7 +172,46 @@ class _StudentDashboardState extends State<StudentDashboard> {
           ],
         ),
       ),
+          floatingActionButton: Container(
+            margin: EdgeInsets.only(left: 30,bottom: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                GestureDetector(
+                  onTap: (){},
+                  child: Container(
+                    width: 150,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: layoutColor
+                    ),
+                    child: Center(
+                      child: Text(
+                          'Book Appointment',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                      ),
+                    ),
+                  ),
+                ),
+                FloatingActionButton(
+                  onPressed: () => {},
+                  backgroundColor: layoutColor,
+                  child: Icon(
+                    FontAwesomeIcons.solidComments,
+                  ),
+
+                ),
+              ]
+        ),
+          ),
     ));
+
   }
 }
 

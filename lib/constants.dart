@@ -17,5 +17,5 @@ var firestore = FirebaseFirestore.instance;
 var authController = AuthController.instance;
 
 Color layoutColor = const Color(0xFF7A98E5);
-Color? boxColor = Colors.grey[200];
+Color? boxColor = Colors.grey.shade100;
 // const Color(0xFFDEDEDE);
