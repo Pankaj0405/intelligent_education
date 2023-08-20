@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intelligent_education/Student/student_experience.dart';
+import 'package:intelligent_education/constants.dart';
+import 'package:intelligent_education/models/student_experience.dart';
 import '../models/personal_info.dart' as personal;
 import '../models/parent_info.dart' as parent;
 import '../models/emergency_info.dart' as emergency;
@@ -14,6 +17,10 @@ class InfoController extends GetxController {
   var firebaseAuth = FirebaseAuth.instance;
   var firebaseStorage = FirebaseStorage.instance;
   var fireStore = FirebaseFirestore.instance;
+  final Rx<List<Studentexperience>> _experiences = Rx<List<Studentexperience>>([]);
+  List<Studentexperience> get experiences => _experiences.value;
+
+  String _experienceId = "";
   @override
   void onReady() {
     // TODO: implement onReady
@@ -236,4 +243,37 @@ class InfoController extends GetxController {
       return null;
     }
   }
+
+
+  getExperience() async {
+    _experiences.bindStream(firestore.collection('userDetails').doc(authController.user.uid).collection('experienceInfo').snapshots().map((QuerySnapshot query) {
+      List<Studentexperience> retValue=[];
+      for(var  element in query.docs){
+        retValue.add(Studentexperience.fromSnap(element));
+      }
+      return retValue;
+    }));
+  }
+
+  postExperience(String organization,String address,String jobtitle,String contactno,String salary,String datefrom,String dateto) async {
+    try {
+
+        String experienceInfoId = const Uuid().v1();
+        Studentexperience experience = Studentexperience(
+
+            id: experienceInfoId, organization: organization, address: address, jobtitle: jobtitle, contactno: contactno,
+            salary: salary, datefrom: datefrom, dateto: dateto);
+
+        await firestore
+            .collection('userDetails')
+            .doc(authController.user.uid)
+            .collection('experienceInfo')
+            .doc(experienceInfoId)
+            .set(experience.toJson());
+
+    } catch (e) {
+      Get.snackbar('Error While Commenting', e.toString());
+    }
+  }
+
 }

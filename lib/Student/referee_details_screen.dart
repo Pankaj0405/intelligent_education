@@ -76,11 +76,11 @@ class _RefereeDetailsState extends State<RefereeDetails> {
         appBar: AppBar(
           title: const Text('Referee Details'),
         ),
-        body: Column(
-          children: [
-            titleListTile('Referee'),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.8,
+        body: ListView.builder(
+          itemCount: 2,
+          shrinkWrap: true,
+          itemBuilder: (context, int) {
+            return Container(
               margin: EdgeInsets.only(
                 left: 20.w,
                 right: 20.w,
@@ -90,55 +90,50 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                 borderRadius: BorderRadius.circular(20.r),
                 color: boxColor,
               ),
-              child: ListView.builder(
-                itemCount: 2,
-                itemBuilder: (context, int) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 10.w,
-                      vertical: 10.h,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    color: Colors.white70,
-                    elevation: 10,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 10.h,
-                      ),
-                      child: Column(
-                        children: [
-                          cardListTile('Referee Name: ', 'ABC'),
-                          cardListTile('Relationship: ', 'Uncle'),
-                          cardListTile('Organization: ', 'ABC Company'),
-                          cardListTile('Job Title: ', 'Human Resource'),
-                          cardListTile('Work Email: ', 'abc@gmail.com'),
-                          cardListTile('Contact No.: ', '942942303'),
-                          cardListTile('Address: ', 'Mandawar Roorkee Uttarakhand'),
-                        ],
-                      ),
-                    ),
-                  );
-                  // return Padding(
-                  //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                  //   child: CheckboxListTile(
-                  //       activeColor: layoutColor,
-                  //       value: referee1,
-                  //       onChanged: (bool? value) {
-                  //         setState(() {
-                  //           referee1 = value!;
-                  //         });
-                  //       },
-                  //       title: const Text(
-                  //         'Experience 1',
-                  //         overflow: TextOverflow.ellipsis,
-                  //       )),
-                  // );
-                },
+              child: Card(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10.w,
+                  vertical: 10.h,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                color: Colors.white70,
+                elevation: 10,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.h,
+                  ),
+                  child: Column(
+                    children: [
+                      cardListTile('Referee Name: ', 'ABC'),
+                      cardListTile('Relationship: ', 'Uncle'),
+                      cardListTile('Organization: ', 'ABC Company'),
+                      cardListTile('Job Title: ', 'Human Resource'),
+                      cardListTile('Work Email: ', 'abc@gmail.com'),
+                      cardListTile('Contact No.: ', '942942303'),
+                      cardListTile('Address: ', 'Mandawar Roorkee Uttarakhand'),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ],
+            );
+            // return Padding(
+            //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
+            //   child: CheckboxListTile(
+            //       activeColor: layoutColor,
+            //       value: referee1,
+            //       onChanged: (bool? value) {
+            //         setState(() {
+            //           referee1 = value!;
+            //         });
+            //       },
+            //       title: const Text(
+            //         'Experience 1',
+            //         overflow: TextOverflow.ellipsis,
+            //       )),
+            // );
+          },
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: layoutColor,

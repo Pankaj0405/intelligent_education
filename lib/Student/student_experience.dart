@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intelligent_education/Widgets/title_list_tile.dart';
+import 'package:intelligent_education/controllers/firestoremethods.dart';
+import 'package:intelligent_education/models/student_experience.dart';
 import 'package:intl/intl.dart';
 import '../constants.dart';
 import '../Widgets/details_field.dart';
@@ -20,6 +23,7 @@ class _StudentExperienceState extends State<StudentExperience> {
   final _jobTitleController = TextEditingController();
   final _contactController = TextEditingController();
   final _salaryController = TextEditingController();
+  InfoController _infoController = Get.put(InfoController());
 
   openBottomSheet() {
     return showModalBottomSheet(
@@ -70,11 +74,12 @@ class _StudentExperienceState extends State<StudentExperience> {
                           true, //set it true, so that user will not able to edit text
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
-                            // DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                            lastDate: DateTime(2101));
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2015),
+                          lastDate: DateTime(2121),
+                          // DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                        );
 
                         if (pickedDate != null) {
                           print(
@@ -120,9 +125,10 @@ class _StudentExperienceState extends State<StudentExperience> {
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
+                            firstDate: DateTime(2015),
+                            lastDate: DateTime(2121)
                             // DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                            lastDate: DateTime(2101));
+                            );
 
                         if (pickedDate != null) {
                           print(
@@ -148,7 +154,10 @@ class _StudentExperienceState extends State<StudentExperience> {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _addExperienceInfoToDb();
+                    Get.back();
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: layoutColor,
                       padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
@@ -163,31 +172,58 @@ class _StudentExperienceState extends State<StudentExperience> {
         });
   }
 
+  _addExperienceInfoToDb() async {
+    if (_areFieldsEmpty()) {
+      Get.snackbar("Error", "Please fill all fields");
+    } else {
+      await _infoController.postExperience(
+        _organizationController.text,
+        _addressController.text,
+        _jobTitleController.text,
+        _contactController.text,
+        _salaryController.text,
+        fromDateController.text,
+        toDateController.text,
+      );
+    }
+  }
+
+  bool _areFieldsEmpty() {
+    return _organizationController.text.isEmpty ||
+        _addressController.text.isEmpty ||
+        _jobTitleController.text.isEmpty ||
+        _contactController.text.isEmpty ||
+        _salaryController.text.isEmpty ||
+        fromDateController.text.isEmpty ||
+        toDateController.text.isEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
+    _infoController.getExperience();
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
         title: const Text('Experience'),
       ),
-      body: Column(
-        children: [
-          titleListTile('Experience'),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            margin: EdgeInsets.only(
-              left: 20.w,
-              right: 20.w,
-              bottom: 20.h,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              color: boxColor,
-            ),
-            child: ListView.builder(
-              itemCount: 2,
-              itemBuilder: (context, int) {
-                return Card(
+      body: Obx(
+        () {
+          return ListView.builder(
+            itemCount: _infoController.experiences.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final experience = _infoController.experiences[index];
+              return Container(
+                margin: EdgeInsets.only(
+                  left: 20.w,
+                  right: 20.w,
+                  bottom: 20.h,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.r),
+                  color: boxColor,
+                ),
+                child: Card(
                   margin: EdgeInsets.symmetric(
                     horizontal: 10.w,
                     vertical: 10.h,
@@ -203,37 +239,36 @@ class _StudentExperienceState extends State<StudentExperience> {
                     ),
                     child: Column(
                       children: [
-                        cardListTile('Organization: ', 'ABC company'),
-                        cardListTile(
-                            'Address: ', 'Mandawar Roorkee Uttarakhand'),
-                        cardListTile('Job Title: ', 'Human Resource'),
-                        cardListTile('Contact No.: ', '942942303'),
-                        cardListTile('Salary/Stipend: ', '40000'),
-                        cardListTile('From: ', '2022'),
-                        cardListTile('To: ', '2023'),
+                        cardListTile('Organization: ', experience.organization),
+                        cardListTile('Address: ', experience.address),
+                        cardListTile('Job Title: ', experience.jobtitle),
+                        cardListTile('Contact No.: ', experience.contactno),
+                        cardListTile('Salary/Stipend: ', experience.salary),
+                        cardListTile('From: ', experience.datefrom),
+                        cardListTile('To: ', experience.dateto),
                       ],
                     ),
                   ),
-                );
-                //   Padding(
-                //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                //   child: CheckboxListTile(
-                //       activeColor: layoutColor,
-                //       value: experience1,
-                //       onChanged: (bool? value) {
-                //         setState(() {
-                //           experience1 = value!;
-                //         });
-                //       },
-                //       title: const Text(
-                //         'Experience 1',
-                //         overflow: TextOverflow.ellipsis,
-                //       )),
-                // );
-              },
-            ),
-          ),
-        ],
+                ),
+              );
+              //   Padding(
+              //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
+              //   child: CheckboxListTile(
+              //       activeColor: layoutColor,
+              //       value: experience1,
+              //       onChanged: (bool? value) {
+              //         setState(() {
+              //           experience1 = value!;
+              //         });
+              //       },
+              //       title: const Text(
+              //         'Experience 1',
+              //         overflow: TextOverflow.ellipsis,
+              //       )),
+              // );
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: layoutColor,

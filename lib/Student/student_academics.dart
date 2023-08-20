@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -171,11 +172,11 @@ class _AcademicDetailsState extends State<AcademicDetails> {
       appBar: AppBar(
         title: const Text('Academics'),
       ),
-      body: Column(
-        children: [
-          titleListTile('Academics'),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+      body: ListView.builder(
+        itemCount: 3,
+        shrinkWrap: true,
+        itemBuilder: (context, int) {
+          return Container(
             margin: EdgeInsets.only(
               left: 20.w,
               right: 20.w,
@@ -185,55 +186,50 @@ class _AcademicDetailsState extends State<AcademicDetails> {
               borderRadius: BorderRadius.circular(20.r),
               color: boxColor,
             ),
-            child: ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, int) {
-                return Card(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 10.w,
-                    vertical: 10.h,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  color: Colors.white70,
-                  elevation: 10,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10.h,
-                    ),
-                    child: Column(
-                      children: [
-                        cardListTile('Institute Name: ', 'ABC company'),
-                        cardListTile('Country: ', 'India'),
-                        cardListTile('Course: ', 'B. Tech'),
-                        cardListTile('Level of Study: ', 'Graduation'),
-                        cardListTile('Percentage/CGPA: ', '8'),
-                        cardListTile('From: ', '2020'),
-                        cardListTile('To: ', '2024'),
-                      ],
-                    ),
-                  ),
-                );
-                // return Padding(
-                //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                //   child: CheckboxListTile(
-                //       activeColor: layoutColor,
-                //       value: academic1,
-                //       onChanged: (bool? value) {
-                //         setState(() {
-                //           academic1 = value!;
-                //         });
-                //       },
-                //       title: const Text(
-                //         'Academic 1',
-                //         overflow: TextOverflow.ellipsis,
-                //       )),
-                // );
-              },
+            child: Card(
+              margin: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 10.h,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              color: Colors.white70,
+              elevation: 10,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.h,
+                ),
+                child: Column(
+                  children: [
+                    cardListTile('Institute Name: ', 'ABC company'),
+                    cardListTile('Country: ', 'India'),
+                    cardListTile('Course: ', 'B. Tech'),
+                    cardListTile('Level of Study: ', 'Graduation'),
+                    cardListTile('Percentage/CGPA: ', '8'),
+                    cardListTile('From: ', '2020'),
+                    cardListTile('To: ', '2024'),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ],
+          );
+          // return Padding(
+          //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
+          //   child: CheckboxListTile(
+          //       activeColor: layoutColor,
+          //       value: academic1,
+          //       onChanged: (bool? value) {
+          //         setState(() {
+          //           academic1 = value!;
+          //         });
+          //       },
+          //       title: const Text(
+          //         'Academic 1',
+          //         overflow: TextOverflow.ellipsis,
+          //       )),
+          // );
+        },
       ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: layoutColor,
