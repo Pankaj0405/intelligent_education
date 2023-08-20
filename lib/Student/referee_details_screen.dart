@@ -1,4 +1,3 @@
-import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intelligent_education/Widgets/title_list_tile.dart';
@@ -14,6 +13,14 @@ class RefereeDetails extends StatefulWidget {
 
 class _RefereeDetailsState extends State<RefereeDetails> {
   bool referee1 = false;
+  final _refereeNameController = TextEditingController();
+  final _relationshipController = TextEditingController();
+  final _organizationController = TextEditingController();
+  final _jobTileController = TextEditingController();
+  final _workEmailController = TextEditingController();
+  final _contactController = TextEditingController();
+  final _addressController = TextEditingController();
+
   openBottomSheet() {
     return showModalBottomSheet(
         context: context,
@@ -36,13 +43,13 @@ class _RefereeDetailsState extends State<RefereeDetails> {
             ),
             child: Column(
               children: [
-                listTileFieldInfo('Referee Name: '),
-                listTileFieldInfo('Relationship: '),
-                listTileFieldInfo('Organization: '),
-                listTileFieldInfo('Job Title: '),
-                listTileFieldInfo('Work Email: '),
-                listTileFieldInfo('Contact No.: '),
-                listTileFieldInfo('Address: '),
+                listTileFieldInfo('Referee Name: ',_refereeNameController),
+                listTileFieldInfo('Relationship: ', _relationshipController),
+                listTileFieldInfo('Organization: ', _organizationController),
+                listTileFieldInfo('Job Title: ', _jobTileController),
+                listTileFieldInfo('Work Email: ', _workEmailController),
+                listTileFieldInfo('Contact No.: ', _contactController),
+                listTileFieldInfo('Address: ', _addressController),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),

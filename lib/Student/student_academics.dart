@@ -13,9 +13,14 @@ class AcademicDetails extends StatefulWidget {
 }
 
 class _AcademicDetailsState extends State<AcademicDetails> {
-  bool academic1 = false;
   final fromDateController = TextEditingController();
   final toDateController = TextEditingController();
+  final _instituteNameController = TextEditingController();
+  final _countryController = TextEditingController();
+  final _levelController = TextEditingController();
+  final _percentageController = TextEditingController();
+  final _courseController = TextEditingController();
+
 
   openBottomSheet() {
     return showModalBottomSheet(
@@ -39,11 +44,11 @@ class _AcademicDetailsState extends State<AcademicDetails> {
             ),
             child: Column(
               children: [
-                listTileFieldInfo('Institute Name: '),
-                listTileFieldInfo('Country: '),
-                listTileFieldInfo('Course: '),
-                listTileFieldInfo('Level of Study: '),
-                listTileFieldInfo('Percentage/CGPA: '),
+                listTileFieldInfo('Institute Name: ', _instituteNameController),
+                listTileFieldInfo('Country: ', _countryController),
+                listTileFieldInfo('Course: ', _courseController),
+                listTileFieldInfo('Level of Study: ', _levelController),
+                listTileFieldInfo('Percentage/CGPA: ', _percentageController),
                 ListTile(
                   leading: Text('From: ', style: TextStyle(fontSize: 18.sp)),
                   trailing: SizedBox(

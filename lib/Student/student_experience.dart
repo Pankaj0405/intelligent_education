@@ -15,6 +15,11 @@ class StudentExperience extends StatefulWidget {
 class _StudentExperienceState extends State<StudentExperience> {
   final fromDateController = TextEditingController();
   final toDateController = TextEditingController();
+  final _organizationController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _jobTitleController = TextEditingController();
+  final _contactController = TextEditingController();
+  final _salaryController = TextEditingController();
 
   openBottomSheet() {
     return showModalBottomSheet(
@@ -38,11 +43,11 @@ class _StudentExperienceState extends State<StudentExperience> {
             ),
             child: Column(
               children: [
-                listTileFieldInfo('Organization: '),
-                listTileFieldInfo('Address: '),
-                listTileFieldInfo('Job Title: '),
-                listTileFieldInfo('Contact No.: '),
-                listTileFieldInfo('Salary/Stipend: '),
+                listTileFieldInfo('Organization: ', _organizationController),
+                listTileFieldInfo('Address: ', _addressController),
+                listTileFieldInfo('Job Title: ', _jobTitleController),
+                listTileFieldInfo('Contact No.: ', _contactController),
+                listTileFieldInfo('Salary/Stipend: ', _salaryController),
                 ListTile(
                   leading: Text('From: ', style: TextStyle(fontSize: 18.sp)),
                   trailing: SizedBox(

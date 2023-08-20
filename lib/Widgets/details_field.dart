@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget listTileFieldInfo(String text) {
+Widget listTileFieldInfo(String text, TextEditingController controller) {
   return Expanded(
     flex: 0,
     child: ListTile(
@@ -14,6 +14,7 @@ Widget listTileFieldInfo(String text) {
         height: 30.h,
         width: 120.w,
         child: TextField(
+          controller: controller,
           style: const TextStyle(color: Colors.black),
           cursorColor: Colors.blue,
           inputFormatters: [
