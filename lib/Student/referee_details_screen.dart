@@ -14,6 +14,53 @@ class RefereeDetails extends StatefulWidget {
 
 class _RefereeDetailsState extends State<RefereeDetails> {
   bool referee1 = false;
+  openBottomSheet() {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        showDragHandle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        builder: (BuildContext context) {
+          return Container(
+            margin: EdgeInsets.only(
+              top: 20.h,
+              left: 20.w,
+              right: 20.w,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              color: boxColor,
+            ),
+            child: Column(
+              children: [
+                listTileFieldInfo('Referee Name: '),
+                listTileFieldInfo('Relationship: '),
+                listTileFieldInfo('Organization: '),
+                listTileFieldInfo('Job Title: '),
+                listTileFieldInfo('Work Email: '),
+                listTileFieldInfo('Contact No.: '),
+                listTileFieldInfo('Address: '),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: layoutColor,
+                      padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.r),
+                      )),
+                  child: const Text('SUBMIT'),
+                ),
+              ],
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,154 +68,77 @@ class _RefereeDetailsState extends State<RefereeDetails> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Referee Details'),
-          // leading: const Icon(FontAwesomeIcons.idBadge),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              titleListTile('Referee'),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 20.w,
-                  right: 20.w,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.r),
-                  color: boxColor,
-                ),
-                // height: MediaQuery.of(context).size.height * 0.70,
-                child: Column(
-                  children: [
-                    listTileFieldInfo('Referee Name: '),
-                    listTileFieldInfo('Relationship: '),
-                    listTileFieldInfo('Organization: '),
-                    listTileFieldInfo('Job Title: '),
-                    listTileFieldInfo('Work Email: '),
-                    listTileFieldInfo('Contact No.: '),
-                    listTileFieldInfo('Address: '),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
-                          backgroundColor: layoutColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.r),
-                          )),
-                      child: const Text('SUBMIT'),
-                    ),
-                  ],
-                ),
+        body: Column(
+          children: [
+            titleListTile('Referee'),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              margin: EdgeInsets.only(
+                left: 20.w,
+                right: 20.w,
+                bottom: 20.h,
               ),
-              editListTile(),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 20.w,
-                  right: 20.w,
-                  bottom: 20.h,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.r),
-                  color: boxColor,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 10.h,
-                        left: 10.w,
-                        right: 10.w,
-                      ),
-                      child: TextField(
-                        style: const TextStyle(color: Colors.black),
-                        cursorColor: Colors.blue,
-                        decoration: InputDecoration(
-                          // focusColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          prefixIcon: const Icon(Icons.search),
-                          prefixIconColor: Colors.black,
-                          fillColor: Colors.white70,
-                          filled: true,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.45,
-                      child: ListView.builder(
-                        // shrinkWrap: true,
-                        itemCount: 2,
-                        itemBuilder: (context, int) {
-                          return Card(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 10.h,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            color: Colors.white70,
-                            elevation: 10,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 10.h,
-                              ),
-                              child: Column(
-                                children: [
-                                  cardListTile('Referee Name: ', 'ABC'),
-                                  cardListTile('Relationship: ', 'Uncle'),
-                                  cardListTile('Organization: ', 'ABC Company'),
-                                  cardListTile('Job Title: ', 'Human Resource'),
-                                  cardListTile('Work Email: ', 'abc@gmail.com'),
-                                  cardListTile('Contact No.: ', '942942303'),
-                                  cardListTile('Address: ', 'Mandawar Roorkee Uttarakhand'),
-                                ],
-                              ),
-                            ),
-                          );
-                          // return Padding(
-                          //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                          //   child: CheckboxListTile(
-                          //       activeColor: layoutColor,
-                          //       value: referee1,
-                          //       onChanged: (bool? value) {
-                          //         setState(() {
-                          //           referee1 = value!;
-                          //         });
-                          //       },
-                          //       title: const Text(
-                          //         'Experience 1',
-                          //         overflow: TextOverflow.ellipsis,
-                          //       )),
-                          // );
-                        },
-                      ),
-                    ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     IconButton(
-                    //       onPressed: () {},
-                    //       icon: const Icon(Icons.edit),
-                    //     ),
-                    //     IconButton(
-                    //       onPressed: () {},
-                    //       icon: const Icon(Icons.delete),
-                    //     ),
-                    //   ],
-                    // ),
-                    // const Divider(height: 0),
-                  ],
-                ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                color: boxColor,
               ),
-            ],
-          ),
+              child: ListView.builder(
+                itemCount: 2,
+                itemBuilder: (context, int) {
+                  return Card(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 10.h,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    color: Colors.white70,
+                    elevation: 10,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10.h,
+                      ),
+                      child: Column(
+                        children: [
+                          cardListTile('Referee Name: ', 'ABC'),
+                          cardListTile('Relationship: ', 'Uncle'),
+                          cardListTile('Organization: ', 'ABC Company'),
+                          cardListTile('Job Title: ', 'Human Resource'),
+                          cardListTile('Work Email: ', 'abc@gmail.com'),
+                          cardListTile('Contact No.: ', '942942303'),
+                          cardListTile('Address: ', 'Mandawar Roorkee Uttarakhand'),
+                        ],
+                      ),
+                    ),
+                  );
+                  // return Padding(
+                  //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
+                  //   child: CheckboxListTile(
+                  //       activeColor: layoutColor,
+                  //       value: referee1,
+                  //       onChanged: (bool? value) {
+                  //         setState(() {
+                  //           referee1 = value!;
+                  //         });
+                  //       },
+                  //       title: const Text(
+                  //         'Experience 1',
+                  //         overflow: TextOverflow.ellipsis,
+                  //       )),
+                  // );
+                },
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: layoutColor,
+          onPressed: () {
+            openBottomSheet();
+          },
+          child: const Icon(Icons.add),
         ),
       ),
     );

@@ -33,7 +33,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
         title: Obx(
           () => Text(
             _authController.name.value.toString().toUpperCase(),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.normal,
             ),
@@ -67,48 +67,35 @@ class _StudentDashboardState extends State<StudentDashboard> {
           ),
         ],
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height * 0.95,
-        // width: double.infinity,
-        padding: EdgeInsets.all(10.r),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                  itemCount: 20,
-                  itemBuilder: (BuildContext ctx, int index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: boxColor
-                      ),
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: ListTile(
+      body: ListView.builder(
+        shrinkWrap: true,
+          itemCount: 20,
+          itemBuilder: (BuildContext ctx, int index) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: boxColor
+              ),
+              margin: const EdgeInsets.only(bottom: 10),
+              child: ListTile(
 
-                        tileColor: Colors.white,
-                        leading: Icon(
-                          FontAwesomeIcons.university,
-                          color: Colors.black,
-                          size: 35.r,
-                        ),
-                        title: Text(
-                          'College Name',
-                          style: TextStyle(fontSize: 22.sp),
-                        ),
-                        subtitle: Text(
-                          'Course Name',
-                          style: TextStyle(fontSize: 18.sp),
-                        ),
-                      ),
-                    );
-                  }),
-            ),
-
-          ],
-        ),
-      ),
+                tileColor: Colors.white,
+                leading: Icon(
+                  FontAwesomeIcons.university,
+                  color: Colors.black,
+                  size: 35.r,
+                ),
+                title: Text(
+                  'College Name',
+                  style: TextStyle(fontSize: 22.sp),
+                ),
+                subtitle: Text(
+                  'Course Name',
+                  style: TextStyle(fontSize: 18.sp),
+                ),
+              ),
+            );
+          }),
       drawer: Drawer(
         child: ListView(
           children: [
