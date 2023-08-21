@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intelligent_education/Widgets/title_list_tile.dart';
 import '../constants.dart';
 import '../Widgets/details_field.dart';
+import '../controllers/firestoremethods.dart';
 
 class RefereeDetails extends StatefulWidget {
   const RefereeDetails({super.key});
@@ -12,14 +14,14 @@ class RefereeDetails extends StatefulWidget {
 }
 
 class _RefereeDetailsState extends State<RefereeDetails> {
-  bool referee1 = false;
   final _refereeNameController = TextEditingController();
   final _relationshipController = TextEditingController();
   final _organizationController = TextEditingController();
-  final _jobTileController = TextEditingController();
+  final _jobTitleController = TextEditingController();
   final _workEmailController = TextEditingController();
   final _contactController = TextEditingController();
   final _addressController = TextEditingController();
+  final InfoController _infoController = Get.put(InfoController());
 
   openBottomSheet() {
     return showModalBottomSheet(
@@ -46,7 +48,7 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                 listTileFieldInfo('Referee Name: ',_refereeNameController),
                 listTileFieldInfo('Relationship: ', _relationshipController),
                 listTileFieldInfo('Organization: ', _organizationController),
-                listTileFieldInfo('Job Title: ', _jobTileController),
+                listTileFieldInfo('Job Title: ', _jobTitleController),
                 listTileFieldInfo('Work Email: ', _workEmailController),
                 listTileFieldInfo('Contact No.: ', _contactController),
                 listTileFieldInfo('Address: ', _addressController),
@@ -54,7 +56,11 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _addRefereeInfoToDb();
+                    emptyFields();
+                    Get.back();
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: layoutColor,
                       padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
@@ -69,17 +75,55 @@ class _RefereeDetailsState extends State<RefereeDetails> {
         });
   }
 
+  _addRefereeInfoToDb() async {
+    if (_areFieldsEmpty()) {
+      Get.snackbar("Error", "Please fill all fields");
+    } else {
+      await _infoController.postReferee(
+          _refereeNameController.text,
+          _addressController.text,
+          _contactController.text,
+          _jobTitleController.text,
+          _organizationController.text,
+          _relationshipController.text,
+          _workEmailController.text
+      );
+    }
+  }
+
+  bool _areFieldsEmpty() {
+    return _organizationController.text.isEmpty ||
+        _addressController.text.isEmpty ||
+        _relationshipController.text.isEmpty ||
+        _contactController.text.isEmpty ||
+        _jobTitleController.text.isEmpty ||
+        _workEmailController.text.isEmpty ||
+        _refereeNameController.text.isEmpty;
+  }
+
+  emptyFields() {
+    _organizationController.text = "";
+    _refereeNameController.text = "";
+    _addressController.text ="";
+    _relationshipController.text ="";
+    _contactController.text = "";
+    _jobTitleController.text = "";
+    _workEmailController.text = "";
+  }
+
   @override
   Widget build(BuildContext context) {
+    _infoController.getReferee();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Referee Details'),
         ),
         body: ListView.builder(
-          itemCount: 2,
+          itemCount: _infoController.referee.length,
           shrinkWrap: true,
-          itemBuilder: (context, int) {
+          itemBuilder: (context, index) {
+            final referee = _infoController.referee[index];
             return Container(
               margin: EdgeInsets.only(
                 left: 20.w,
@@ -106,13 +150,13 @@ class _RefereeDetailsState extends State<RefereeDetails> {
                   ),
                   child: Column(
                     children: [
-                      cardListTile('Referee Name: ', 'ABC'),
-                      cardListTile('Relationship: ', 'Uncle'),
-                      cardListTile('Organization: ', 'ABC Company'),
-                      cardListTile('Job Title: ', 'Human Resource'),
-                      cardListTile('Work Email: ', 'abc@gmail.com'),
-                      cardListTile('Contact No.: ', '942942303'),
-                      cardListTile('Address: ', 'Mandawar Roorkee Uttarakhand'),
+                      cardListTile('Referee Name: ', referee.refereeName),
+                      cardListTile('Relationship: ', referee.relationship),
+                      cardListTile('Organization: ', referee.organization),
+                      cardListTile('Job Title: ', referee.jobTitle),
+                      cardListTile('Work Email: ', referee.workMail),
+                      cardListTile('Contact No.: ', referee.contactNo),
+                      cardListTile('Address: ', referee.address),
                     ],
                   ),
                 ),

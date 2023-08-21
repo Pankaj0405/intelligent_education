@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intelligent_education/Student/student_experience.dart';
 import 'package:intelligent_education/constants.dart';
+import 'package:intelligent_education/models/student_academic.dart';
 import 'package:intelligent_education/models/student_experience.dart';
+import 'package:intelligent_education/models/student_referee.dart';
 import '../models/personal_info.dart' as personal;
 import '../models/parent_info.dart' as parent;
 import '../models/emergency_info.dart' as emergency;
@@ -17,10 +19,15 @@ class InfoController extends GetxController {
   var firebaseAuth = FirebaseAuth.instance;
   var firebaseStorage = FirebaseStorage.instance;
   var fireStore = FirebaseFirestore.instance;
-  final Rx<List<Studentexperience>> _experiences = Rx<List<Studentexperience>>([]);
+  final Rx<List<Studentexperience>> _experiences =
+      Rx<List<Studentexperience>>([]);
   List<Studentexperience> get experiences => _experiences.value;
+  final Rx<List<StudentReferee>> _referee = Rx<List<StudentReferee>>([]);
+  List<StudentReferee> get referee => _referee.value;
+  final Rx<List<StudentAcademic>> _academics = Rx<List<StudentAcademic>>([]);
+  List<StudentAcademic> get academics => _academics.value;
 
-  String _experienceId = "";
+  // String _experienceId = "";
   @override
   void onReady() {
     // TODO: implement onReady
@@ -244,36 +251,128 @@ class InfoController extends GetxController {
     }
   }
 
-
   getExperience() async {
-    _experiences.bindStream(firestore.collection('userDetails').doc(authController.user.uid).collection('experienceInfo').snapshots().map((QuerySnapshot query) {
-      List<Studentexperience> retValue=[];
-      for(var  element in query.docs){
+    _experiences.bindStream(firestore
+        .collection('userDetails')
+        .doc(authController.user.uid)
+        .collection('experienceInfo')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<Studentexperience> retValue = [];
+      for (var element in query.docs) {
         retValue.add(Studentexperience.fromSnap(element));
       }
       return retValue;
     }));
   }
 
-  postExperience(String organization,String address,String jobtitle,String contactno,String salary,String datefrom,String dateto) async {
+  postExperience(String organization, String address, String jobtitle,
+      String contactno, String salary, String datefrom, String dateto) async {
     try {
+      String experienceInfoId = const Uuid().v1();
+      Studentexperience experience = Studentexperience(
+          id: experienceInfoId,
+          organization: organization,
+          address: address,
+          jobtitle: jobtitle,
+          contactno: contactno,
+          salary: salary,
+          datefrom: datefrom,
+          dateto: dateto);
 
-        String experienceInfoId = const Uuid().v1();
-        Studentexperience experience = Studentexperience(
-
-            id: experienceInfoId, organization: organization, address: address, jobtitle: jobtitle, contactno: contactno,
-            salary: salary, datefrom: datefrom, dateto: dateto);
-
-        await firestore
-            .collection('userDetails')
-            .doc(authController.user.uid)
-            .collection('experienceInfo')
-            .doc(experienceInfoId)
-            .set(experience.toJson());
-
+      await firestore
+          .collection('userDetails')
+          .doc(authController.user.uid)
+          .collection('experienceInfo')
+          .doc(experienceInfoId)
+          .set(experience.toJson());
     } catch (e) {
       Get.snackbar('Error While Commenting', e.toString());
     }
   }
 
+  getReferee() async {
+    _referee.bindStream(firestore
+        .collection('userDetails')
+        .doc(authController.user.uid)
+        .collection('refereeInfo')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<StudentReferee> retValue = [];
+      for (var element in query.docs) {
+        retValue.add(StudentReferee.fromSnap(element));
+      }
+      return retValue;
+    }));
+  }
+
+  postReferee(
+      String refereeName,
+      String address,
+      String contactNo,
+      String jobTitle,
+      String organization,
+      String relationship,
+      String workMail) async {
+    try {
+      String refereeInfoId = const Uuid().v1();
+      StudentReferee referee = StudentReferee(
+          refereeName: refereeName,
+          address: address,
+          contactNo: contactNo,
+          jobTitle: jobTitle,
+          organization: organization,
+          relationship: relationship,
+          workMail: workMail,
+          id: refereeInfoId);
+      await firestore
+          .collection('userDetails')
+          .doc(authController.user.uid)
+          .collection('refereeInfo')
+          .doc(refereeInfoId)
+          .set(referee.toJson());
+    } catch (e) {
+      Get.snackbar('Error While Commenting', e.toString());
+    }
+  }
+
+  getAcademics() async {
+    _academics.bindStream(firestore
+        .collection('userDetails')
+        .doc(authController.user.uid)
+        .collection('academicInfo')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<StudentAcademic> retValue = [];
+      for (var element in query.docs) {
+        retValue.add(StudentAcademic.fromSnap(element));
+      }
+      return retValue;
+    }));
+  }
+
+  postAcademics(String instituteName, String country, String course,
+      String level, String percentage, String fromDate, String toDate) async {
+    try {
+      String academicInfoId = const Uuid().v1();
+      StudentAcademic academic = StudentAcademic(
+          course: course,
+          country: country,
+          fromDate: fromDate,
+          instituteName: instituteName,
+          level: level,
+          percentage: percentage,
+          toDate: toDate,
+          id: academicInfoId
+          );
+      await firestore
+          .collection('userDetails')
+          .doc(authController.user.uid)
+          .collection('academicInfo')
+          .doc(academicInfoId)
+          .set(academic.toJson());
+    } catch (e) {
+      Get.snackbar('Error While Commenting', e.toString());
+    }
+  }
 }

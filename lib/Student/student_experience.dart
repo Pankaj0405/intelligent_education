@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intelligent_education/Widgets/title_list_tile.dart';
-import 'package:intelligent_education/controllers/firestoremethods.dart';
-import 'package:intelligent_education/models/student_experience.dart';
 import 'package:intl/intl.dart';
+import '../controllers/firestoremethods.dart';
 import '../constants.dart';
 import '../Widgets/details_field.dart';
 
@@ -23,7 +21,7 @@ class _StudentExperienceState extends State<StudentExperience> {
   final _jobTitleController = TextEditingController();
   final _contactController = TextEditingController();
   final _salaryController = TextEditingController();
-  InfoController _infoController = Get.put(InfoController());
+  final InfoController _infoController = Get.put(InfoController());
 
   openBottomSheet() {
     return showModalBottomSheet(
@@ -156,7 +154,8 @@ class _StudentExperienceState extends State<StudentExperience> {
                 ElevatedButton(
                   onPressed: () {
                     _addExperienceInfoToDb();
-                    Get.back();
+                  emptyFields();
+                  Get.back();
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: layoutColor,
@@ -185,7 +184,7 @@ class _StudentExperienceState extends State<StudentExperience> {
         fromDateController.text,
         toDateController.text,
       );
-    }
+     }
   }
 
   bool _areFieldsEmpty() {
@@ -196,6 +195,16 @@ class _StudentExperienceState extends State<StudentExperience> {
         _salaryController.text.isEmpty ||
         fromDateController.text.isEmpty ||
         toDateController.text.isEmpty;
+  }
+
+  emptyFields() {
+    _organizationController.text = "";
+    _salaryController.text = "";
+    _addressController.text ="";
+    _jobTitleController.text ="";
+    _contactController.text = "";
+    fromDateController.text = "";
+    toDateController.text = "";
   }
 
   @override

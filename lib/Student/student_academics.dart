@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../Widgets/title_list_tile.dart';
 import '../constants.dart';
 import '../Widgets/details_field.dart';
+import '../controllers/firestoremethods.dart';
 
 class AcademicDetails extends StatefulWidget {
   const AcademicDetails({super.key});
@@ -21,7 +21,7 @@ class _AcademicDetailsState extends State<AcademicDetails> {
   final _levelController = TextEditingController();
   final _percentageController = TextEditingController();
   final _courseController = TextEditingController();
-
+  final InfoController _infoController = Get.put(InfoController());
 
   openBottomSheet() {
     return showModalBottomSheet(
@@ -150,7 +150,11 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _addAcademicInfoToDb();
+                    emptyFields();
+                    Get.back();
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: layoutColor,
                       padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
@@ -165,17 +169,55 @@ class _AcademicDetailsState extends State<AcademicDetails> {
         });
   }
 
+  _addAcademicInfoToDb() async {
+    if (_areFieldsEmpty()) {
+      Get.snackbar("Error", "Please fill all fields");
+    } else {
+      await _infoController.postAcademics(
+        _instituteNameController.text,
+        _countryController.text,
+        _courseController.text,
+        _levelController.text,
+        _percentageController.text,
+        fromDateController.text,
+        toDateController.text,
+      );
+    }
+  }
+
+  bool _areFieldsEmpty() {
+    return _instituteNameController.text.isEmpty ||
+        _countryController.text.isEmpty ||
+        _levelController.text.isEmpty ||
+        _percentageController.text.isEmpty ||
+        _courseController.text.isEmpty ||
+        fromDateController.text.isEmpty ||
+        toDateController.text.isEmpty;
+  }
+
+  emptyFields() {
+    _instituteNameController.text = "";
+    _countryController.text = "";
+    _levelController.text ="";
+    _percentageController.text ="";
+    _courseController.text = "";
+    fromDateController.text = "";
+    toDateController.text = "";
+  }
+
   @override
   Widget build(BuildContext context) {
+    _infoController.getAcademics();
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
         title: const Text('Academics'),
       ),
       body: ListView.builder(
-        itemCount: 3,
         shrinkWrap: true,
-        itemBuilder: (context, int) {
+        itemCount: _infoController.academics.length,
+        itemBuilder: (context, index) {
+          final academic = _infoController.academics[index];
           return Container(
             margin: EdgeInsets.only(
               left: 20.w,
@@ -202,13 +244,13 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                 ),
                 child: Column(
                   children: [
-                    cardListTile('Institute Name: ', 'ABC company'),
-                    cardListTile('Country: ', 'India'),
-                    cardListTile('Course: ', 'B. Tech'),
-                    cardListTile('Level of Study: ', 'Graduation'),
-                    cardListTile('Percentage/CGPA: ', '8'),
-                    cardListTile('From: ', '2020'),
-                    cardListTile('To: ', '2024'),
+                    cardListTile('Institute Name: ', academic.instituteName),
+                    cardListTile('Country: ', academic.country),
+                    cardListTile('Course: ', academic.course),
+                    cardListTile('Level of Study: ', academic.level),
+                    cardListTile('Percentage/CGPA: ', academic.percentage),
+                    cardListTile('From: ', academic.fromDate),
+                    cardListTile('To: ', academic.toDate),
                   ],
                 ),
               ),
