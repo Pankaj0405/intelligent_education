@@ -8,6 +8,7 @@ class ResetPassword extends StatelessWidget {
 
   final _passController = TextEditingController();
   final _confirmPassController = TextEditingController();
+  final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +22,10 @@ class ResetPassword extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          leading: Icon(
-            Icons.lock_reset,
-            size: 30.r,
-          ),
+          // leading: Icon(
+          //   Icons.lock_reset,
+          //   size: 30.r,
+          // ),
         ),
         body: Column(
           children: [
@@ -51,6 +52,7 @@ class ResetPassword extends StatelessWidget {
               ),
               child: Column(
                 children: [
+                  adminTextField('Enter Email', _emailController, TextInputType.emailAddress),
                   adminTextField('Enter Password', _passController,
                       TextInputType.visiblePassword),
                   adminTextField('Confirm Password', _confirmPassController,

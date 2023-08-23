@@ -6,6 +6,7 @@ import '../Widgets/title_list_tile.dart';
 import '../controllers/auth_controller.dart';
 import '../Widgets/admin_text_field.dart';
 import '../constants.dart';
+import '../controllers/firestoremethods.dart';
 
 class College extends StatefulWidget {
   const College({super.key});
@@ -32,6 +33,7 @@ class CollegeState extends State<College> {
 
   @override
   Widget build(BuildContext context) {
+    _authController.getCollege();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -61,35 +63,6 @@ class CollegeState extends State<College> {
                         TextInputType.text),
                     adminTextField(
                         'Address', _addressController, TextInputType.text),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(8.r),
-                    //     color: Colors.white,
-                    //   ),
-                    //   margin: EdgeInsets.symmetric(
-                    //       vertical: 10.0.h, horizontal: 25.0.w),
-                    //   child: ListTile(
-                    //     title: TextField(
-                    //       textAlign: TextAlign.center,
-                    //       keyboardType: TextInputType.datetime,
-                    //       controller: _deadlineController,
-                    //       decoration: InputDecoration(
-                    //         hintText: 'Deadline',
-                    //         hintStyle: TextStyle(fontSize: 16.sp),
-                    //         border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(8.r),
-                    //           borderSide: const BorderSide(
-                    //             width: 0,
-                    //             style: BorderStyle.none,
-                    //           ),
-                    //         ),
-                    //         filled: true,
-                    //         contentPadding: EdgeInsets.all(16.r),
-                    //       ),
-                    //     ),
-                    //     trailing: const Icon(Icons.date_range),
-                    //   ),
-                    // ),
 
                     Padding(
                       padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
@@ -110,9 +83,10 @@ class CollegeState extends State<College> {
                 ),
               ),
               // Heading 2
-              editListTile(),
+              // editListTile(),
               Container(
                 margin: EdgeInsets.only(
+                  top: 10.h,
                   left: 20.w,
                   right: 20.w,
                   bottom: 20.h,
@@ -123,33 +97,34 @@ class CollegeState extends State<College> {
                 ),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 10.h,
-                        left: 10.w,
-                        right: 10.w,
-                      ),
-                      child: TextField(
-                        style: const TextStyle(color: Colors.black),
-                        cursorColor: Colors.blue,
-                        decoration: InputDecoration(
-                          // focusColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          prefixIcon: const Icon(Icons.search),
-                          prefixIconColor: Colors.black,
-                          fillColor: Colors.white70,
-                          filled: true,
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //     top: 10.h,
+                    //     left: 10.w,
+                    //     right: 10.w,
+                    //   ),
+                    //   child: TextField(
+                    //     style: const TextStyle(color: Colors.black),
+                    //     cursorColor: Colors.blue,
+                    //     decoration: InputDecoration(
+                    //       // focusColor: Colors.white,
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(20.r),
+                    //       ),
+                    //       prefixIcon: const Icon(Icons.search),
+                    //       prefixIconColor: Colors.black,
+                    //       fillColor: Colors.white70,
+                    //       filled: true,
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.45,
-                      child: ListView.builder(
-                        // shrinkWrap: true,
-                        itemCount: 2,
-                        itemBuilder: (context, int) {
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Obx( () {
+                        return ListView.builder(
+                        itemCount: _authController.college.length,
+                        itemBuilder: (context, index) {
+                          final college = _authController.college[index];
                           return Card(
                             margin: EdgeInsets.symmetric(
                               horizontal: 10.w,
@@ -166,31 +141,15 @@ class CollegeState extends State<College> {
                               ),
                               child: Column(
                                 children: [
-                                  cardListTile('College Name: ', 'ABC College'),
-                                  cardListTile('Address: ', 'Roorkee, India'),
+                                  cardListTile('College Name: ', college.collegeName),
+                                  cardListTile('Address: ', college.address),
                                 ],
                               ),
                             ),
                           );
                         },
-                      ),
+                      );}),
                     ),
-
-                    // add/delete button
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     IconButton(
-                    //       splashColor: Colors.white,
-                    //       onPressed: () {},
-                    //       icon: const Icon(Icons.edit),
-                    //     ),
-                    //     IconButton(
-                    //       onPressed: () {},
-                    //       icon: const Icon(Icons.delete),
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 ),
               ),

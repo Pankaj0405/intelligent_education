@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:intelligent_education/Student/student_experience.dart';
 import 'package:intelligent_education/constants.dart';
 import 'package:intelligent_education/models/student_academic.dart';
 import 'package:intelligent_education/models/student_experience.dart';
@@ -13,6 +12,7 @@ import '../models/emergency_info.dart' as emergency;
 import 'package:get/get.dart';
 import '../models/userDetails.dart';
 import 'package:uuid/uuid.dart';
+import '../models/college.dart';
 
 class InfoController extends GetxController {
   Rx<String?> profilePhotoGet = Rx<String?>(null);
@@ -375,4 +375,5 @@ class InfoController extends GetxController {
       Get.snackbar('Error While Commenting', e.toString());
     }
   }
+
 }

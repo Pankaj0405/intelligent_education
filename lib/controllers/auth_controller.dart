@@ -3,10 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/models/college.dart';
+import 'package:uuid/uuid.dart';
 import '../Admin/admin_dash.dart';
 import '../Student/student_dashboard.dart';
 import '../constants.dart';
 import '../login_screen.dart';
+import '../models/course.dart';
 import '../models/user.dart' as model;
 import '../models/college.dart' as college_model;
 import '../models/course.dart' as course_model;
@@ -19,6 +22,10 @@ class AuthController extends GetxController {
   Rx<String?> name = Rx<String?>(null);
   late Rx<User?> _user;
   late Rx<File?> _pickedImage;
+  final Rx<List<College>> _college = Rx<List<College>>([]);
+  List<College> get college => _college.value;
+  final Rx<List<Course>> _course = Rx<List<Course>>([]);
+  List<Course> get course => _course.value;
 
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
@@ -123,11 +130,12 @@ class AuthController extends GetxController {
   void registerCollege(
       String collegeName, String address) async {
     try {
+      String collegeId = const Uuid().v1();
       if (collegeName.isNotEmpty && address.isNotEmpty) {
         college_model.College college = college_model.College(
-            collegeName: collegeName, address: address);
-        await firestore.collection('colleges').doc().set(college.toJson());
-        Get.snackbar('Alert Message', 'College successfully added');
+            collegeName: collegeName, address: address, id: collegeId);
+        await firestore.collection('colleges').doc(collegeId).set(college.toJson());
+        Get.snackbar('Alert Message', 'College added successfully');
       } else {
         Get.snackbar('Error adding College', "Please enter all the field");
       }
@@ -137,13 +145,24 @@ class AuthController extends GetxController {
     }
   }
 
+  getCollege() async {
+    _college.bindStream(firestore.collection('colleges').snapshots().map((QuerySnapshot query) {
+      List<College> retValue = [];
+      for (var element in query.docs) {
+        retValue.add(College.fromSnap(element));
+      }
+      return retValue;
+    } ));
+  }
+
   void registerCourse(String courseName) async {
     try {
+      String courseId = const Uuid().v1();
       if (courseName != 'Select') {
         course_model.Course course = course_model.Course(
-            courseName: courseName);
-        await firestore.collection('courses').doc().set(course.toJson());
-        Get.snackbar('Alert Message', 'Course successfully added');
+            courseName: courseName, id: courseId);
+        await firestore.collection('courses').doc(courseId).set(course.toJson());
+        Get.snackbar('Alert Message', 'Course added successfully');
       } else {
         Get.snackbar('Error adding Course', "Please enter all the field");
       }
@@ -152,18 +171,29 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
+  
+  getCourse() async {
+    _course.bindStream(firestore.collection('courses').snapshots().map((QuerySnapshot query) {
+      List<Course> retValue = [];
+      for (var element in query.docs) {
+        retValue.add(Course.fromSnap(element));
+      }
+      return retValue;
+    }));
+  }
 
   void sendNotification(String title, String date, String message) async {
     try {
+      String notificationId = const Uuid().v1();
       if (title.isNotEmpty && date.isNotEmpty && message.isNotEmpty) {
         notification_model.Notification notification =
             notification_model.Notification(
-                title: title, date: date, message: message);
+                title: title, date: date, message: message, id: notificationId);
         await firestore
             .collection('notifications')
-            .doc()
+            .doc(notificationId)
             .set(notification.toJson());
-        Get.snackbar('Alert Message', 'Notification successfully sent');
+        Get.snackbar('Alert Message', 'Notification sent successfully');
       } else {
         Get.snackbar(
             'Error sending Notification', "Please enter all the field");
@@ -184,7 +214,7 @@ class AuthController extends GetxController {
             .collection('assign colleges')
             .doc()
             .set(assignCollege.toJson());
-        Get.snackbar('Alert Message', 'College successfully assigned');
+        Get.snackbar('Alert Message', 'College assigned successfully');
       } else {
         Get.snackbar('Error assigning College', "Please select all the field");
       }
