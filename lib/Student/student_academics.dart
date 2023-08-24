@@ -213,7 +213,9 @@ class _AcademicDetailsState extends State<AcademicDetails> {
       appBar: AppBar(
         title: const Text('Academics'),
       ),
-      body: ListView.builder(
+      body: Obx(
+    () {
+      return ListView.builder(
         shrinkWrap: true,
         itemCount: _infoController.academics.length,
         itemBuilder: (context, index) {
@@ -272,7 +274,10 @@ class _AcademicDetailsState extends State<AcademicDetails> {
           //       )),
           // );
         },
+      );
+    }
       ),
+
           floatingActionButton: FloatingActionButton(
             backgroundColor: layoutColor,
             onPressed: () {
