@@ -70,43 +70,47 @@ class _StudentDetailsState extends State<StudentDetails> {
                 // height: MediaQuery.of(context).size.height * 0.68,
                 child: ListView.builder(
                   itemCount: 15,
-                  itemBuilder: (context, int) {
-                    return Padding(
-                      padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                      child: CheckboxListTile(
-                          activeColor: layoutColor,
-                          value: student,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              student = value!;
-                            });
-                          },
-                          title: const Text(
-                            'Student 1',
-                            overflow: TextOverflow.ellipsis,
-                          )),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {},
+                      splashColor: Colors.black12,
+                      child: Card(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 10.h,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        color: Colors.white70,
+                        elevation: 10,
+                        child: ListTile(
+                          leading: Text('Ram Kumar',style: TextStyle(fontSize: 18.sp),),
+                        ),
+
+                      ),
                     );
                   },
                 ),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    splashColor: Colors.white,
-                    onPressed: () {},
-                    icon: const Icon(Icons.edit),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.delete),
-                  ),
-                ],
-              ),
-            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.end,
+            //     children: [
+            //       IconButton(
+            //         splashColor: Colors.white,
+            //         onPressed: () {},
+            //         icon: const Icon(Icons.edit),
+            //       ),
+            //       IconButton(
+            //         onPressed: () {},
+            //         icon: const Icon(Icons.delete),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -108,12 +108,13 @@ class AuthController extends GetxController {
 
   resetPassword(String email) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((
-          value) {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: email)
+          .then((value) {
         Get.snackbar('Reset Password',
             'We have sent you an email to recover password, please check email!');
       });
-    } catch (e){
+    } catch (e) {
       Get.snackbar('Error', e.toString());
     }
   }
@@ -127,7 +128,6 @@ class AuthController extends GetxController {
     name.value = userData['name'];
     // setInitialScreen(firebaseAuth.currentUser);
   }
-
 
   setScreen() async {
     DocumentSnapshot userDoc = await firestore
@@ -143,14 +143,16 @@ class AuthController extends GetxController {
     }
   }
 
-  void registerCollege(
-      String collegeName, String address) async {
+  void registerCollege(String collegeName, String address) async {
     try {
       String collegeId = const Uuid().v1();
       if (collegeName.isNotEmpty && address.isNotEmpty) {
         college_model.College college = college_model.College(
             collegeName: collegeName, address: address, id: collegeId);
-        await firestore.collection('colleges').doc(collegeId).set(college.toJson());
+        await firestore
+            .collection('colleges')
+            .doc(collegeId)
+            .set(college.toJson());
         Get.snackbar('Alert Message', 'College added successfully');
       } else {
         Get.snackbar('Error adding College', "Please enter all the field");
@@ -162,22 +164,26 @@ class AuthController extends GetxController {
   }
 
   getCollege() async {
-    _college.bindStream(firestore.collection('colleges').snapshots().map((QuerySnapshot query) {
+    _college.bindStream(
+        firestore.collection('colleges').snapshots().map((QuerySnapshot query) {
       List<College> retValue = [];
       for (var element in query.docs) {
         retValue.add(College.fromSnap(element));
       }
       return retValue;
-    } ));
+    }));
   }
 
   void registerCourse(String courseName) async {
     try {
       String courseId = const Uuid().v1();
       if (courseName.isNotEmpty) {
-        course_model.Course course = course_model.Course(
-            courseName: courseName, id: courseId);
-        await firestore.collection('courses').doc(courseId).set(course.toJson());
+        course_model.Course course =
+            course_model.Course(courseName: courseName, id: courseId);
+        await firestore
+            .collection('courses')
+            .doc(courseId)
+            .set(course.toJson());
         Get.snackbar('Alert Message', 'Course added successfully');
       } else {
         Get.snackbar('Error adding Course', "Please enter all the field");
@@ -187,9 +193,10 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
-  
+
   getCourse() async {
-    _course.bindStream(firestore.collection('courses').snapshots().map((QuerySnapshot query) {
+    _course.bindStream(
+        firestore.collection('courses').snapshots().map((QuerySnapshot query) {
       List<Course> retValue = [];
       for (var element in query.docs) {
         retValue.add(Course.fromSnap(element));
@@ -219,9 +226,12 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
-  
+
   getNotification() async {
-    _notification.bindStream(firestore.collection('notifications').snapshots().map((QuerySnapshot query) {
+    _notification.bindStream(firestore
+        .collection('notifications')
+        .snapshots()
+        .map((QuerySnapshot query) {
       List<Notification> retValue = [];
       for (var element in query.docs) {
         retValue.add(Notification.fromSnap(element));
@@ -230,15 +240,24 @@ class AuthController extends GetxController {
     }));
   }
 
-  void assignCollege(String student, String college, String course, String deadline) async {
+  void assignCollege(
+      String student, String college, String course, String deadline) async {
     try {
-      if (student != 'Select' && course != 'Select' && college != 'Select' && deadline.isNotEmpty) {
+      String collegeId = const Uuid().v1();
+      if (student != 'Select' &&
+          course != 'Select' &&
+          college != 'Select' &&
+          deadline.isNotEmpty) {
         assign_college_model.AssignCollege assignCollege =
             assign_college_model.AssignCollege(
-                course: course, college: college, student: student, deadline: deadline);
+                course: course,
+                college: college,
+                student: student,
+                deadline: deadline,
+                id: collegeId);
         await firestore
             .collection('assign colleges')
-            .doc()
+            .doc(collegeId)
             .set(assignCollege.toJson());
         Get.snackbar('Alert Message', 'College assigned successfully');
       } else {
@@ -249,6 +268,4 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
-  
-  
 }

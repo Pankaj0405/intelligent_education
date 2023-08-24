@@ -183,6 +183,20 @@ class StudentState extends State<Student> {
                     cardListTile('Email: ', 'example1234@gmail.com'),
                     cardListTile('Phone No.: ', '304094004'),
                     cardListTile('User Type: ', 'Student'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          splashColor: Colors.white,
+                          onPressed: () {},
+                          icon: const Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

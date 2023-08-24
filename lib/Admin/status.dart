@@ -46,7 +46,6 @@ class Project extends State<StatusScreen> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        // backgroundColor: Colors.white,
         appBar: AppBar(
           // leading: const Icon(Icons.checklist),
           title: const Text(
@@ -197,64 +196,87 @@ class Project extends State<StatusScreen> {
                 ),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 10.h,
-                        left: 10.w,
-                        right: 10.w,
-                      ),
-                      child: TextField(
-                        style: const TextStyle(color: Colors.black),
-                        cursorColor: Colors.blue,
-                        decoration: InputDecoration(
-                          // focusColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          prefixIcon: const Icon(Icons.search),
-                          prefixIconColor: Colors.black,
-                          fillColor: Colors.white70,
-                          filled: true,
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //     top: 10.h,
+                    //     left: 10.w,
+                    //     right: 10.w,
+                    //   ),
+                    //   child: TextField(
+                    //     style: const TextStyle(color: Colors.black),
+                    //     cursorColor: Colors.blue,
+                    //     decoration: InputDecoration(
+                    //       // focusColor: Colors.white,
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(20.r),
+                    //       ),
+                    //       prefixIcon: const Icon(Icons.search),
+                    //       prefixIconColor: Colors.black,
+                    //       fillColor: Colors.white70,
+                    //       filled: true,
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.5,
                       child: ListView.builder(
                         // shrinkWrap: true,
                         itemCount: 10,
-                        itemBuilder: (context, int) {
-                          return Padding(
-                            padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-                            child: CheckboxListTile(
-                                value: student1,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    student1 = value!;
-                                  });
-                                },
-                                title: const Text(
-                                  'Student 1',
-                                  overflow: TextOverflow.ellipsis,
-                                )),
+                        itemBuilder: (context, index) {
+                          return Card(
+                            color: Colors.white70,
+                            elevation: 10,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 10.h,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    leading: Padding(
+                                      padding: EdgeInsets.only(
+                                        left: 10.w,
+                                      ),
+                                      child: Text('Ram Shyam Sharma', style: TextStyle(fontSize: 18.sp)),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                        splashColor: Colors.white,
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.edit),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.delete),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                           );
                         },
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          splashColor: Colors.white,
-                          onPressed: () {},
-                          icon: const Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     IconButton(
+                    //       splashColor: Colors.white,
+                    //       onPressed: () {},
+                    //       icon: const Icon(Icons.edit),
+                    //     ),
+                    //     IconButton(
+                    //       onPressed: () {},
+                    //       icon: const Icon(Icons.delete),
+                    //     ),
+                    //   ],
+                    // ),
                     // const Divider(height: 0),
                   ],
                 ),
