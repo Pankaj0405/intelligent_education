@@ -119,66 +119,70 @@ class _RefereeDetailsState extends State<RefereeDetails> {
         appBar: AppBar(
           title: const Text('Referee Details'),
         ),
-        body: ListView.builder(
-          itemCount: _infoController.referee.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            final referee = _infoController.referee[index];
-            return Container(
-              margin: EdgeInsets.only(
-                left: 20.w,
-                right: 20.w,
-                bottom: 20.h,
+        body:
+    Obx(
+    () { return ListView.builder(
+        itemCount: _infoController.referee.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          final referee = _infoController.referee[index];
+          return Container(
+            margin: EdgeInsets.only(
+              left: 20.w,
+              right: 20.w,
+              bottom: 20.h,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              color: boxColor,
+            ),
+            child: Card(
+              margin: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 10.h,
               ),
-              decoration: BoxDecoration(
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.r),
-                color: boxColor,
               ),
-              child: Card(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10.w,
+              color: Colors.white70,
+              elevation: 10,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
                   vertical: 10.h,
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                color: Colors.white70,
-                elevation: 10,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10.h,
-                  ),
-                  child: Column(
-                    children: [
-                      cardListTile('Referee Name: ', referee.refereeName),
-                      cardListTile('Relationship: ', referee.relationship),
-                      cardListTile('Organization: ', referee.organization),
-                      cardListTile('Job Title: ', referee.jobTitle),
-                      cardListTile('Work Email: ', referee.workMail),
-                      cardListTile('Contact No.: ', referee.contactNo),
-                      cardListTile('Address: ', referee.address),
-                    ],
-                  ),
+                child: Column(
+                  children: [
+                    cardListTile('Referee Name: ', referee.refereeName),
+                    cardListTile('Relationship: ', referee.relationship),
+                    cardListTile('Organization: ', referee.organization),
+                    cardListTile('Job Title: ', referee.jobTitle),
+                    cardListTile('Work Email: ', referee.workMail),
+                    cardListTile('Contact No.: ', referee.contactNo),
+                    cardListTile('Address: ', referee.address),
+                  ],
                 ),
               ),
-            );
-            // return Padding(
-            //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
-            //   child: CheckboxListTile(
-            //       activeColor: layoutColor,
-            //       value: referee1,
-            //       onChanged: (bool? value) {
-            //         setState(() {
-            //           referee1 = value!;
-            //         });
-            //       },
-            //       title: const Text(
-            //         'Experience 1',
-            //         overflow: TextOverflow.ellipsis,
-            //       )),
-            // );
-          },
-        ),
+            ),
+          );
+          // return Padding(
+          //   padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 0),
+          //   child: CheckboxListTile(
+          //       activeColor: layoutColor,
+          //       value: referee1,
+          //       onChanged: (bool? value) {
+          //         setState(() {
+          //           referee1 = value!;
+          //         });
+          //       },
+          //       title: const Text(
+          //         'Experience 1',
+          //         overflow: TextOverflow.ellipsis,
+          //       )),
+          // );
+        },
+      );
+    }
+    ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: layoutColor,
           onPressed: () {

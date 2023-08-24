@@ -117,11 +117,59 @@ class CollegeState extends State<College> {
                       children: [
                         IconButton(
                           splashColor: Colors.white,
-                          onPressed: () {},
+                          onPressed: () {
+    showModalBottomSheet(
+    context: context,
+    enableDrag: true,
+    useSafeArea: true,
+    showDragHandle: true,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(20.r),
+    ),
+    // ... Other attributes ...
+    builder: (BuildContext context) {
+    return StatefulBuilder(
+    builder: (BuildContext context, StateSetter setState) {
+    return Container(
+    // ... Other attributes ...
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.r),
+        color: boxColor,
+      ),
+    child: Column(
+    children: [
+    adminTextField(college.collegeName, _collegeNameController,
+    TextInputType.text),
+    adminTextField(
+        college.address, _addressController, TextInputType.text
+    ),
+    ElevatedButton(
+    onPressed: () async {
+    // Call the updateCollege method to update the data
+    await _authController.updateCollege(
+    college.id,
+    _collegeNameController.text,
+    _addressController.text,
+    );
+    // Close the bottom sheet
+    Get.back();
+    },
+    child: const Text('SAVE'),
+    ),
+    ],
+    ),
+    );
+    },
+    );
+    },
+    );
+    },
                           icon: const Icon(Icons.edit),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _authController.deleteCollege(college.id);
+                          },
                           icon: const Icon(Icons.delete),
                         ),
                       ],

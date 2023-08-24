@@ -173,7 +173,28 @@ class AuthController extends GetxController {
       return retValue;
     }));
   }
-
+  Future<void> updateCollege(
+      String collegeId, String newCollegeName, String newAddress) async {
+    try {
+      await firestore.collection('colleges').doc(collegeId).update({
+        'College Name': newCollegeName,
+        'Address': newAddress,
+      });
+      Get.snackbar('Alert Message', 'College updated successfully');
+    } catch (e) {
+      Get.snackbar('Error updating College', e.toString());
+      print(e.toString());
+    }
+  }
+  Future<void> deleteCollege(String collegeId) async {
+    try {
+      await firestore.collection('colleges').doc(collegeId).delete();
+      Get.snackbar('Alert Message', 'College deleted successfully');
+    } catch (e) {
+      Get.snackbar('Error deleting College', e.toString());
+      print(e.toString());
+    }
+  }
   void registerCourse(String courseName) async {
     try {
       String courseId = const Uuid().v1();
