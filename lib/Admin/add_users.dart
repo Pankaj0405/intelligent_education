@@ -151,6 +151,7 @@ class StudentState extends State<Student> {
 
   @override
   Widget build(BuildContext context) {
+    _authController.getUser();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -159,50 +160,113 @@ class StudentState extends State<Student> {
           title: const Text("Users",
               ),
         ),
-        body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: 2,
-          itemBuilder: (context, index) {
-            return Card(
-              margin: EdgeInsets.symmetric(
-                 horizontal: 10.w,
-                 vertical: 10.h,
-               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              color: Colors.white70,
-              elevation: 10,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
+        body: Obx(() {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: _authController.userData.length,
+            itemBuilder: (context, index) {
+              final user = _authController.userData[index];
+              return Card(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10.w,
                   vertical: 10.h,
                 ),
-                child: Column(
-                  children: [
-                    cardListTile('Name: ', 'ABC'),
-                    cardListTile('Email: ', 'example1234@gmail.com'),
-                    cardListTile('Phone No.: ', '304094004'),
-                    cardListTile('User Type: ', 'Student'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          splashColor: Colors.white,
-                          onPressed: () {},
-                          icon: const Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
-                  ],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
-              ),
-            );
-          },
-        ),
+                color: Colors.white70,
+                elevation: 10,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.h,
+                  ),
+                  child: Column(
+                    children: [
+                      cardListTile('Name: ', user.name),
+                      cardListTile('Email: ', user.email),
+                      cardListTile('Phone No.: ', user.phone),
+                      cardListTile('User Type: ', user.logintype),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            splashColor: Colors.white,
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                enableDrag: true,
+                                useSafeArea: true,
+                                showDragHandle: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                // ... Other attributes ...
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return Container(
+                                        // ... Other attributes ...
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(20.r),
+                                          color: boxColor,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            adminTextField(
+                                                user.name,
+                                                _nameController,
+                                                TextInputType.text),
+                                            adminTextField(
+                                                user.email,
+                                                _emailController,
+                                                TextInputType.emailAddress),
+                                            adminTextField(user.phone, _phoneController, TextInputType.phone),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: layoutColor,
+                                              ),
+                                              onPressed: () async {
+                                                // Call the updateCollege method to update the data
+                                                await _authController
+                                                    .updateUser(
+                                                  _nameController.text,
+                                                  _emailController.text,
+                                                  _phoneController.text,
+                                                  user.uid,
+                                                );
+                                                // Close the bottom sheet
+                                                Get.back();
+                                              },
+                                              child: const Text('SAVE'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            icon: const Icon(Icons.edit),
+                          ),
+                          IconButton(
+                            splashColor: Colors.white,
+                            onPressed: () {
+                              _authController.deleteUser(user.uid);
+                            },
+                            icon: const Icon(Icons.delete),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }),
         floatingActionButton: FloatingActionButton(
           backgroundColor: layoutColor,
           onPressed: () {

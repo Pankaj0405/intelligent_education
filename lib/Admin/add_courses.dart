@@ -38,7 +38,6 @@ class CourseState extends State<Courses> {
               left: 20.w,
               right: 20.w,
             ),
-
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.r),
               color: boxColor,
@@ -46,15 +45,15 @@ class CourseState extends State<Courses> {
             child: Column(
               children: [
                 // Course Name
-                adminTextField('Course Name', _courseNameController,
-                    TextInputType.text),
+                adminTextField(
+                    'Course Name', _courseNameController, TextInputType.text),
 
                 Padding(
                   padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
                   child: ElevatedButton(
                     onPressed: () {
-                      _authController.registerCourse(
-                          _courseNameController.text);
+                      _authController
+                          .registerCourse(_courseNameController.text);
                       emptyFields();
                       Get.back();
                     },
@@ -109,12 +108,64 @@ class CourseState extends State<Courses> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            splashColor: Colors.white,
-                            onPressed: () {},
+                            // splashColor: Colors.white,
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                enableDrag: true,
+                                useSafeArea: true,
+                                showDragHandle: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                // ... Other attributes ...
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return Container(
+                                        // ... Other attributes ...
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20.r),
+                                          color: boxColor,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            adminTextField(
+                                                course.courseName,
+                                                _courseNameController,
+                                                TextInputType.text),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: layoutColor,
+                                              ),
+                                              onPressed: () async {
+                                                // Call the updateCollege method to update the data
+                                                await _authController
+                                                    .updateCourse(
+                                                        course.id,
+                                                        _courseNameController
+                                                            .text);
+                                                // Close the bottom sheet
+                                                Get.back();
+                                              },
+                                              child: const Text('SAVE'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
                             icon: const Icon(Icons.edit),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _authController.deleteCourse(course.id);
+                            },
                             icon: const Icon(Icons.delete),
                           ),
                         ],

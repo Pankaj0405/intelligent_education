@@ -29,6 +29,8 @@ class AuthController extends GetxController {
   List<Course> get course => _course.value;
   final Rx<List<Notification>> _notification = Rx<List<Notification>>([]);
   List<Notification> get notification => _notification.value;
+  final Rx<List<model.User>> _userData = Rx<List<model.User>>([]);
+  List<model.User> get userData => _userData.value;
 
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
@@ -142,6 +144,41 @@ class AuthController extends GetxController {
       Get.to(() => const AdminDash());
     }
   }
+  
+  getUser() async {
+    _userData.bindStream(firestore.collection('users').snapshots().map((QuerySnapshot query) {
+      List<model.User> retValue = [];
+      for (var element in query.docs) {
+        retValue.add(model.User.fromSnap(element));
+      }
+      return retValue;
+    }));
+  }
+
+  Future<void> updateUser(String newName, String newEmail, String newPhone, String userId) async {
+    try{
+      if(newName.isNotEmpty && newEmail.isNotEmpty && newPhone.isNotEmpty) {
+        await firestore.collection('users').doc(userId).update({
+          'name': newName,
+          'phone': newPhone,
+          'email': newEmail,
+        });
+        Get.snackbar('Alert Message', 'User updated successfully');
+      }
+    } catch (e) {
+      Get.snackbar('Error updating User', e.toString());
+    }
+  }
+
+  Future<void> deleteUser(String userId) async {
+    try {
+      await firestore.collection('users').doc(userId).delete();
+      Get.snackbar('Alert Message', 'User deleted successfully');
+    } catch (e) {
+      Get.snackbar('Error deleting User', e.toString());
+      print(e.toString());
+    }
+  }
 
   void registerCollege(String collegeName, String address) async {
     try {
@@ -173,19 +210,23 @@ class AuthController extends GetxController {
       return retValue;
     }));
   }
+
   Future<void> updateCollege(
       String collegeId, String newCollegeName, String newAddress) async {
     try {
-      await firestore.collection('colleges').doc(collegeId).update({
-        'College Name': newCollegeName,
-        'Address': newAddress,
-      });
-      Get.snackbar('Alert Message', 'College updated successfully');
+      if(newCollegeName.isNotEmpty && newAddress.isNotEmpty) {
+        await firestore.collection('colleges').doc(collegeId).update({
+          'College Name': newCollegeName,
+          'Address': newAddress,
+        });
+        Get.snackbar('Alert Message', 'College updated successfully');
+      }
     } catch (e) {
       Get.snackbar('Error updating College', e.toString());
       print(e.toString());
     }
   }
+
   Future<void> deleteCollege(String collegeId) async {
     try {
       await firestore.collection('colleges').doc(collegeId).delete();
@@ -195,6 +236,7 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
+
   void registerCourse(String courseName) async {
     try {
       String courseId = const Uuid().v1();
@@ -224,6 +266,29 @@ class AuthController extends GetxController {
       }
       return retValue;
     }));
+  }
+
+  Future<void> updateCourse(String courseId, String newCourseName) async {
+    try{
+      if(newCourseName.isNotEmpty) {
+        await firestore.collection('courses').doc(courseId).update({
+          'Course Name': newCourseName,
+        });
+        Get.snackbar('Alert Message', 'Course updated successfully');
+      }
+    } catch (e) {
+      Get.snackbar('Error updating Course', e.toString());
+    }
+  }
+
+  Future<void> deleteCourse(String courseId) async {
+    try {
+      await firestore.collection('courses').doc(courseId).delete();
+      Get.snackbar('Alert Message', 'Course deleted successfully');
+    } catch (e) {
+      Get.snackbar('Error deleting Course', e.toString());
+      print(e.toString());
+    }
   }
 
   void sendNotification(String title, String date, String message) async {

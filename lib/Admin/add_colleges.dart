@@ -49,8 +49,8 @@ class CollegeState extends State<College> {
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // College Name
-                adminTextField('College Name', _collegeNameController,
-                    TextInputType.text),
+                adminTextField(
+                    'College Name', _collegeNameController, TextInputType.text),
                 adminTextField(
                     'Address', _addressController, TextInputType.text),
 
@@ -59,8 +59,7 @@ class CollegeState extends State<College> {
                   child: ElevatedButton(
                     onPressed: () {
                       _authController.registerCollege(
-                          _collegeNameController.text,
-                          _addressController.text);
+                          _collegeNameController.text, _addressController.text);
                       emptyFields();
                       Get.back();
                     },
@@ -88,99 +87,108 @@ class CollegeState extends State<College> {
             "Colleges",
           ),
         ),
-        body: Obx( () {
+        body: Obx(() {
           return ListView.builder(
             shrinkWrap: true,
-          itemCount: _authController.college.length,
-          itemBuilder: (context, index) {
-            final college = _authController.college[index];
-            return Card(
-              margin: EdgeInsets.symmetric(
-                horizontal: 10.w,
-                vertical: 10.h,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              color: Colors.white70,
-              elevation: 10,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
+            itemCount: _authController.college.length,
+            itemBuilder: (context, index) {
+              final college = _authController.college[index];
+              return Card(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10.w,
                   vertical: 10.h,
                 ),
-                child: Column(
-                  children: [
-                    cardListTile('College Name: ', college.collegeName),
-                    cardListTile('Address: ', college.address),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          splashColor: Colors.white,
-                          onPressed: () {
-    showModalBottomSheet(
-    context: context,
-    enableDrag: true,
-    useSafeArea: true,
-    showDragHandle: true,
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(20.r),
-    ),
-    // ... Other attributes ...
-    builder: (BuildContext context) {
-    return StatefulBuilder(
-    builder: (BuildContext context, StateSetter setState) {
-    return Container(
-    // ... Other attributes ...
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
-        color: boxColor,
-      ),
-    child: Column(
-    children: [
-    adminTextField(college.collegeName, _collegeNameController,
-    TextInputType.text),
-    adminTextField(
-        college.address, _addressController, TextInputType.text
-    ),
-    ElevatedButton(
-    onPressed: () async {
-    // Call the updateCollege method to update the data
-    await _authController.updateCollege(
-    college.id,
-    _collegeNameController.text,
-    _addressController.text,
-    );
-    // Close the bottom sheet
-    Get.back();
-    },
-    child: const Text('SAVE'),
-    ),
-    ],
-    ),
-    );
-    },
-    );
-    },
-    );
-    },
-                          icon: const Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            _authController.deleteCollege(college.id);
-                          },
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
-
-                  ],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
-              ),
-            );
-          },
-        );}),
+                color: Colors.white70,
+                elevation: 10,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.h,
+                  ),
+                  child: Column(
+                    children: [
+                      cardListTile('College Name: ', college.collegeName),
+                      cardListTile('Address: ', college.address),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            splashColor: Colors.white,
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                enableDrag: true,
+                                useSafeArea: true,
+                                showDragHandle: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                // ... Other attributes ...
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return Container(
+                                        // ... Other attributes ...
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20.r),
+                                          color: boxColor,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            adminTextField(
+                                                college.collegeName,
+                                                _collegeNameController,
+                                                TextInputType.text),
+                                            adminTextField(
+                                                college.address,
+                                                _addressController,
+                                                TextInputType.text),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: layoutColor,
+                                              ),
+                                              onPressed: () async {
+                                                // Call the updateCollege method to update the data
+                                                await _authController
+                                                    .updateCollege(
+                                                  college.id,
+                                                  _collegeNameController.text,
+                                                  _addressController.text,
+                                                );
+                                                // Close the bottom sheet
+                                                Get.back();
+                                              },
+                                              child: const Text('SAVE'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            icon: const Icon(Icons.edit),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              _authController.deleteCollege(college.id);
+                            },
+                            icon: const Icon(Icons.delete),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }),
         floatingActionButton: FloatingActionButton(
           backgroundColor: layoutColor,
           onPressed: () {
