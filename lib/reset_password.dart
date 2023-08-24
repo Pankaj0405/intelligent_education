@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:intelligent_education/controllers/auth_controller.dart';
 import '../Widgets/admin_text_field.dart';
 import '../constants.dart';
 
 class ResetPassword extends StatelessWidget {
   ResetPassword({super.key});
-
-  final _passController = TextEditingController();
-  final _confirmPassController = TextEditingController();
+  final _authController = Get.put(AuthController());
   final _emailController = TextEditingController();
 
   @override
@@ -36,7 +36,7 @@ class ResetPassword extends StatelessWidget {
                   left: 10.w,
                 ),
                 child: Text(
-                  'Reset Your Password',
+                  'Change Your Password',
                   style:
                       TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold),
                 )),
@@ -53,12 +53,15 @@ class ResetPassword extends StatelessWidget {
               child: Column(
                 children: [
                   adminTextField('Enter Email', _emailController, TextInputType.emailAddress),
-                  adminTextField('Enter Password', _passController,
-                      TextInputType.visiblePassword),
-                  adminTextField('Confirm Password', _confirmPassController,
-                      TextInputType.visiblePassword),
+                  // adminTextField('Enter Password', _passController,
+                  //     TextInputType.visiblePassword),
+                  // adminTextField('Confirm Password', _confirmPassController,
+                  //     TextInputType.visiblePassword),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _authController.resetPassword(_emailController.text.trim());
+                      _emailController.text = "";
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: layoutColor,
                     ),

@@ -22,6 +22,54 @@ class CourseState extends State<Courses> {
     _courseNameController.text = "";
   }
 
+  openBottomSheet() {
+    return showModalBottomSheet(
+        context: context,
+        // isScrollControlled: true,
+        useSafeArea: true,
+        enableDrag: true,
+        showDragHandle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        builder: (BuildContext context) {
+          return Container(
+            margin: EdgeInsets.only(
+              left: 20.w,
+              right: 20.w,
+            ),
+
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              color: boxColor,
+            ),
+            child: Column(
+              children: [
+                // Course Name
+                adminTextField('Course Name', _courseNameController,
+                    TextInputType.text),
+
+                Padding(
+                  padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _authController.registerCourse(
+                          _courseNameController.text);
+                      emptyFields();
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: layoutColor,
+                    ),
+                    child: const Text('ADD'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     _authController.getCourse();
@@ -35,126 +83,55 @@ class CourseState extends State<Courses> {
             "Courses",
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              ListTile(
-                leading: Text(
-                  'Add Course',
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 25.sp),
+        body: Obx(() {
+          return ListView.builder(
+            itemCount: _authController.course.length,
+            itemBuilder: (context, index) {
+              final course = _authController.course[index];
+              return Card(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10.w,
+                  vertical: 10.h,
                 ),
-                trailing: const Icon(
-                  Icons.add_circle_outline,
-                  color: Colors.black,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 20.w,
-                  right: 20.w,
-                ),
-
-                decoration: BoxDecoration(
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.r),
-                  color: boxColor,
                 ),
-                child: Column(
-                  children: [
-                    // Course Name
-                    adminTextField('Course Name', _courseNameController,
-                        TextInputType.text),
-
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _authController.registerCourse(
-                              _courseNameController.text);
-                          emptyFields();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: layoutColor,
-                        ),
-                        child: const Text('ADD'),
+                color: Colors.white70,
+                elevation: 10,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.h,
+                  ),
+                  child: Column(
+                    children: [
+                      cardListTile('Course Name: ', course.courseName),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            splashColor: Colors.white,
+                            onPressed: () {},
+                            icon: const Icon(Icons.edit),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.delete),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              // Heading 2
-              // editListTile(),
-              Container(
-                margin: EdgeInsets.only(
-                  top: 10.h,
-                  left: 20.w,
-                  right: 20.w,
-                  bottom: 20.h,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.r),
-                  color: boxColor,
-                ),
-                child: Column(
-                  children: [
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //     top: 10.h,
-                    //     left: 10.w,
-                    //     right: 10.w,
-                    //   ),
-                    //   child: TextField(
-                    //     style: const TextStyle(color: Colors.black),
-                    //     cursorColor: Colors.blue,
-                    //     decoration: InputDecoration(
-                    //       // focusColor: Colors.white,
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(20.r),
-                    //       ),
-                    //       prefixIcon: const Icon(Icons.search),
-                    //       prefixIconColor: Colors.black,
-                    //       fillColor: Colors.white70,
-                    //       filled: true,
-                    //     ),
-                    //   ),
-                    // ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      child: Obx(() {
-                        return ListView.builder(
-                          itemCount: _authController.course.length,
-                          itemBuilder: (context, index) {
-                            final course = _authController.course[index];
-                            return Card(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 10.w,
-                                vertical: 10.h,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              color: Colors.white70,
-                              elevation: 10,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 10.h,
-                                ),
-                                child: Column(
-                                  children: [
-                                    cardListTile('Course Name: ', course.courseName),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      })
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+              );
+            },
+          );
+        }),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: layoutColor,
+          onPressed: () {
+            openBottomSheet();
+          },
+          child: const Icon(Icons.add),
         ),
       ),
     );

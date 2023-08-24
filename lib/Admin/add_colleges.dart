@@ -6,7 +6,6 @@ import '../Widgets/title_list_tile.dart';
 import '../controllers/auth_controller.dart';
 import '../Widgets/admin_text_field.dart';
 import '../constants.dart';
-import '../controllers/firestoremethods.dart';
 
 class College extends StatefulWidget {
   const College({super.key});
@@ -17,18 +16,64 @@ class College extends StatefulWidget {
 
 class CollegeState extends State<College> {
   final _authController = Get.put(AuthController());
-  bool college1 = true;
-  bool college2 = true;
-  bool college3 = true;
-
   final _collegeNameController = TextEditingController();
   final _addressController = TextEditingController();
-  final _deadlineController = TextEditingController();
 
   void emptyFields() {
     _collegeNameController.text = "";
     _addressController.text = "";
-    _deadlineController.text = "";
+  }
+
+  openBottomSheet() {
+    return showModalBottomSheet(
+        context: context,
+        // isScrollControlled: true,
+        enableDrag: true,
+        useSafeArea: true,
+        showDragHandle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        builder: (BuildContext context) {
+          return Container(
+            // margin: EdgeInsets.only(
+            //   top: 10.h,
+            //   left: 20.w,
+            //   right: 20.w,
+            // ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              color: boxColor,
+            ),
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // College Name
+                adminTextField('College Name', _collegeNameController,
+                    TextInputType.text),
+                adminTextField(
+                    'Address', _addressController, TextInputType.text),
+
+                Padding(
+                  padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _authController.registerCollege(
+                          _collegeNameController.text,
+                          _addressController.text);
+                      emptyFields();
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: layoutColor,
+                    ),
+                    child: const Text('ADD'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   @override
@@ -43,118 +88,57 @@ class CollegeState extends State<College> {
             "Colleges",
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              titleListTile('Add College'),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 20.w,
-                  right: 20.w,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.r),
-                  color: boxColor,
+        body: Obx( () {
+          return ListView.builder(
+            shrinkWrap: true,
+          itemCount: _authController.college.length,
+          itemBuilder: (context, index) {
+            final college = _authController.college[index];
+            return Card(
+              margin: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 10.h,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              color: Colors.white70,
+              elevation: 10,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.h,
                 ),
                 child: Column(
                   children: [
-                    // College Name
-                    adminTextField('College Name', _collegeNameController,
-                        TextInputType.text),
-                    adminTextField(
-                        'Address', _addressController, TextInputType.text),
-
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(200.w, 0, 0, 20.h),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _authController.registerCollege(
-                              _collegeNameController.text,
-                              _addressController.text);
-                          emptyFields();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: layoutColor,
+                    cardListTile('College Name: ', college.collegeName),
+                    cardListTile('Address: ', college.address),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          splashColor: Colors.white,
+                          onPressed: () {},
+                          icon: const Icon(Icons.edit),
                         ),
-                        child: const Text('ADD'),
-                      ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ],
                     ),
+
                   ],
                 ),
               ),
-              // Heading 2
-              // editListTile(),
-              Container(
-                margin: EdgeInsets.only(
-                  top: 10.h,
-                  left: 20.w,
-                  right: 20.w,
-                  bottom: 20.h,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.r),
-                  color: boxColor,
-                ),
-                child: Column(
-                  children: [
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //     top: 10.h,
-                    //     left: 10.w,
-                    //     right: 10.w,
-                    //   ),
-                    //   child: TextField(
-                    //     style: const TextStyle(color: Colors.black),
-                    //     cursorColor: Colors.blue,
-                    //     decoration: InputDecoration(
-                    //       // focusColor: Colors.white,
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(20.r),
-                    //       ),
-                    //       prefixIcon: const Icon(Icons.search),
-                    //       prefixIconColor: Colors.black,
-                    //       fillColor: Colors.white70,
-                    //       filled: true,
-                    //     ),
-                    //   ),
-                    // ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      child: Obx( () {
-                        return ListView.builder(
-                        itemCount: _authController.college.length,
-                        itemBuilder: (context, index) {
-                          final college = _authController.college[index];
-                          return Card(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 10.h,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            color: Colors.white70,
-                            elevation: 10,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 10.h,
-                              ),
-                              child: Column(
-                                children: [
-                                  cardListTile('College Name: ', college.collegeName),
-                                  cardListTile('Address: ', college.address),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );}),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            );
+          },
+        );}),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: layoutColor,
+          onPressed: () {
+            openBottomSheet();
+          },
+          child: const Icon(Icons.add),
         ),
       ),
     );

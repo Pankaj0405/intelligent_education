@@ -2,6 +2,7 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/Student/notification_screen.dart';
 import '../constants.dart';
 import '../Student/referee_details_screen.dart';
 import '../Student/student_academics.dart';
@@ -62,7 +63,9 @@ class _StudentDashboardState extends State<StudentDashboard> {
             padding: EdgeInsets.all(8.r),
             child: IconButton(
               icon: const Icon(Icons.notifications),
-              onPressed: () {},
+              onPressed: () {
+                Get.to(const NotificationsScreen());
+              },
             ),
           ),
         ],
@@ -166,7 +169,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
         ),
       ),
           floatingActionButton: Container(
-            margin: EdgeInsets.only(left: 30,bottom: 30),
+            margin: EdgeInsets.only(left: 30.w,bottom: 30.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
@@ -192,14 +195,14 @@ class _StudentDashboardState extends State<StudentDashboard> {
                     ),
                   ),
                 ),
-                FloatingActionButton(
-                  onPressed: () => {},
-                  backgroundColor: layoutColor,
-                  child: Icon(
-                    FontAwesomeIcons.solidComments,
-                  ),
-
-                ),
+                // FloatingActionButton(
+                //   onPressed: () => {},
+                //   backgroundColor: layoutColor,
+                //   child: const Icon(
+                //     FontAwesomeIcons.solidComments,
+                //   ),
+                //
+                // ),
               ]
         ),
           ),

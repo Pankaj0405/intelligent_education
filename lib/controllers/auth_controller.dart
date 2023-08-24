@@ -10,6 +10,7 @@ import '../Student/student_dashboard.dart';
 import '../constants.dart';
 import '../login_screen.dart';
 import '../models/course.dart';
+import '../models/notification.dart';
 import '../models/user.dart' as model;
 import '../models/college.dart' as college_model;
 import '../models/course.dart' as course_model;
@@ -26,6 +27,8 @@ class AuthController extends GetxController {
   List<College> get college => _college.value;
   final Rx<List<Course>> _course = Rx<List<Course>>([]);
   List<Course> get course => _course.value;
+  final Rx<List<Notification>> _notification = Rx<List<Notification>>([]);
+  List<Notification> get notification => _notification.value;
 
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
@@ -103,6 +106,18 @@ class AuthController extends GetxController {
     await firebaseAuth.signOut();
   }
 
+  resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((
+          value) {
+        Get.snackbar('Reset Password',
+            'We have sent you an email to recover password, please check email!');
+      });
+    } catch (e){
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
   getUserData() async {
     DocumentSnapshot userDoc = await firestore
         .collection('users')
@@ -112,6 +127,7 @@ class AuthController extends GetxController {
     name.value = userData['name'];
     // setInitialScreen(firebaseAuth.currentUser);
   }
+
 
   setScreen() async {
     DocumentSnapshot userDoc = await firestore
@@ -158,7 +174,7 @@ class AuthController extends GetxController {
   void registerCourse(String courseName) async {
     try {
       String courseId = const Uuid().v1();
-      if (courseName != 'Select') {
+      if (courseName.isNotEmpty) {
         course_model.Course course = course_model.Course(
             courseName: courseName, id: courseId);
         await firestore.collection('courses').doc(courseId).set(course.toJson());
@@ -203,6 +219,16 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
+  
+  getNotification() async {
+    _notification.bindStream(firestore.collection('notifications').snapshots().map((QuerySnapshot query) {
+      List<Notification> retValue = [];
+      for (var element in query.docs) {
+        retValue.add(Notification.fromSnap(element));
+      }
+      return retValue;
+    }));
+  }
 
   void assignCollege(String student, String college, String course, String deadline) async {
     try {
@@ -223,4 +249,6 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
+  
+  
 }
