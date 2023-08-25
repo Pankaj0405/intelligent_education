@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/models/college.dart';
+import 'package:intelligent_education/models/course.dart';
+import 'package:intl/intl.dart';
 import '../controllers/auth_controller.dart';
 import '../constants.dart';
-
+import '../models/user.dart' as model;
 class CollegeAssign extends StatefulWidget {
   const CollegeAssign({super.key});
   static const routeName = '/college-assign';
@@ -16,39 +19,56 @@ class CollegeAssignState extends State<CollegeAssign> {
   final _authController = Get.put(AuthController());
   final _deadlineController = TextEditingController();
 
-  String collegeDropDown = 'Select';
-  String courseDropDown = 'Select';
-  String studentDropDown = 'Select';
+  late String collegeDropDown= 'select';
+  late String courseDropDown= 'select';
+  late String studentDropDown= 'select';
 
   // List of items in our dropdown menu
-  var items = [
-    'Select',
-    'College 1',
-    'College 2',
-    'College 3',
-    'College 4',
-    'College 5',
-    'Quantum University Mandawar Roorkee Haridwar nkdwjkdddl ofiodsofvfr'
+  List<String> items = [
+
   ];
 
-  var items2 = [
-    'Select',
-    'Course 1',
-    'Course 2',
+  List<String> items2 = [
+
   ];
 
-  var items3 = [
-    'Select',
-    'Student 1',
-    'Student 2',
-    'Student 3',
+  List<String> items3 = [
   ];
-
+  String selectedCollegeId = '';
+  String selectedCourseId = '';
+  String selectedUserId = '';
   void defaultValue() {
-    collegeDropDown = 'Select';
-    courseDropDown = 'Select';
-    studentDropDown = 'Select';
     setState(() {});
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    populateCollegeDropdown();
+    populateCourseDropdown();
+    populateStudentDropdown();
+  }
+  void populateCollegeDropdown() async {
+    List<College> colleges = await _authController.getAllColleges();
+    setState(() {
+      items = colleges.map((college) => college.collegeName).toList();
+      collegeDropDown = items[0]; // Set the default value
+    });
+  }
+
+  void populateCourseDropdown() async {
+    List<Course> courses = await _authController.getAllCourses();
+    setState(() {
+      items2 = courses.map((course) => course.courseName).toList();
+      courseDropDown = items2[0];  // Set the default value
+    });
+  }
+  void populateStudentDropdown() async {
+    List<model.User> students = await _authController.getAllStudents();
+    setState(() {
+      items3 = students.map((student) => student.name).toList();
+      studentDropDown = items3[0];// Set the default value
+    });
   }
 
   var textStyle = TextStyle(
@@ -56,9 +76,11 @@ class CollegeAssignState extends State<CollegeAssign> {
     color: Colors.black,
     fontSize: 15.sp,
   );
-
   @override
   Widget build(BuildContext context) {
+    _authController.getCollege();
+    _authController.getCourse();
+    _authController.getUser();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -149,6 +171,10 @@ class CollegeAssignState extends State<CollegeAssign> {
                         onChanged: (String? newValue) {
                           setState(() {
                             studentDropDown = newValue!;
+                            selectedUserId = _authController.userData
+                                .firstWhere((user) => user.name == newValue)
+                                .uid;
+                            print(selectedUserId);
                           });
                         },
                       ),
@@ -203,6 +229,11 @@ class CollegeAssignState extends State<CollegeAssign> {
                         onChanged: (String? newValue) {
                           setState(() {
                             collegeDropDown = newValue!;
+                            selectedCollegeId = _authController.college
+                                .firstWhere((college) => college.collegeName == newValue)
+                                .id;
+                            print(selectedCollegeId);
+                            print(collegeDropDown);
                           });
                         },
                       ),
@@ -256,6 +287,10 @@ class CollegeAssignState extends State<CollegeAssign> {
                         onChanged: (String? newValue) {
                           setState(() {
                             courseDropDown = newValue!;
+                            selectedCourseId = _authController.course
+                                .firstWhere((course) => course.courseName == newValue)
+                                .id;
+                            print(selectedCourseId);
                           });
                         },
                       ),
@@ -288,7 +323,34 @@ class CollegeAssignState extends State<CollegeAssign> {
                             contentPadding: EdgeInsets.all(16.r),
                           ),
                         ),
-                        trailing: const Icon(Icons.date_range),
+                        trailing:  IconButton(
+                        onPressed:() async{
+                        DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2015),
+                        lastDate: DateTime(2121)
+                        // DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                        );
+
+                        if (pickedDate != null) {
+                        print(
+                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                        String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                        print(
+                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                        //you can implement different kind of Date Format here according to your requirement
+
+                        setState(() {
+                        _deadlineController.text =
+                        formattedDate; //set output date to TextField value.
+                        });
+                        } else {
+                        print("Date is not selected");
+                        }
+                        },
+                          icon: Icon(Icons.date_range) ,),
                       ),
                     ),
                     Padding(
@@ -298,8 +360,13 @@ class CollegeAssignState extends State<CollegeAssign> {
                             backgroundColor: layoutColor,
                           ),
                           onPressed: () {
-                            _authController.assignCollege(studentDropDown, collegeDropDown, courseDropDown, _deadlineController.text);
-                            defaultValue();
+                            _authController.updateUserCollegeAndCourseInSubcollection(
+                                selectedUserId, collegeDropDown, courseDropDown
+                                ,_deadlineController.text);
+                            print(selectedUserId);
+                            print(collegeDropDown);
+                            print(courseDropDown)
+;                            defaultValue();
                           },
                           child: const Text('ASSIGN')),
                     ),

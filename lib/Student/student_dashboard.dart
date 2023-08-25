@@ -27,6 +27,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
   @override
   Widget build(BuildContext context) {
     _authController.getUserData();
+    _authController.fetchAssignedColleges();
     return SafeArea(
         child: Scaffold(
       key: _key,
@@ -70,33 +71,40 @@ class _StudentDashboardState extends State<StudentDashboard> {
           ),
         ],
       ),
-      body: ListView.builder(
-        shrinkWrap: true,
-          itemCount: 20,
-          itemBuilder: (BuildContext ctx, int index) {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: boxColor
-              ),
-              margin: const EdgeInsets.only(bottom: 10),
-              child: ListTile(
-
-                tileColor: Colors.white,
-                leading: Icon(
-                  FontAwesomeIcons.university,
-                  color: Colors.black,
-                  size: 35.r,
-                ),
-                title: Text(
-                  'College Name',
-                  style: TextStyle(fontSize: 22.sp),
-                ),
-                subtitle: Text(
-                  'Course Name',
-                  style: TextStyle(fontSize: 18.sp),
-                ),
-              ),
+          body: Obx(() {
+            if (_authController.assignedColleges.isEmpty) {
+              return Center(child: Text('No assigned colleges.'));
+            }
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: _authController.assignedColleges.length,
+              itemBuilder: (BuildContext ctx, int index) {
+                var assignedCollege = _authController.assignedColleges[index];
+                print("College: ${assignedCollege.course}");
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: boxColor,
+                  ),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: ListTile(
+                    tileColor: Colors.white,
+                    leading: Icon(
+                      FontAwesomeIcons.university,
+                      color: Colors.black,
+                      size: 35.r,
+                    ),
+                    title: Text(
+                      assignedCollege.college,
+                      style: TextStyle(fontSize: 22.sp),
+                    ),
+                    subtitle: Text(
+                      assignedCollege.course,
+                      style: TextStyle(fontSize: 18.sp),
+                    ),
+                  ),
+                );
+              },
             );
           }),
       drawer: Drawer(

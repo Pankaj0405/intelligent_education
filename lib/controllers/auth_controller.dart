@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/models/assign_college.dart';
 import 'package:intelligent_education/models/college.dart';
 import 'package:uuid/uuid.dart';
 import '../Admin/admin_dash.dart';
@@ -15,7 +16,7 @@ import '../models/user.dart' as model;
 import '../models/college.dart' as college_model;
 import '../models/course.dart' as course_model;
 import '../models/notification.dart' as notification_model;
-import '../models/assign_college.dart' as assign_college_model;
+
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -31,10 +32,10 @@ class AuthController extends GetxController {
   List<Notification> get notification => _notification.value;
   final Rx<List<model.User>> _userData = Rx<List<model.User>>([]);
   List<model.User> get userData => _userData.value;
-
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
-
+  RxList<AssignCollege> _assignedColleges = RxList<AssignCollege>([]);
+  List<AssignCollege> get assignedColleges => _assignedColleges.value;
   @override
   void onReady() {
     // TODO: implement onReady
@@ -42,8 +43,8 @@ class AuthController extends GetxController {
     _user = Rx<User?>(firebaseAuth.currentUser);
     _user.bindStream(firebaseAuth.authStateChanges());
     ever(_user, setInitialScreen);
-  }
 
+  }
   setInitialScreen(User? user) {
     if (user == null) {
       Get.offAll(() => const LoginScreen());
@@ -51,6 +52,73 @@ class AuthController extends GetxController {
       setScreen();
       getUserData();
     }
+  }
+  // Inside your AuthController class
+  Future<void> updateUserCollegeAndCourseInSubcollection(String userId, String collegeName, String courseName, String deadline) async {
+    try {
+      final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+      await userRef.collection('college_assign').doc().set({
+        'college': collegeName,
+        'course': courseName,
+        'deadline': deadline,
+      });
+
+      print('User subcollection updated successfully');
+    } catch (error) {
+      print('Error updating user subcollection: $error');
+    }
+  }
+  void fetchAssignedColleges() async {
+    try {
+      _assignedColleges.bindStream(
+          firestore.collection('users').doc(firebaseAuth.currentUser!.uid).collection('college_assign').snapshots().map((QuerySnapshot query) {
+            List<AssignCollege> retValue = [];
+            for (var element in query.docs) {
+              retValue.add(AssignCollege.fromSnap(element));
+            }
+            print("Fetched data: ${retValue.toString()}");
+            return retValue;
+          }));
+    } catch (e) {
+      print("Error fetching assigned colleges: $e");
+    }
+  }
+  Future<List<College>> getAllColleges() async {
+    QuerySnapshot querySnapshot =
+    await FirebaseFirestore.instance.collection('colleges').get();
+
+    List<College> colleges = querySnapshot.docs
+        .map((documentSnapshot) => College.fromSnap(documentSnapshot))
+        .toList();
+    print('Fetched colleges: $colleges');
+    return colleges;
+  }
+
+  Future<List<Course>> getAllCourses() async {
+    QuerySnapshot querySnapshot =
+    await FirebaseFirestore.instance.collection('courses').get();
+
+    List<Course> courses = querySnapshot.docs
+        .map((documentSnapshot) => Course.fromSnap(documentSnapshot))
+        .toList();
+
+    print('Fetched courses: $courses');
+    return courses;
+  }
+
+  Future<List<model.User>> getAllStudents() async {
+    QuerySnapshot querySnapshot =
+    await FirebaseFirestore.instance.collection('users')
+        .where('logintype', isEqualTo: 'Student')
+        .get();
+
+    List<model.User> students = querySnapshot.docs
+        .map((documentSnapshot) => model.User.fromSnap(documentSnapshot))
+        .toList();
+
+    print('Fetched students: $students');
+    return students;
   }
 
   //register user
@@ -324,34 +392,5 @@ class AuthController extends GetxController {
       }
       return retValue;
     }));
-  }
-
-  void assignCollege(
-      String student, String college, String course, String deadline) async {
-    try {
-      String collegeId = const Uuid().v1();
-      if (student != 'Select' &&
-          course != 'Select' &&
-          college != 'Select' &&
-          deadline.isNotEmpty) {
-        assign_college_model.AssignCollege assignCollege =
-            assign_college_model.AssignCollege(
-                course: course,
-                college: college,
-                student: student,
-                deadline: deadline,
-                id: collegeId);
-        await firestore
-            .collection('assign colleges')
-            .doc(collegeId)
-            .set(assignCollege.toJson());
-        Get.snackbar('Alert Message', 'College assigned successfully');
-      } else {
-        Get.snackbar('Error assigning College', "Please select all the field");
-      }
-    } catch (e) {
-      Get.snackbar('Error assigning College', e.toString());
-      print(e.toString());
-    }
   }
 }

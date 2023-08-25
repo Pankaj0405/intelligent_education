@@ -1,36 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AssignCollege {
-  String student;
   String college;
   String course;
   String deadline;
-  String id;
 
   AssignCollege({
     required this.course,
     required this.college,
-    required this.student,
     required this.deadline,
-    required this.id,
   });
 
   Map<String, dynamic> toJson() => {
-        'Student': student,
-        'College': college,
-        'Course': course,
-        'Deadline': deadline,
-        'id': id,
-      };
+    'college': college,
+    'course': course,
+    'deadline': deadline,
+  };
 
   static AssignCollege fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
+    var snapshotData = snap.data() as Map<String, dynamic>?;
+
+    if (snapshotData == null) {
+      // Handle the case where data is null or not as expected
+      // You might return a default or throw an error, depending on your app's logic.
+      throw Exception("Snapshot data is null or not as expected");
+    }
+
     return AssignCollege(
-      course: snapshot['Student'],
-      college: snapshot['College'],
-      student: snapshot['Course'],
-      deadline: snapshot['Deadline'],
-      id: snapshot['id'],
+      course: snapshotData['course'] ?? '', // Use default value if data is missing
+      college: snapshotData['college'] ?? '', // Use default value if data is missing
+      deadline: snapshotData['deadline'] ?? '', // Use default value if data is missing
     );
   }
 }
