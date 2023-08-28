@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/api/send_notification.dart';
 import 'package:intl/intl.dart';
 import '../controllers/auth_controller.dart';
 import '../constants.dart';
@@ -68,58 +69,58 @@ class _NotificationState extends State<NotificationScreen> {
                   ),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(15.sp),
-                height: 120.h,
-                child: Center(
-                  child: TextField(
-                    controller:
-                        dateController, //editing controller of this TextField
-                    decoration: InputDecoration(
-                        hintText: 'Date',
-                        filled: true,
-                        fillColor: Colors.white70,
-                        border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(20.sp)),
-                          borderSide: const BorderSide(color: Colors.black),
-                        ),
-                        icon: const Icon(
-                          Icons.calendar_today,
-                          color: Colors.black,
-                        ), //icon of text field
-                        labelText: "Enter Date" //label text of field
-                        ),
-                    readOnly:
-                        true, //set it true, so that user will not able to edit text
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          // DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                          lastDate: DateTime(2101));
-
-                      if (pickedDate != null) {
-                        print(
-                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                        String formattedDate =
-                            DateFormat('yyyy-MM-dd').format(pickedDate);
-                        print(
-                            formattedDate); //formatted date output using intl package =>  2021-03-16
-                        //you can implement different kind of Date Format here according to your requirement
-
-                        setState(() {
-                          dateController.text =
-                              formattedDate; //set output date to TextField value.
-                        });
-                      } else {
-                        print("Date is not selected");
-                      }
-                    },
-                  ),
-                ),
-              ),
+              // Container(
+              //   padding: EdgeInsets.all(15.sp),
+              //   height: 120.h,
+              //   child: Center(
+              //     child: TextField(
+              //       controller:
+              //           dateController, //editing controller of this TextField
+              //       decoration: InputDecoration(
+              //           hintText: 'Date',
+              //           filled: true,
+              //           fillColor: Colors.white70,
+              //           border: OutlineInputBorder(
+              //             borderRadius:
+              //                 BorderRadius.all(Radius.circular(20.sp)),
+              //             borderSide: const BorderSide(color: Colors.black),
+              //           ),
+              //           icon: const Icon(
+              //             Icons.calendar_today,
+              //             color: Colors.black,
+              //           ), //icon of text field
+              //           labelText: "Enter Date" //label text of field
+              //           ),
+              //       readOnly:
+              //           true, //set it true, so that user will not able to edit text
+              //       onTap: () async {
+              //         DateTime? pickedDate = await showDatePicker(
+              //             context: context,
+              //             initialDate: DateTime.now(),
+              //             firstDate: DateTime.now(),
+              //             // DateTime(2000), //DateTime.now() - not to allow to choose before today.
+              //             lastDate: DateTime(2101));
+              //
+              //         if (pickedDate != null) {
+              //           print(
+              //               pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+              //           String formattedDate =
+              //               DateFormat('yyyy-MM-dd').format(pickedDate);
+              //           print(
+              //               formattedDate); //formatted date output using intl package =>  2021-03-16
+              //           //you can implement different kind of Date Format here according to your requirement
+              //
+              //           setState(() {
+              //             dateController.text =
+              //                 formattedDate; //set output date to TextField value.
+              //           });
+              //         } else {
+              //           print("Date is not selected");
+              //         }
+              //       },
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.all(15.sp),
                 child: TextField(
@@ -137,8 +138,12 @@ class _NotificationState extends State<NotificationScreen> {
               ),
               GestureDetector(
                 onTap: () {
+                  sendNotificationToAll(
+                    _titleController.text,
+                    _messageController.text,
+                  );
                   _authController.sendNotification(_titleController.text,
-                      dateController.text, _messageController.text);
+                      _messageController.text);
                   emptyFields();
                 },
                 child: Container(

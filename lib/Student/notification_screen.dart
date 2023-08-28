@@ -53,7 +53,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             ),
                             child: Text(notification.title, style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w500),),
                           ),
-                          Text(notification.date,style: TextStyle(fontSize: 16.sp,color: Colors.grey)),
+
                           Padding(
                             padding: EdgeInsets.symmetric(
                               vertical: 10.w,

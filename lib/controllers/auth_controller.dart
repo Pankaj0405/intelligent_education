@@ -364,13 +364,13 @@ class AuthController extends GetxController {
     }
   }
 
-  void sendNotification(String title, String date, String message) async {
+  void sendNotification(String title,String message) async {
     try {
       String notificationId = const Uuid().v1();
-      if (title.isNotEmpty && date.isNotEmpty && message.isNotEmpty) {
+      if (title.isNotEmpty && message.isNotEmpty) {
         notification_model.Notification notification =
             notification_model.Notification(
-                title: title, date: date, message: message, id: notificationId);
+                title: title, message: message, id: notificationId);
         await firestore
             .collection('notifications')
             .doc(notificationId)
