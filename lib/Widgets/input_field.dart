@@ -17,7 +17,12 @@ class MyInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 16.h),
+      margin: EdgeInsets.only(
+        top: 16.h,
+      left: 20.w,
+        right: 20.w,
+      ),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

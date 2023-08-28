@@ -72,6 +72,7 @@ class AdminDashState extends State<AdminDash> {
 
   @override
   Widget build(BuildContext context) {
+    _authController.getUserData();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -87,8 +88,14 @@ class AdminDashState extends State<AdminDash> {
               ),
             ),
           ),
-          title: const Text(
-            "Admin Name",
+          title: Obx(
+            () => Text(
+              _authController.name.value.toString().toUpperCase(),
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
           actions: [
             IconButton(

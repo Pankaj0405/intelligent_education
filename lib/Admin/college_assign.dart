@@ -350,7 +350,7 @@ class CollegeAssignState extends State<CollegeAssign> {
                         print("Date is not selected");
                         }
                         },
-                          icon: Icon(Icons.date_range) ,),
+                          icon: const Icon(Icons.date_range) ,),
                       ),
                     ),
                     Padding(

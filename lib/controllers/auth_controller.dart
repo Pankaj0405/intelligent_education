@@ -34,7 +34,7 @@ class AuthController extends GetxController {
   List<model.User> get userData => _userData.value;
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
-  RxList<AssignCollege> _assignedColleges = RxList<AssignCollege>([]);
+  final RxList<AssignCollege> _assignedColleges = RxList<AssignCollege>([]);
   List<AssignCollege> get assignedColleges => _assignedColleges.value;
   @override
   void onReady() {
@@ -53,22 +53,26 @@ class AuthController extends GetxController {
       getUserData();
     }
   }
+
   // Inside your AuthController class
   Future<void> updateUserCollegeAndCourseInSubcollection(String userId, String collegeName, String courseName, String deadline) async {
     try {
       final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
-
-      await userRef.collection('college_assign').doc().set({
-        'college': collegeName,
-        'course': courseName,
-        'deadline': deadline,
-      });
-
+      if(deadline.isNotEmpty && collegeName.isNotEmpty && courseName.isNotEmpty) {
+        await userRef.collection('college_assign').doc().set({
+          'college': collegeName,
+          'course': courseName,
+          'deadline': deadline,
+        });
+        Get.snackbar('Alert Message', 'College assigned successfully');
+      }
       print('User subcollection updated successfully');
     } catch (error) {
       print('Error updating user subcollection: $error');
+      Get.snackbar('Error', 'Enter all the fields');
     }
   }
+
   void fetchAssignedColleges() async {
     try {
       _assignedColleges.bindStream(
@@ -84,6 +88,7 @@ class AuthController extends GetxController {
       print("Error fetching assigned colleges: $e");
     }
   }
+
   Future<List<College>> getAllColleges() async {
     QuerySnapshot querySnapshot =
     await FirebaseFirestore.instance.collection('colleges').get();

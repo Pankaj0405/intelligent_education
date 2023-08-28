@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             centerTitle: true,
             backgroundColor: const Color(0xFF7A98E5),
             titleTextStyle: TextStyle(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               fontSize: 25.sp,
             ),
             iconTheme: IconThemeData(

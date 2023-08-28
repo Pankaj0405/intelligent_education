@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:intelligent_education/Admin/student_details_screen.dart';
+import 'package:intelligent_education/controllers/auth_controller.dart';
+import 'package:intelligent_education/controllers/firestoremethods.dart';
 import '../constants.dart';
+import '../models/user.dart' as model;
 
 class StudentDetails extends StatefulWidget {
   const StudentDetails({super.key});
@@ -10,10 +15,28 @@ class StudentDetails extends StatefulWidget {
 }
 
 class _StudentDetailsState extends State<StudentDetails> {
-  bool student = false;
+  final _authController = Get.put(AuthController());
+  final _infoController = Get.put(InfoController());
+  List<String> listLength = [];
+  String selectedUserId = '';
+
+  listViewLength() async {
+    List<model.User> students = await _authController.getAllStudents();
+    setState(() {
+      listLength = students.map((student) => student.name).toList();
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    listViewLength();
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    _authController.getUser();
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -69,10 +92,14 @@ class _StudentDetailsState extends State<StudentDetails> {
               child: SizedBox(
                 // height: MediaQuery.of(context).size.height * 0.68,
                 child: ListView.builder(
-                  itemCount: 15,
+                  itemCount: listLength.length,
                   itemBuilder: (context, index) {
+                    final student = listLength[index];
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                          selectedUserId = _authController.userData.firstWhere((user) => user.name == listLength[index]).uid;
+                          Get.to(StudentDetailsScreen(id: selectedUserId, name: student,));
+                      },
                       splashColor: Colors.black12,
                       child: Card(
                         margin: EdgeInsets.symmetric(
@@ -85,7 +112,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                         color: Colors.white70,
                         elevation: 10,
                         child: ListTile(
-                          leading: Text('Ram Kumar',style: TextStyle(fontSize: 18.sp),),
+                          leading: Text(student ,style: TextStyle(fontSize: 18.sp),),
                         ),
 
                       ),
@@ -94,23 +121,6 @@ class _StudentDetailsState extends State<StudentDetails> {
                 ),
               ),
             ),
-            // Expanded(
-            //   flex: 1,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.end,
-            //     children: [
-            //       IconButton(
-            //         splashColor: Colors.white,
-            //         onPressed: () {},
-            //         icon: const Icon(Icons.edit),
-            //       ),
-            //       IconButton(
-            //         onPressed: () {},
-            //         icon: const Icon(Icons.delete),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       ),

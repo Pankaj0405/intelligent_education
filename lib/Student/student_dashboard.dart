@@ -37,7 +37,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
             _authController.name.value.toString().toUpperCase(),
             style: const TextStyle(
               fontSize: 25,
-              fontWeight: FontWeight.normal,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
