@@ -84,18 +84,18 @@ class NotificationService {
 
 
   static Future<void> zonedScheduleNotification() async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'scheduled title',
-        'scheduled body',
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
-        const NotificationDetails(
-            android: AndroidNotificationDetails(
-                'your channel id', 'your channel name',
-                channelDescription: 'your channel description')),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime);
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     0,
+    //     'scheduled title',
+    //     'scheduled body',
+    //     tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
+    //     const NotificationDetails(
+    //         android: AndroidNotificationDetails(
+    //             'your channel id', 'your channel name',
+    //             channelDescription: 'your channel description')),
+    //     androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    //     uiLocalNotificationDateInterpretation:
+    //     UILocalNotificationDateInterpretation.absoluteTime);
   }
   Future<void> scheduleDailyTenAMNotification() async {
     DateTime now = DateTime.now();
@@ -103,18 +103,6 @@ class NotificationService {
     // Create a DateTime object for today at 3 PM
     DateTime alarmTime = DateTime(now.year, now.month, now.day, 11, 5);
     print(alarmTime);// 3 PM
-  }
- static Future<void> _storeNotificationData(
-      String title, String body, DateTime scheduledDate) async {
-    CollectionReference notifications =
-    FirebaseFirestore.instance.collection('notifications');
-
-    await notifications.add({
-      'title': title,
-      'body': body,
-      'scheduledTime': scheduledDate.toLocal().toString(), // Store the scheduled time
-      'timestamp': FieldValue.serverTimestamp(),
-    });
   }
   static Future<void> configureLocalTimeZone() async {
     if (kIsWeb || Platform.isLinux) {

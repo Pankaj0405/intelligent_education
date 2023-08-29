@@ -28,8 +28,8 @@ class AuthController extends GetxController {
   List<College> get college => _college.value;
   final Rx<List<Course>> _course = Rx<List<Course>>([]);
   List<Course> get course => _course.value;
-  final Rx<List<Notification>> _notification = Rx<List<Notification>>([]);
-  List<Notification> get notification => _notification.value;
+  RxList<QueryDocumentSnapshot> notifications = <QueryDocumentSnapshot>[].obs;
+
   final Rx<List<model.User>> _userData = Rx<List<model.User>>([]);
   List<model.User> get userData => _userData.value;
   File? get profilePhoto => _pickedImage.value;
@@ -40,6 +40,7 @@ class AuthController extends GetxController {
   void onReady() {
     // TODO: implement onReady
     super.onReady();
+    getNotification();
     _user = Rx<User?>(firebaseAuth.currentUser);
     _user.bindStream(firebaseAuth.authStateChanges());
     ever(_user, setInitialScreen);
@@ -366,15 +367,17 @@ class AuthController extends GetxController {
 
   void sendNotification(String title,String message) async {
     try {
-      String notificationId = const Uuid().v1();
+      // String notificationId = const Uuid().v1();
       if (title.isNotEmpty && message.isNotEmpty) {
-        notification_model.Notification notification =
-            notification_model.Notification(
-                title: title, message: message, id: notificationId);
-        await firestore
-            .collection('notifications')
-            .doc(notificationId)
-            .set(notification.toJson());
+        CollectionReference notifications =
+        FirebaseFirestore.instance.collection('notifications');
+
+        await notifications.add({
+          'title': title,
+          'body': message,
+          'scheduledTime': DateTime.now().toString(), // Store the scheduled time
+          'timestamp': FieldValue.serverTimestamp(),
+        });
         Get.snackbar('Alert Message', 'Notification sent successfully');
       } else {
         Get.snackbar(
@@ -387,15 +390,15 @@ class AuthController extends GetxController {
   }
 
   getNotification() async {
-    _notification.bindStream(firestore
-        .collection('notifications')
-        .snapshots()
-        .map((QuerySnapshot query) {
-      List<Notification> retValue = [];
-      for (var element in query.docs) {
-        retValue.add(Notification.fromSnap(element));
-      }
-      return retValue;
-    }));
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('notifications')
+          .orderBy('timestamp',
+          descending: true)
+          .get();
+      notifications.assignAll(snapshot.docs);
+    } catch (e) {
+      print('Error fetching notifications: $e');
+    }
   }
 }

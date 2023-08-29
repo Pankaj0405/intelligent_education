@@ -25,6 +25,7 @@ class FirebaseApi{
     final fCMToken= await _firebaseMessaging.getToken();
     print('Token $fCMToken');
     await _firebaseMessaging.subscribeToTopic('all');
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
     try {
       FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
     }
