@@ -34,9 +34,6 @@ class _NotificationState extends State<NotificationScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          // leading: const Icon(
-          //   CupertinoIcons.bell,
-          // ),
           title: const Text(
             "Notifications",
           ),
@@ -46,7 +43,7 @@ class _NotificationState extends State<NotificationScreen> {
             top: 20.h,
             left: 20.w,
             right: 20.w,
-            bottom: 120.h,
+            bottom: 200.h,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.r),

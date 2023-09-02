@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../controllers/auth_controller.dart';
 import '../constants.dart';
 import '../models/user.dart' as model;
+
 class CollegeAssign extends StatefulWidget {
   const CollegeAssign({super.key});
   static const routeName = '/college-assign';
@@ -19,27 +20,24 @@ class CollegeAssignState extends State<CollegeAssign> {
   final _authController = Get.put(AuthController());
   final _deadlineController = TextEditingController();
 
-  late String collegeDropDown= 'select';
-  late String courseDropDown= 'select';
-  late String studentDropDown= 'select';
+  late String collegeDropDown = 'select';
+  late String courseDropDown = 'select';
+  late String studentDropDown = 'select';
 
   // List of items in our dropdown menu
-  List<String> items = [
+  List<String> items = [];
 
-  ];
+  List<String> items2 = [];
 
-  List<String> items2 = [
-
-  ];
-
-  List<String> items3 = [
-  ];
+  List<String> items3 = [];
   String selectedCollegeId = '';
   String selectedCourseId = '';
   String selectedUserId = '';
+
   void defaultValue() {
     setState(() {});
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,6 +46,7 @@ class CollegeAssignState extends State<CollegeAssign> {
     populateCourseDropdown();
     populateStudentDropdown();
   }
+
   void populateCollegeDropdown() async {
     List<College> colleges = await _authController.getAllColleges();
     setState(() {
@@ -60,14 +59,15 @@ class CollegeAssignState extends State<CollegeAssign> {
     List<Course> courses = await _authController.getAllCourses();
     setState(() {
       items2 = courses.map((course) => course.courseName).toList();
-      courseDropDown = items2[0];  // Set the default value
+      courseDropDown = items2[0]; // Set the default value
     });
   }
+
   void populateStudentDropdown() async {
     List<model.User> students = await _authController.getAllStudents();
     setState(() {
       items3 = students.map((student) => student.name).toList();
-      studentDropDown = items3[0];// Set the default value
+      studentDropDown = items3[0]; // Set the default value
     });
   }
 
@@ -76,6 +76,11 @@ class CollegeAssignState extends State<CollegeAssign> {
     color: Colors.black,
     fontSize: 15.sp,
   );
+
+   final List<TextEditingController> _controllers = [];
+   final List<TextField> _fields = [];
+
+
   @override
   Widget build(BuildContext context) {
     _authController.getCollege();
@@ -208,7 +213,7 @@ class CollegeAssignState extends State<CollegeAssign> {
                       // borderRadius: BorderRadius.circular(10.r),
                       child: DropdownButton(
                         borderRadius: BorderRadius.circular(10.r),
-                        isExpanded:true,
+                        isExpanded: true,
                         // Initial Value
                         dropdownColor: Colors.white,
                         style: textStyle,
@@ -230,7 +235,8 @@ class CollegeAssignState extends State<CollegeAssign> {
                           setState(() {
                             collegeDropDown = newValue!;
                             selectedCollegeId = _authController.college
-                                .firstWhere((college) => college.collegeName == newValue)
+                                .firstWhere((college) =>
+                                    college.collegeName == newValue)
                                 .id;
                             print(selectedCollegeId);
                             print(collegeDropDown);
@@ -288,71 +294,140 @@ class CollegeAssignState extends State<CollegeAssign> {
                           setState(() {
                             courseDropDown = newValue!;
                             selectedCourseId = _authController.course
-                                .firstWhere((course) => course.courseName == newValue)
+                                .firstWhere(
+                                    (course) => course.courseName == newValue)
                                 .id;
                             print(selectedCourseId);
                           });
                         },
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white,
-                      ),
-                      margin: EdgeInsets.symmetric(
-                           vertical: 10.0.h,
-                        // horizontal: 10.0.w
-                         ),
-                      child: ListTile(
-                        title: TextField(
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.datetime,
-                          controller: _deadlineController,
-                          decoration: InputDecoration(
-                            hintText: 'Deadline',
-                            hintStyle: TextStyle(fontSize: 16.sp),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            filled: true,
-                            contentPadding: EdgeInsets.all(16.r),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(8.r),
+                    //     color: Colors.white,
+                    //   ),
+                    //   margin: EdgeInsets.symmetric(
+                    //        vertical: 10.0.h,
+                    //     // horizontal: 10.0.w
+                    //      ),
+                    //   child: ListTile(
+                    //     title: TextField(
+                    //       textAlign: TextAlign.center,
+                    //       keyboardType: TextInputType.datetime,
+                    //       controller: _deadlineController,
+                    //       decoration: InputDecoration(
+                    //         hintText: 'Deadline',
+                    //         hintStyle: TextStyle(fontSize: 16.sp),
+                    //         border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(8.r),
+                    //           borderSide: const BorderSide(
+                    //             width: 0,
+                    //             style: BorderStyle.none,
+                    //           ),
+                    //         ),
+                    //         filled: true,
+                    //         contentPadding: EdgeInsets.all(16.r),
+                    //       ),
+                    //     ),
+                    //     trailing:  IconButton(
+                    //     onPressed:() async{
+                    //     DateTime? pickedDate = await showDatePicker(
+                    //     context: context,
+                    //     initialDate: DateTime.now(),
+                    //     firstDate: DateTime(2015),
+                    //     lastDate: DateTime(2121)
+                    //     // DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                    //     );
+                    //
+                    //     if (pickedDate != null) {
+                    //     print(
+                    //     pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    //     String formattedDate =
+                    //     DateFormat('yyyy-MM-dd').format(pickedDate);
+                    //     print(
+                    //     formattedDate); //formatted date output using intl package =>  2021-03-16
+                    //     //you can implement different kind of Date Format here according to your requirement
+                    //
+                    //     setState(() {
+                    //     _deadlineController.text =
+                    //     formattedDate; //set output date to TextField value.
+                    //     });
+                    //     } else {
+                    //     print("Date is not selected");
+                    //     }
+                    //     },
+                    //       icon: const Icon(Icons.date_range) ,),
+                    //   ),
+                    // ),
+                    TextField(
+                      readOnly: true,
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.datetime,
+                      controller: _deadlineController,
+                      decoration: InputDecoration(
+                        prefixIcon: IconButton(
+                          onPressed: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                              builder: (context, child) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: ColorScheme.light(
+                                      primary: layoutColor,
+                                      onPrimary: boxColor!,
+                                      onSurface: Colors.black,
+                                    ),
+                                    textButtonTheme: TextButtonThemeData(
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: layoutColor,
+                                      ),
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2015),
+                              lastDate: DateTime(2121),
+                              // DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                            );
+
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              //you can implement different kind of Date Format here according to your requirement
+
+                              setState(() {
+                                _deadlineController.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
+                            } else {
+                              print("Date is not selected");
+                            }
+                          },
+                          icon: Icon(Icons.date_range, color: layoutColor,),
+                        ),
+                        hintText: 'Deadline1',
+                        hintStyle: TextStyle(fontSize: 16.sp),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
                           ),
                         ),
-                        trailing:  IconButton(
-                        onPressed:() async{
-                        DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2015),
-                        lastDate: DateTime(2121)
-                        // DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                        );
-
-                        if (pickedDate != null) {
-                        print(
-                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                        String formattedDate =
-                        DateFormat('yyyy-MM-dd').format(pickedDate);
-                        print(
-                        formattedDate); //formatted date output using intl package =>  2021-03-16
-                        //you can implement different kind of Date Format here according to your requirement
-
-                        setState(() {
-                        _deadlineController.text =
-                        formattedDate; //set output date to TextField value.
-                        });
-                        } else {
-                        print("Date is not selected");
-                        }
-                        },
-                          icon: const Icon(Icons.date_range) ,),
+                        filled: true,
+                        contentPadding: EdgeInsets.all(16.r),
                       ),
                     ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        child: _listView()),
                     Padding(
                       padding: EdgeInsets.fromLTRB(200.w, 0, 0, 0),
                       child: ElevatedButton(
@@ -360,13 +435,16 @@ class CollegeAssignState extends State<CollegeAssign> {
                             backgroundColor: layoutColor,
                           ),
                           onPressed: () {
-                            _authController.updateUserCollegeAndCourseInSubcollection(
-                                selectedUserId, collegeDropDown, courseDropDown
-                                ,_deadlineController.text);
+                            // _authController
+                            //     .updateUserCollegeAndCourseInSubcollection(
+                            //         selectedUserId,
+                            //         collegeDropDown,
+                            //         courseDropDown,
+                            //         _deadlineController.text);
                             print(selectedUserId);
                             print(collegeDropDown);
-                            print(courseDropDown)
-;                            defaultValue();
+                            print(courseDropDown);
+                            defaultValue();
                           },
                           child: const Text('ASSIGN')),
                     ),
@@ -376,7 +454,97 @@ class CollegeAssignState extends State<CollegeAssign> {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: layoutColor,
+          onPressed: () {
+            final controller = TextEditingController();
+            final field = TextField(
+              readOnly: true,
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.datetime,
+              controller: controller,
+              decoration: InputDecoration(
+                prefixIcon: IconButton(
+                  onPressed: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        builder: (context, child) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: layoutColor,
+                                onPrimary: boxColor!,
+                                onSurface: Colors.black,
+                              ),
+                              textButtonTheme: TextButtonThemeData(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: layoutColor,
+                                ),
+                              ),
+                            ),
+                            child: child!,
+                          );
+                        },
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2015),
+                        lastDate: DateTime(2121),
+                        // DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                        );
+
+                    if (pickedDate != null) {
+                      print(
+                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      print(
+                          formattedDate); //formatted date output using intl package =>  2021-03-16
+                      //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                        controller.text =
+                            formattedDate; //set output date to TextField value.
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  },
+                  icon: Icon(Icons.date_range, color: layoutColor,),
+                ),
+                hintText: 'Deadline${_controllers.length + 2}',
+                hintStyle: TextStyle(fontSize: 16.sp),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                  borderSide: const BorderSide(
+                    width: 0,
+                    style: BorderStyle.none,
+                  ),
+                ),
+                filled: true,
+                contentPadding: EdgeInsets.all(16.r),
+              ),
+            );
+            setState(() {
+              _controllers.add(controller);
+              _fields.add(field);
+            });
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
+    );
+  }
+
+  Widget _listView() {
+    return ListView.builder(
+      itemCount: _fields.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: EdgeInsets.symmetric(
+            vertical: 5.h,
+          ),
+          child: _fields[index],
+        );
+      },
     );
   }
 }

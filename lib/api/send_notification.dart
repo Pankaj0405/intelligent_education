@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<void> sendNotificationToAll(String title, String message) async {
-  final String serverToken = 'AAAA6wFminY:APA91bG5cqF_lNnRpY7n9CzMCfkuCDA4slQ4sEd-51rA4iFsO1TGKw8_fv6o-XPZVPijO__M67UfSahbGrB4mUgz1ZTkE6q0sq2bJ0vQY452TGqxLW-p5Wzx7cvEgVIJbVzmQtzACYli';
-  final String url = 'https://fcm.googleapis.com/fcm/send';
+  const String serverToken = 'AAAA6wFminY:APA91bG5cqF_lNnRpY7n9CzMCfkuCDA4slQ4sEd-51rA4iFsO1TGKw8_fv6o-XPZVPijO__M67UfSahbGrB4mUgz1ZTkE6q0sq2bJ0vQY452TGqxLW-p5Wzx7cvEgVIJbVzmQtzACYli';
+  const String url = 'https://fcm.googleapis.com/fcm/send';
 
   final headers = {
     'Content-Type': 'application/json',
