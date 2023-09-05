@@ -10,7 +10,6 @@ import '../models/user.dart' as model;
 
 class CollegeAssign extends StatefulWidget {
   const CollegeAssign({super.key});
-  static const routeName = '/college-assign';
 
   @override
   State<CollegeAssign> createState() => CollegeAssignState();
@@ -20,9 +19,10 @@ class CollegeAssignState extends State<CollegeAssign> {
   final _authController = Get.put(AuthController());
   final _deadlineController = TextEditingController();
 
-  late String collegeDropDown = 'select';
-  late String courseDropDown = 'select';
-  late String studentDropDown = 'select';
+  late String collegeDropDown = 'Select';
+  late String courseDropDown = 'Select';
+  late String studentDropDown = 'Select';
+  String statusDropDown = 'Application in process';
 
   // List of items in our dropdown menu
   List<String> items = [];
@@ -30,6 +30,16 @@ class CollegeAssignState extends State<CollegeAssign> {
   List<String> items2 = [];
 
   List<String> items3 = [];
+
+  List<String> items4 = [
+    'Application in process',
+    'Submitted to University',
+    'College shortlisted',
+    'Interview shortlisted',
+    'Offer Received',
+    'Rejected'
+  ];
+
   String selectedCollegeId = '';
   String selectedCourseId = '';
   String selectedUserId = '';
@@ -302,64 +312,58 @@ class CollegeAssignState extends State<CollegeAssign> {
                         },
                       ),
                     ),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(8.r),
-                    //     color: Colors.white,
-                    //   ),
-                    //   margin: EdgeInsets.symmetric(
-                    //        vertical: 10.0.h,
-                    //     // horizontal: 10.0.w
-                    //      ),
-                    //   child: ListTile(
-                    //     title: TextField(
-                    //       textAlign: TextAlign.center,
-                    //       keyboardType: TextInputType.datetime,
-                    //       controller: _deadlineController,
-                    //       decoration: InputDecoration(
-                    //         hintText: 'Deadline',
-                    //         hintStyle: TextStyle(fontSize: 16.sp),
-                    //         border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(8.r),
-                    //           borderSide: const BorderSide(
-                    //             width: 0,
-                    //             style: BorderStyle.none,
-                    //           ),
-                    //         ),
-                    //         filled: true,
-                    //         contentPadding: EdgeInsets.all(16.r),
-                    //       ),
-                    //     ),
-                    //     trailing:  IconButton(
-                    //     onPressed:() async{
-                    //     DateTime? pickedDate = await showDatePicker(
-                    //     context: context,
-                    //     initialDate: DateTime.now(),
-                    //     firstDate: DateTime(2015),
-                    //     lastDate: DateTime(2121)
-                    //     // DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                    //     );
-                    //
-                    //     if (pickedDate != null) {
-                    //     print(
-                    //     pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                    //     String formattedDate =
-                    //     DateFormat('yyyy-MM-dd').format(pickedDate);
-                    //     print(
-                    //     formattedDate); //formatted date output using intl package =>  2021-03-16
-                    //     //you can implement different kind of Date Format here according to your requirement
-                    //
-                    //     setState(() {
-                    //     _deadlineController.text =
-                    //     formattedDate; //set output date to TextField value.
-                    //     });
-                    //     } else {
-                    //     print("Date is not selected");
-                    //     }
-                    //     },
-                    //       icon: const Icon(Icons.date_range) ,),
-                    //   ),
-                    // ),
+                    Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.only(
+                          bottom: 10.h,
+                        ),
+                        child: Text(
+                          'Status: ',
+                          style: TextStyle(
+                              fontSize: 25.sp, fontWeight: FontWeight.w500),
+                        )),
+                    Container(
+                      width: double.maxFinite,
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
+                      ),
+                      margin: EdgeInsets.only(
+                        bottom: 10.h,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.r),
+                        color: Colors.white70,
+                      ),
+                      alignment: Alignment.center,
+                      // borderRadius: BorderRadius.circular(10.r),
+                      child: DropdownButton(
+                        borderRadius: BorderRadius.circular(10.r),
+                        isExpanded: true,
+                        // Initial Value
+                        dropdownColor: Colors.white,
+                        value: statusDropDown,
+                        style: textStyle,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of items
+                        items: items4.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            statusDropDown = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    // Deadlines
                     TextField(
                       readOnly: true,
                       textAlign: TextAlign.center,
@@ -428,6 +432,7 @@ class CollegeAssignState extends State<CollegeAssign> {
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.15,
                         child: _listView()),
+                    // Assign Button
                     Padding(
                       padding: EdgeInsets.fromLTRB(200.w, 0, 0, 0),
                       child: ElevatedButton(
@@ -435,12 +440,13 @@ class CollegeAssignState extends State<CollegeAssign> {
                             backgroundColor: layoutColor,
                           ),
                           onPressed: () {
-                            // _authController
-                            //     .updateUserCollegeAndCourseInSubcollection(
-                            //         selectedUserId,
-                            //         collegeDropDown,
-                            //         courseDropDown,
-                            //         _deadlineController.text);
+                            _authController
+                                .updateUserCollegeAndCourseInSubcollection(
+                                    selectedUserId,
+                                    collegeDropDown,
+                                    courseDropDown,
+                                    statusDropDown,
+                                    _deadlineController.text, _controllers.toList());
                             print(selectedUserId);
                             print(collegeDropDown);
                             print(courseDropDown);

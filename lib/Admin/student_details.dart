@@ -37,6 +37,7 @@ class _StudentDetailsState extends State<StudentDetails> {
   @override
   Widget build(BuildContext context) {
     _authController.getUser();
+    _authController.searchUsers;
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -71,6 +72,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                 child: TextField(
                   style: const TextStyle(color: Colors.black),
                   cursorColor: Colors.blue,
+                  onChanged: (value) => _authController.searchUser(value),
                   decoration: InputDecoration(
                     // focusColor: Colors.white,
                     border: OutlineInputBorder(

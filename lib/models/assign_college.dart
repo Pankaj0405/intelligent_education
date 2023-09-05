@@ -3,18 +3,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AssignCollege {
   String college;
   String course;
-  String deadline;
+  String status;
+  String id;
 
   AssignCollege({
     required this.course,
     required this.college,
-    required this.deadline,
+    required this.status,
+    required this.id,
   });
 
   Map<String, dynamic> toJson() => {
     'college': college,
     'course': course,
-    'deadline': deadline,
+    'status': status,
+    'id': id,
   };
 
   static AssignCollege fromSnap(DocumentSnapshot snap) {
@@ -29,7 +32,8 @@ class AssignCollege {
     return AssignCollege(
       course: snapshotData['course'] ?? '', // Use default value if data is missing
       college: snapshotData['college'] ?? '', // Use default value if data is missing
-      deadline: snapshotData['deadline'] ?? '', // Use default value if data is missing
+      status: snapshotData['status'] ?? '', // Use default value if data is missing
+      id: snapshotData['id'] ?? '', // Use default value if data is missing
     );
   }
 }

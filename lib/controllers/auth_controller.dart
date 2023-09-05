@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intelligent_education/models/assign_college.dart';
 import 'package:intelligent_education/models/college.dart';
@@ -11,12 +12,9 @@ import '../Student/student_dashboard.dart';
 import '../constants.dart';
 import '../login_screen.dart';
 import '../models/course.dart';
-import '../models/notification.dart';
 import '../models/user.dart' as model;
 import '../models/college.dart' as college_model;
 import '../models/course.dart' as course_model;
-import '../models/notification.dart' as notification_model;
-
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -29,13 +27,15 @@ class AuthController extends GetxController {
   final Rx<List<Course>> _course = Rx<List<Course>>([]);
   List<Course> get course => _course.value;
   RxList<QueryDocumentSnapshot> notifications = <QueryDocumentSnapshot>[].obs;
-
+final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
+  List<model.User> get searchUsers => _searchUsers.value;
   final Rx<List<model.User>> _userData = Rx<List<model.User>>([]);
   List<model.User> get userData => _userData.value;
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
   final RxList<AssignCollege> _assignedColleges = RxList<AssignCollege>([]);
   List<AssignCollege> get assignedColleges => _assignedColleges.value;
+
   @override
   void onReady() {
     // TODO: implement onReady
@@ -46,6 +46,7 @@ class AuthController extends GetxController {
     ever(_user, setInitialScreen);
 
   }
+
   setInitialScreen(User? user) {
     if (user == null) {
       Get.offAll(() => const LoginScreen());
@@ -56,20 +57,33 @@ class AuthController extends GetxController {
   }
 
   // Inside your AuthController class
-  Future<void> updateUserCollegeAndCourseInSubcollection(String userId, String collegeName, String courseName, String deadline) async {
+  Future<void> updateUserCollegeAndCourseInSubcollection(String userId, String collegeName, String courseName,String status, String deadline, List<TextEditingController> controllers) async {
     try {
+      final id = Uuid().v1();
       final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
       if(deadline.isNotEmpty && collegeName.isNotEmpty && courseName.isNotEmpty) {
-        await userRef.collection('college_assign').doc().set({
+        await userRef.collection('college_assign').doc(id).set({
           'college': collegeName,
           'course': courseName,
-          'deadline': deadline,
+          'status': status,
+          'id': id,
         });
+        await userRef.collection('college_assign').doc(id).collection('deadlines').doc().set({
+          'deadline1': deadline,
+        });
+        int n = 1;
+          for(final deadlines in controllers) {
+            await userRef.collection('college_assign').doc(id).collection('deadlines').doc().set({
+              'deadline${n+1}': deadlines.text,
+            });
+            n++;
+        }
+
         Get.snackbar('Alert Message', 'College assigned successfully');
       }
-      print('User subcollection updated successfully');
+       print('User subcollection updated successfully');
     } catch (error) {
-      print('Error updating user subcollection: $error');
+       print('Error updating user subcollection: $error');
       Get.snackbar('Error', 'Enter all the fields');
     }
   }
@@ -87,6 +101,43 @@ class AuthController extends GetxController {
           }));
     } catch (e) {
       print("Error fetching assigned colleges: $e");
+    }
+  }
+
+  getAssignedColleges(String id) async {
+    try {
+      _assignedColleges.bindStream(
+          firestore.collection('users').doc(id).collection('college_assign').snapshots().map((QuerySnapshot query) {
+            List<AssignCollege> retValue = [];
+            for (var element in query.docs) {
+              retValue.add(AssignCollege.fromSnap(element));
+            }
+            print("Fetched data: ${retValue.toString()}");
+            return retValue;
+          }));
+    } catch (e) {
+      print("Error fetching assigned colleges: $e");
+    }
+  }
+
+  Future<void> updateAssignedCollege(String status, String uid, String docId) async {
+    try{
+        await firestore.collection('users').doc(uid).collection('college_assign').doc(docId).update({
+          'status': status,
+        });
+        Get.snackbar('Alert Message', 'College assigned updated successfully');
+    } catch (e) {
+      Get.snackbar('Error updating assigned college', e.toString());
+    }
+  }
+
+  Future<void> deleteAssignedCollege(String uid, String docId) async {
+    try {
+      await firestore.collection('users').doc(uid).collection('college_assign').doc(docId).delete();
+      Get.snackbar('Alert Message', 'College assigned deleted successfully');
+    } catch (e) {
+      Get.snackbar('Error deleting assigned college', e.toString());
+      print(e.toString());
     }
   }
 
@@ -125,6 +176,17 @@ class AuthController extends GetxController {
 
     print('Fetched students: $students');
     return students;
+  }
+
+  searchUser(String typedUser) async {
+    _searchUsers.bindStream(firestore.collection('users').where(
+    'logintype',isEqualTo: 'Student').where('name', isGreaterThanOrEqualTo: typedUser).where('name', isLessThan: '${typedUser}z').snapshots().map((QuerySnapshot query) {
+      List<model.User> retValue = [];
+      for (var element in query.docs) {
+        retValue.add(model.User.fromSnap(element));
+      }
+      return retValue;
+    }));
   }
 
   //register user

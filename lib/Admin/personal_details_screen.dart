@@ -61,7 +61,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       appBar: AppBar(
         title: const Text(
           'Personal Details',
-          style: TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
       body: Obx(() {
