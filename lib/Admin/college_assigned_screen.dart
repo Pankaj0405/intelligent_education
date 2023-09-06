@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -35,9 +36,12 @@ class _CollegeAssignedScreenState extends State<CollegeAssignedScreen> {
     fontSize: 15.sp,
   );
 
+
+
   @override
   Widget build(BuildContext context) {
     _authController.getAssignedColleges(widget.uid);
+    // _authController.fetchdeadlinesData(widget.uid);
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -50,6 +54,16 @@ class _CollegeAssignedScreenState extends State<CollegeAssignedScreen> {
                 itemBuilder: (context, index) {
                   final assignedCollege =
                       _authController.assignedColleges[index];
+                  _authController.fetchdeadlinesData(widget.uid,assignedCollege.id);
+                  final List<String> deadlines = [];
+                  for (final doc in _authController.deadlinesData) {
+                    // Modify this condition based on your data
+                    final String  captureDateTime = doc['deadline'];
+
+                    deadlines.add(
+                      captureDateTime,
+                    );
+                  }
                   return Container(
                     margin: EdgeInsets.only(
                       left: 20.w,
@@ -80,8 +94,27 @@ class _CollegeAssignedScreenState extends State<CollegeAssignedScreen> {
                             cardListTile('College: ', assignedCollege.college),
                             cardListTile('Course: ', assignedCollege.course),
                             cardListTile('Status: ', assignedCollege.status),
+                            for (var i = 0; i < deadlines.length; i++)
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 5.h),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Deadline ${i + 1}:',
+                                      style: TextStyle(
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      deadlines[i],
+                                      style: TextStyle(
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
 
-
+                                  ],
+                                ),
+                              ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -115,9 +148,8 @@ class _CollegeAssignedScreenState extends State<CollegeAssignedScreen> {
                                                   Container(
                                                       alignment:
                                                           Alignment.centerLeft,
-                                                      padding:
-                                                          EdgeInsets.only(
-                                                            left: 20.h,
+                                                      padding: EdgeInsets.only(
+                                                        left: 20.h,
                                                         bottom: 10.h,
                                                       ),
                                                       child: Text(
@@ -141,17 +173,16 @@ class _CollegeAssignedScreenState extends State<CollegeAssignedScreen> {
                                                     ),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius
-                                                              .circular(5.r),
+                                                          BorderRadius.circular(
+                                                              5.r),
                                                       color: Colors.white70,
                                                     ),
-                                                    alignment:
-                                                        Alignment.center,
+                                                    alignment: Alignment.center,
                                                     // borderRadius: BorderRadius.circular(10.r),
                                                     child: DropdownButton(
                                                       borderRadius:
-                                                          BorderRadius
-                                                              .circular(10.r),
+                                                          BorderRadius.circular(
+                                                              10.r),
                                                       isExpanded: true,
                                                       // Initial Value
                                                       dropdownColor:
@@ -163,8 +194,8 @@ class _CollegeAssignedScreenState extends State<CollegeAssignedScreen> {
                                                           .keyboard_arrow_down),
 
                                                       // Array list of items
-                                                      items: items.map(
-                                                          (String items) {
+                                                      items: items
+                                                          .map((String items) {
                                                         return DropdownMenuItem(
                                                           value: items,
                                                           child: Text(items),

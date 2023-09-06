@@ -24,6 +24,8 @@ class AuthController extends GetxController {
   late Rx<File?> _pickedImage;
   final Rx<List<College>> _college = Rx<List<College>>([]);
   List<College> get college => _college.value;
+  RxList<QueryDocumentSnapshot<Map<String, dynamic>>> deadlinesData =
+  RxList<QueryDocumentSnapshot<Map<String, dynamic>>>();
   final Rx<List<Course>> _course = Rx<List<Course>>([]);
   List<Course> get course => _course.value;
   RxList<QueryDocumentSnapshot> notifications = <QueryDocumentSnapshot>[].obs;
@@ -69,12 +71,12 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
           'id': id,
         });
         await userRef.collection('college_assign').doc(id).collection('deadlines').doc().set({
-          'deadline1': deadline,
+          'deadline': deadline,
         });
         int n = 1;
           for(final deadlines in controllers) {
             await userRef.collection('college_assign').doc(id).collection('deadlines').doc().set({
-              'deadline${n+1}': deadlines.text,
+              'deadline': deadlines.text,
             });
             n++;
         }
@@ -108,6 +110,7 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
     try {
       _assignedColleges.bindStream(
           firestore.collection('users').doc(id).collection('college_assign').snapshots().map((QuerySnapshot query) {
+
             List<AssignCollege> retValue = [];
             for (var element in query.docs) {
               retValue.add(AssignCollege.fromSnap(element));
@@ -118,6 +121,11 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
     } catch (e) {
       print("Error fetching assigned colleges: $e");
     }
+  }
+  Future<void> fetchdeadlinesData(String uid,String docid) async {
+    final querySnapshot = await firestore.collection('users').doc(uid).collection('college_assign').doc(docid).collection('deadlines').get();
+    deadlinesData.assignAll(querySnapshot.docs);
+    // ... your existing logic
   }
 
   Future<void> updateAssignedCollege(String status, String uid, String docId) async {
