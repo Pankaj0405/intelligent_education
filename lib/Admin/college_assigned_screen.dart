@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/Admin/edit_college_assigned.dart';
 import 'package:intelligent_education/controllers/auth_controller.dart';
 
 import '../Widgets/admin_text_field.dart';
@@ -95,157 +96,162 @@ class _CollegeAssignedScreenState extends State<CollegeAssignedScreen> {
                             cardListTile('Course: ', assignedCollege.course),
                             cardListTile('Status: ', assignedCollege.status),
                             for (var i = 0; i < deadlines.length; i++)
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5.h),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Deadline ${i + 1}:',
-                                      style: TextStyle(
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      deadlines[i],
-                                      style: TextStyle(
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-
-                                  ],
-                                ),
-                              ),
+                              cardListTile('Deadline ${i + 1}: ', deadlines[i]),
+                              // Padding(
+                              //   padding: EdgeInsets.symmetric(vertical: 5.h),
+                              //   child: Row(
+                              //     children: [
+                              //
+                              //       Text(
+                              //         'Deadline ${i + 1}:',
+                              //         style: TextStyle(
+                              //             fontSize: 20.sp,
+                              //             fontWeight: FontWeight.w500),
+                              //       ),
+                              //       Text(
+                              //         deadlines[i],
+                              //         style: TextStyle(
+                              //             fontSize: 20.sp,
+                              //             fontWeight: FontWeight.w500),
+                              //       ),
+                              //
+                              //     ],
+                              //   ),
+                              // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 IconButton(
                                   splashColor: Colors.white,
                                   onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      // isScrollControlled: true,
-                                      useSafeArea: true,
-                                      enableDrag: true,
-                                      showDragHandle: true,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.r),
-                                      ),
-                                      // ... Other attributes ...
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                          builder: (BuildContext context,
-                                              StateSetter setState) {
-                                            return Container(
-                                              // ... Other attributes ...
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20.r),
-                                                color: boxColor,
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      padding: EdgeInsets.only(
-                                                        left: 20.h,
-                                                        bottom: 10.h,
-                                                      ),
-                                                      child: Text(
-                                                        'Status: ',
-                                                        style: TextStyle(
-                                                            fontSize: 25.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      )),
-                                                  Container(
-                                                    width: double.maxFinite,
-                                                    padding: EdgeInsets.only(
-                                                      left: 10.w,
-                                                      right: 10.w,
-                                                    ),
-                                                    margin: EdgeInsets.only(
-                                                      left: 20.h,
-                                                      right: 20.h,
-                                                      bottom: 10.h,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5.r),
-                                                      color: Colors.white70,
-                                                    ),
-                                                    alignment: Alignment.center,
-                                                    // borderRadius: BorderRadius.circular(10.r),
-                                                    child: DropdownButton(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.r),
-                                                      isExpanded: true,
-                                                      // Initial Value
-                                                      dropdownColor:
-                                                          Colors.white,
-                                                      value: statusDropDown,
-                                                      style: textStyle,
-                                                      // Down Arrow Icon
-                                                      icon: const Icon(Icons
-                                                          .keyboard_arrow_down),
-
-                                                      // Array list of items
-                                                      items: items
-                                                          .map((String items) {
-                                                        return DropdownMenuItem(
-                                                          value: items,
-                                                          child: Text(items),
-                                                        );
-                                                      }).toList(),
-                                                      // After selecting the desired option,it will
-                                                      // change button value to selected value
-                                                      onChanged:
-                                                          (String? newValue) {
-                                                        setState(() {
-                                                          statusDropDown =
-                                                              newValue!;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-
-                                                  // adminTextField(
-                                                  //     parentInfo
-                                                  //         .mobileno!,
-                                                  //     _parentMobileNoController,
-                                                  //     TextInputType
-                                                  //         .number),
-                                                  ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          layoutColor,
-                                                    ),
-                                                    onPressed: () async {
-                                                      // Call the updateParentInfo method to update the data
-                                                      await _authController
-                                                          .updateAssignedCollege(
-                                                              statusDropDown,
-                                                              widget.uid,
-                                                              assignedCollege
-                                                                  .id);
-
-                                                      // Close the bottom sheet
-                                                      Get.back();
-                                                    },
-                                                    child: const Text('SAVE'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
+                                    Get.to(EditCollegeAssign(uid: widget.uid, docId: assignedCollege.id));
+                                    // showModalBottomSheet(
+                                    //   context: context,
+                                    //   // isScrollControlled: true,
+                                    //   useSafeArea: true,
+                                    //   enableDrag: true,
+                                    //   showDragHandle: true,
+                                    //   shape: RoundedRectangleBorder(
+                                    //     borderRadius:
+                                    //         BorderRadius.circular(20.r),
+                                    //   ),
+                                    //   // ... Other attributes ...
+                                    //   builder: (BuildContext context) {
+                                    //     return StatefulBuilder(
+                                    //       builder: (BuildContext context,
+                                    //           StateSetter setState) {
+                                    //         return Container(
+                                    //           // ... Other attributes ...
+                                    //           decoration: BoxDecoration(
+                                    //             borderRadius:
+                                    //                 BorderRadius.circular(20.r),
+                                    //             color: boxColor,
+                                    //           ),
+                                    //           child: Column(
+                                    //             children: [
+                                    //               Container(
+                                    //                   alignment:
+                                    //                       Alignment.centerLeft,
+                                    //                   padding:
+                                    //                       EdgeInsets.only(
+                                    //                         left: 20.h,
+                                    //                     bottom: 10.h,
+                                    //                   ),
+                                    //                   child: Text(
+                                    //                     'Status: ',
+                                    //                     style: TextStyle(
+                                    //                         fontSize: 25.sp,
+                                    //                         fontWeight:
+                                    //                             FontWeight
+                                    //                                 .w500),
+                                    //                   )),
+                                    //               Container(
+                                    //                 width: double.maxFinite,
+                                    //                 padding: EdgeInsets.only(
+                                    //                   left: 10.w,
+                                    //                   right: 10.w,
+                                    //                 ),
+                                    //                 margin: EdgeInsets.only(
+                                    //                   left: 20.h,
+                                    //                   right: 20.h,
+                                    //                   bottom: 10.h,
+                                    //                 ),
+                                    //                 decoration: BoxDecoration(
+                                    //                   borderRadius:
+                                    //                       BorderRadius
+                                    //                           .circular(5.r),
+                                    //                   color: Colors.white70,
+                                    //                 ),
+                                    //                 alignment:
+                                    //                     Alignment.center,
+                                    //                 // borderRadius: BorderRadius.circular(10.r),
+                                    //                 child: DropdownButton(
+                                    //                   borderRadius:
+                                    //                       BorderRadius
+                                    //                           .circular(10.r),
+                                    //                   isExpanded: true,
+                                    //                   // Initial Value
+                                    //                   dropdownColor:
+                                    //                       Colors.white,
+                                    //                   value: statusDropDown,
+                                    //                   style: textStyle,
+                                    //                   // Down Arrow Icon
+                                    //                   icon: const Icon(Icons
+                                    //                       .keyboard_arrow_down),
+                                    //
+                                    //                   // Array list of items
+                                    //                   items: items.map(
+                                    //                       (String items) {
+                                    //                     return DropdownMenuItem(
+                                    //                       value: items,
+                                    //                       child: Text(items),
+                                    //                     );
+                                    //                   }).toList(),
+                                    //                   // After selecting the desired option,it will
+                                    //                   // change button value to selected value
+                                    //                   onChanged:
+                                    //                       (String? newValue) {
+                                    //                     setState(() {
+                                    //                       statusDropDown =
+                                    //                           newValue!;
+                                    //                     });
+                                    //                   },
+                                    //                 ),
+                                    //               ),
+                                    //
+                                    //               // adminTextField(
+                                    //               //     parentInfo
+                                    //               //         .mobileno!,
+                                    //               //     _parentMobileNoController,
+                                    //               //     TextInputType
+                                    //               //         .number),
+                                    //               ElevatedButton(
+                                    //                 style: ElevatedButton
+                                    //                     .styleFrom(
+                                    //                   backgroundColor:
+                                    //                       layoutColor,
+                                    //                 ),
+                                    //                 onPressed: () async {
+                                    //                   // Call the updateParentInfo method to update the data
+                                    //                   await _authController
+                                    //                       .updateAssignedCollege(
+                                    //                           statusDropDown,
+                                    //                           widget.uid,
+                                    //                           assignedCollege
+                                    //                               .id);
+                                    //
+                                    //                   // Close the bottom sheet
+                                    //                   Get.back();
+                                    //                 },
+                                    //                 child: const Text('SAVE'),
+                                    //               ),
+                                    //             ],
+                                    //           ),
+                                    //         );
+                                    //       },
+                                    //     );
+                                    //   },
+                                    // );
                                   },
                                   icon: const Icon(Icons.edit),
                                 ),

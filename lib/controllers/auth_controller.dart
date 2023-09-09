@@ -12,6 +12,7 @@ import '../Student/student_dashboard.dart';
 import '../constants.dart';
 import '../login_screen.dart';
 import '../models/course.dart';
+import '../models/deadline.dart';
 import '../models/user.dart' as model;
 import '../models/college.dart' as college_model;
 import '../models/course.dart' as course_model;
@@ -37,6 +38,8 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
   User get user => _user.value!;
   final RxList<AssignCollege> _assignedColleges = RxList<AssignCollege>([]);
   List<AssignCollege> get assignedColleges => _assignedColleges.value;
+  final Rx<List<Deadline>> _deadlines = Rx<List<Deadline>>([]);
+  List<Deadline> get deadlines => _deadlines.value;
 
   @override
   void onReady() {
@@ -61,7 +64,7 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
   // Inside your AuthController class
   Future<void> updateUserCollegeAndCourseInSubcollection(String userId, String collegeName, String courseName,String status, String deadline, List<TextEditingController> controllers) async {
     try {
-      final id = Uuid().v1();
+      final id = const Uuid().v1();
       final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
       if(deadline.isNotEmpty && collegeName.isNotEmpty && courseName.isNotEmpty) {
         await userRef.collection('college_assign').doc(id).set({
@@ -70,13 +73,17 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
           'status': status,
           'id': id,
         });
-        await userRef.collection('college_assign').doc(id).collection('deadlines').doc().set({
+        final deadlineId = const Uuid().v1();
+        await userRef.collection('college_assign').doc(id).collection('deadlines').doc(deadlineId).set({
           'deadline': deadline,
+          'id': deadlineId,
         });
         int n = 1;
           for(final deadlines in controllers) {
-            await userRef.collection('college_assign').doc(id).collection('deadlines').doc().set({
+            final deadlineId = const Uuid().v1();
+            await userRef.collection('college_assign').doc(id).collection('deadlines').doc(deadlineId).set({
               'deadline': deadlines.text,
+              'id': deadlineId,
             });
             n++;
         }
@@ -122,10 +129,39 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
       print("Error fetching assigned colleges: $e");
     }
   }
+
   Future<void> fetchdeadlinesData(String uid,String docid) async {
     final querySnapshot = await firestore.collection('users').doc(uid).collection('college_assign').doc(docid).collection('deadlines').get();
     deadlinesData.assignAll(querySnapshot.docs);
     // ... your existing logic
+  }
+
+  getDeadlines(String userId, String docId) async {
+      final QuerySnapshot deadlinesList =await  firestore.collection('users').doc(userId).collection('college_assign').doc(docId).collection('deadlines').get();
+        List<Deadline> deadlines = deadlinesList.docs
+            .map((documentSnapshot) => Deadline.fromSnap(documentSnapshot))
+            .toList();
+        return deadlines;
+  }
+
+  Future<void> updateDeadlines(String deadline, String userId, String docId, String deadlineId) async {
+    try{
+      await firestore.collection('users').doc(userId).collection('college_assign').doc(docId).collection('deadlines').doc(deadlineId).update({
+        'deadline': deadline,
+      });
+      Get.snackbar('Alert Message', 'Deadline updated successfully');
+    } catch (e) {
+      Get.snackbar('Error updating deadline', e.toString());
+    }
+  }
+
+  Future<void> deleteDeadlines(String userId, String docId, String deadlineId) async {
+    try{
+      await firestore.collection('users').doc(userId).collection('college_assign').doc(docId).collection('deadlines').doc(deadlineId).delete();
+      Get.snackbar('Alert Message', 'Deadline updated successfully');
+    } catch (e) {
+      Get.snackbar('Error updating deadline', e.toString());
+    }
   }
 
   Future<void> updateAssignedCollege(String status, String uid, String docId) async {
@@ -187,14 +223,26 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
   }
 
   searchUser(String typedUser) async {
-    _searchUsers.bindStream(firestore.collection('users').where(
-    'logintype',isEqualTo: 'Student').where('name', isGreaterThanOrEqualTo: typedUser).where('name', isLessThan: '${typedUser}z').snapshots().map((QuerySnapshot query) {
-      List<model.User> retValue = [];
-      for (var element in query.docs) {
-        retValue.add(model.User.fromSnap(element));
-      }
-      return retValue;
-    }));
+    if(typedUser == "") {
+      _searchUsers.bindStream(firestore.collection('users').where(
+          'logintype',isEqualTo: 'Student').snapshots().map((QuerySnapshot query) {
+        List<model.User> retValue = [];
+        for (var element in query.docs) {
+          retValue.add(model.User.fromSnap(element));
+        }
+        return retValue;
+      }));
+    } else {
+      _searchUsers.bindStream(firestore.collection('users').where(
+          'logintype',isEqualTo: 'Student').where('name', isGreaterThanOrEqualTo: typedUser).where('name', isLessThan: '${typedUser}z').snapshots().map((QuerySnapshot query) {
+        List<model.User> retValue = [];
+        for (var element in query.docs) {
+          retValue.add(model.User.fromSnap(element));
+        }
+        return retValue;
+      }));
+    }
+
   }
 
   //register user
@@ -317,6 +365,7 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
   Future<void> deleteUser(String userId) async {
     try {
       await firestore.collection('users').doc(userId).delete();
+
       Get.snackbar('Alert Message', 'User deleted successfully');
     } catch (e) {
       Get.snackbar('Error deleting User', e.toString());

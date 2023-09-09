@@ -30,23 +30,25 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
               style: const TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
-          body: Column(
-            children: [
-              _detailsScreenCards('Personal Details',
-                  () => Get.to(PersonalDetailsScreen(id: widget.id))),
-              _detailsScreenCards('Parents\' Details',
-                  () => Get.to(ParentsDetailsScreen(id: widget.id))),
-              _detailsScreenCards('Emergency Details',
-                  () => Get.to(EmergencyDetailsScreen(id: widget.id))),
-              _detailsScreenCards('Documents Details',
-                  () => Get.to(DocumentsDetailsScreen(id: widget.id))),
-              _detailsScreenCards('Academics Details',
-                  () => Get.to(AcademicsDetailsScreen(id: widget.id))),
-              _detailsScreenCards('Experiences Details',
-                  () => Get.to(ExperienceDetailsScreen(id: widget.id))),
-              _detailsScreenCards('Referee Details',
-                  () => Get.to(RefereeDetailsScreen(id: widget.id))),
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                _detailsScreenCards('Personal Details',
+                    () => Get.to(PersonalDetailsScreen(id: widget.id))),
+                _detailsScreenCards('Parents\' Details',
+                    () => Get.to(ParentsDetailsScreen(id: widget.id))),
+                _detailsScreenCards('Emergency Details',
+                    () => Get.to(EmergencyDetailsScreen(id: widget.id))),
+                _detailsScreenCards('Documents Details',
+                    () => Get.to(DocumentsDetailsScreen(id: widget.id))),
+                _detailsScreenCards('Academics Details',
+                    () => Get.to(AcademicsDetailsScreen(id: widget.id))),
+                _detailsScreenCards('Experiences Details',
+                    () => Get.to(ExperienceDetailsScreen(id: widget.id))),
+                _detailsScreenCards('Referee Details',
+                    () => Get.to(RefereeDetailsScreen(id: widget.id))),
+              ],
+            ),
           )),
     );
   }

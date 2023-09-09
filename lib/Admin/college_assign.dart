@@ -312,6 +312,7 @@ class CollegeAssignState extends State<CollegeAssign> {
                         },
                       ),
                     ),
+                    // Status
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(

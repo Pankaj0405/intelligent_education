@@ -26,6 +26,7 @@ class _StudentDetailsState extends State<StudentDetails> {
       listLength = students.map((student) => student.name).toList();
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -33,10 +34,9 @@ class _StudentDetailsState extends State<StudentDetails> {
     listViewLength();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    _authController.getUser();
+    // _authController.getUser();
     _authController.searchUsers;
     return SafeArea(
         child: Scaffold(
@@ -47,83 +47,108 @@ class _StudentDetailsState extends State<StudentDetails> {
           "Students' Details",
         ),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height * 0.9,
-        margin: EdgeInsets.only(
-          top: 20.h,
-          left: 20.w,
-          right: 20.w,
-          bottom: 20.h,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.r),
-          color: boxColor,
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 10.h,
-                  left: 10.w,
-                  right: 10.w,
-                ),
-                child: TextField(
-                  style: const TextStyle(color: Colors.black),
-                  cursorColor: Colors.blue,
-                  onChanged: (value) => _authController.searchUser(value),
-                  decoration: InputDecoration(
-                    // focusColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.r),
+      body: Obx(
+        () => Container(
+          height: MediaQuery.of(context).size.height * 0.9,
+          margin: EdgeInsets.only(
+            top: 20.h,
+            left: 20.w,
+            right: 20.w,
+            bottom: 20.h,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.r),
+            color: boxColor,
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 10.h,
+                    left: 10.w,
+                    right: 10.w,
+                  ),
+                  child: TextField(
+                    style: const TextStyle(color: Colors.black),
+                    autofocus: false,
+                    cursorColor: Colors.blue,
+                    onChanged: (value) => _authController.searchUser(value),
+                    decoration: InputDecoration(
+                      // focusColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      prefixIcon: const Icon(Icons.search),
+                      prefixIconColor: Colors.black,
+                      fillColor: Colors.white70,
+                      filled: true,
                     ),
-                    prefixIcon: const Icon(Icons.search),
-                    prefixIconColor: Colors.black,
-                    fillColor: Colors.white70,
-                    filled: true,
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Expanded(
-              flex: 7,
-              child: SizedBox(
-                // height: MediaQuery.of(context).size.height * 0.68,
-                child: ListView.builder(
-                  itemCount: listLength.length,
-                  itemBuilder: (context, index) {
-                    final student = listLength[index];
-                    return InkWell(
-                      onTap: () {
-                          selectedUserId = _authController.userData.firstWhere((user) => user.name == listLength[index]).uid;
-                          Get.to(StudentDetailsScreen(id: selectedUserId, name: student,));
-                      },
-                      splashColor: Colors.black12,
-                      child: Card(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 10.h,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.r),
-                        ),
-                        color: Colors.white70,
-                        elevation: 10,
-                        child: ListTile(
-                          leading: Text(student ,style: TextStyle(fontSize: 18.sp),),
-                        ),
-
-                      ),
-                    );
-                  },
-                ),
+              SizedBox(
+                height: 10.h,
               ),
-            ),
-          ],
+              _authController.searchUsers.isNotEmpty
+                  ? Expanded(
+                      flex: 7,
+                      child: SizedBox(
+                        // height: MediaQuery.of(context).size.height * 0.68,
+                        child: ListView.builder(
+                          itemCount: _authController.searchUsers.length,
+                          // listLength.length,
+                          itemBuilder: (context, index) {
+                            final searchedUser =
+                                _authController.searchUsers[index];
+                            // final student = listLength[index];
+                            return InkWell(
+                              onTap: () {
+                                // selectedUserId = _authController.userData.firstWhere((user) => user.name == listLength[index]).uid;
+                                Get.to(() => StudentDetailsScreen(
+                                  id: selectedUserId,
+                                  name: searchedUser.name,
+                                ));
+                              },
+                              splashColor: Colors.black12,
+                              child: Card(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 10.w,
+                                  vertical: 10.h,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                color: Colors.white70,
+                                elevation: 10,
+                                child: ListTile(
+                                  leading: Text(
+                                    searchedUser.name,
+                                    style: TextStyle(fontSize: 18.sp),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 20.h,
+                        ),
+                        child: Text(
+                          'Search for users!',
+                          style: TextStyle(
+                              fontSize: 25.sp, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+            ],
+          ),
         ),
       ),
     ));
