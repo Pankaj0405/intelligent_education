@@ -137,11 +137,25 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
   }
 
   getDeadlines(String userId, String docId) async {
-      final QuerySnapshot deadlinesList =await  firestore.collection('users').doc(userId).collection('college_assign').doc(docId).collection('deadlines').get();
-        List<Deadline> deadlines = deadlinesList.docs
-            .map((documentSnapshot) => Deadline.fromSnap(documentSnapshot))
-            .toList();
-        return deadlines;
+    try {
+      _deadlines.bindStream(
+          firestore.collection('users').doc(userId).collection('college_assign').doc(docId).collection('deadlines').snapshots().map((QuerySnapshot query) {
+
+            List<Deadline> retValue = [];
+            for (var element in query.docs) {
+              retValue.add(Deadline.fromSnap(element));
+            }
+            print("Fetched data: ${retValue.toString()}");
+            return retValue;
+          }));
+    } catch (e) {
+      print("Error fetching assigned colleges: $e");
+    }
+      // final QuerySnapshot deadlinesList =await  firestore.collection('users').doc(userId).collection('college_assign').doc(docId).collection('deadlines').get();
+      //   List<Deadline> deadlines = deadlinesList.docs
+      //       .map((documentSnapshot) => Deadline.fromSnap(documentSnapshot))
+      //       .toList();
+      //   return deadlines;
   }
 
   Future<void> updateDeadlines(String deadline, String userId, String docId, String deadlineId) async {
