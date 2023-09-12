@@ -1,7 +1,11 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:intelligent_education/Student/pdf_viewer.dart';
+import 'package:intelligent_education/controllers/firestoremethods.dart';
 import '../constants.dart';
 
 class StudentDocument extends StatefulWidget {
@@ -13,6 +17,8 @@ class StudentDocument extends StatefulWidget {
 }
 
 class _StudentDocumentState extends State<StudentDocument> {
+
+  final _infoController = Get.put(InfoController());
   FilePickerResult? result;
   String? fileName;
   PlatformFile? pickedFile;
@@ -30,6 +36,7 @@ class _StudentDocumentState extends State<StudentDocument> {
       );
       if (result != null) {
         fileName = result!.files.first.name;
+        pickedFile=result!.files.first;
         // fileToDisplay = File(result!.files.first.toString()); // path for displaying image(use whenever required)
       }
       setState(() {
@@ -42,6 +49,7 @@ class _StudentDocumentState extends State<StudentDocument> {
 
   @override
   Widget build(BuildContext context) {
+    _infoController.getDocuments();
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -125,8 +133,10 @@ class _StudentDocumentState extends State<StudentDocument> {
                       borderRadius: BorderRadius.circular(20.r),
                     )),
                 onPressed: () {
-                  result = null;
-                  setState(() {});
+
+                  setState(() {
+_infoController.uploadDocument(File(pickedFile!.path!), fileName!);
+                  });
                 },
                 child: Text(
                   'UPLOAD',
@@ -164,8 +174,6 @@ class _StudentDocumentState extends State<StudentDocument> {
                               style: TextStyle(fontWeight: FontWeight.w700)),
                           Text('Document Name',
                               style: TextStyle(fontWeight: FontWeight.w700)),
-                          Text('Status',
-                              style: TextStyle(fontWeight: FontWeight.w700)),
                         ],
                       ),
                     ),
@@ -177,38 +185,47 @@ class _StudentDocumentState extends State<StudentDocument> {
                         color: Colors.black,
                       ),
                     ),
-                    Expanded(
-                      child: SizedBox(
-                        child: ListView.builder(
-                            itemCount: 15,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: EdgeInsets.all(8.0.r),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    const Icon(Icons.delete),
-                                    const SizedBox(),
-                                    GestureDetector(
-                                        onTap: () {},
-                                        child: const Text('View')),
-                                    SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    SizedBox(
-                                        width: 100.w,
-                                        child: const Text(
-                                          'Document Name',
-                                          overflow: TextOverflow.ellipsis,
-                                        )),
-                                    const Text('Status'),
-                                  ],
-                                ),
-                              );
-                            }),
+    Obx(
+    () {
+     return Expanded(
+        child: SizedBox(
+          child: ListView.builder(
+              itemCount: _infoController.documents.length,
+              itemBuilder: (BuildContext context, int index) {
+                final document = _infoController.documents[index];
+                print(document.docName);
+                print(document.docUrl);
+                return Padding(
+                  padding: EdgeInsets.all(8.0.r),
+                  child: Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly,
+                    children: [
+                       Icon(Icons.delete),
+                       SizedBox(),
+                      GestureDetector(
+                          onTap: () {
+                            Get.to(()=>PdfPage());
+                          },
+                          child: Text('View')),
+                      SizedBox(
+                        width: 2.w,
                       ),
-                    ),
+                      SizedBox(
+                          width: 100.w,
+                          child: Text(
+                           document.docName==null?'':document.docName!,
+                            overflow: TextOverflow.ellipsis,
+                          )),
+
+                    ],
+                  ),
+                );
+              }),
+        ),
+      );
+    }
+    ),
                     // ),
                   ],
                 ),

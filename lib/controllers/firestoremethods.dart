@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intelligent_education/constants.dart';
+import 'package:intelligent_education/models/documentDetails.dart';
 import 'package:intelligent_education/models/student_academic.dart';
 import 'package:intelligent_education/models/student_experience.dart';
 import 'package:intelligent_education/models/student_referee.dart';
@@ -23,6 +24,9 @@ class InfoController extends GetxController {
   final Rx<List<Studentexperience>> _experiences =
       Rx<List<Studentexperience>>([]);
   List<Studentexperience> get experiences => _experiences.value;
+  final Rx<List<DocumentDetails>> _documents =
+  Rx<List<DocumentDetails>>([]);
+  List<DocumentDetails> get documents => _documents.value;
   final Rx<List<StudentReferee>> _referee = Rx<List<StudentReferee>>([]);
   List<StudentReferee> get referee => _referee.value;
   final Rx<List<StudentAcademic>> _academics = Rx<List<StudentAcademic>>([]);
@@ -132,6 +136,35 @@ class InfoController extends GetxController {
         .set(userDetails1.toJson());
   }
 
+  void uploadDocument(File image,String name) async {
+    String uid = firebaseAuth.currentUser!.uid;
+    Reference ref = firebaseStorage
+        .ref()
+        .child('Documents')
+        .child(firebaseAuth.currentUser!.uid);
+    UploadTask uploadTask = ref.putFile(image);
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
+    DocumentDetails docDetails1 = DocumentDetails( docName: name, docUrl: downloadUrl);
+    await fireStore
+        .collection('userDetails')
+        .doc(uid)
+    .collection('documentInfo').doc().set(docDetails1.toJson());
+  }
+  getDocuments() async {
+    _documents.bindStream(firestore
+        .collection('userDetails')
+        .doc(authController.user.uid)
+        .collection('documentInfo')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<DocumentDetails> retValue = [];
+      for (var element in query.docs) {
+        retValue.add(DocumentDetails.fromSnap(element));
+      }
+      return retValue;
+    }));
+  }
   getImage() async {
     DocumentSnapshot userDoc = await fireStore
         .collection('userDetails')
