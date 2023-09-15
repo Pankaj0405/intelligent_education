@@ -1,13 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:intelligent_education/firebase_options.dart';
 import 'package:intelligent_education/services/notification.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async
 {
-  await Future.delayed(Duration(seconds: 5));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  String p= '${message.notification?.title}';
+  String q= '${message.notification?.body}';
   print('Title: ${message.notification?.title}');
   print("hello");
   await NotificationService.configureLocalTimeZone();
-  await NotificationService.zonedScheduleNotification();
+  await NotificationService.zonedScheduleNotification(p,q);
 }
 class FirebaseApi{  
   FirebaseMessaging _firebaseMessaging=FirebaseMessaging.instance;
@@ -27,7 +33,7 @@ class FirebaseApi{
     await _firebaseMessaging.subscribeToTopic('all');
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     try {
-      FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+      FirebaseMessaging.onMessage.listen(handleBackgroundMessage);
     }
     catch(e){
       print(e.toString());

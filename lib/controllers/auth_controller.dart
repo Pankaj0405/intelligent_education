@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_education/api/firebaseapi.dart';
 import 'package:intelligent_education/models/assign_college.dart';
 import 'package:intelligent_education/models/college.dart';
 import 'package:uuid/uuid.dart';
@@ -345,6 +346,7 @@ final Rx<List<model.User>> _searchUsers = Rx<List<model.User>>([]);
     final userData = userDoc.data()! as dynamic;
     loginType1.value = userData['logintype'];
     if (loginType1.value == 'Student') {
+      await FirebaseApi().initNotification();
       Get.to(() => const StudentDashboard());
     } else {
       Get.to(() => const AdminDash());

@@ -16,7 +16,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseApi().initNotification();
   await NotificationService.configureLocalTimeZone();
   runApp(const MyApp());
 }

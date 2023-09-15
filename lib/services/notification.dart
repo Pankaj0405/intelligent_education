@@ -83,19 +83,23 @@ class NotificationService {
 
 
 
-  static Future<void> zonedScheduleNotification() async {
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     0,
-    //     'scheduled title',
-    //     'scheduled body',
-    //     tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
-    //     const NotificationDetails(
-    //         android: AndroidNotificationDetails(
-    //             'your channel id', 'your channel name',
-    //             channelDescription: 'your channel description')),
-    //     androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-    //     uiLocalNotificationDateInterpretation:
-    //     UILocalNotificationDateInterpretation.absoluteTime);
+  static Future<void> zonedScheduleNotification(String title ,String body) async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        title,
+        body,
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
+        const NotificationDetails(
+            android: AndroidNotificationDetails(
+                'your channel id', 'your channel name',
+                channelDescription: 'your channel description',
+                priority: Priority.high,
+                enableVibration: true,
+                importance: Importance.max
+            )),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime);
   }
   Future<void> scheduleDailyTenAMNotification() async {
     DateTime now = DateTime.now();
