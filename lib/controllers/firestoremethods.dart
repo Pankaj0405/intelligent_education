@@ -136,12 +136,13 @@ class InfoController extends GetxController {
         .set(userDetails1.toJson());
   }
 
-  void uploadDocument(File image,String name) async {
+  Future<void> uploadDocument(File image,String name) async {
     String uid = firebaseAuth.currentUser!.uid;
+    String documentInfoId = const Uuid().v1();
     Reference ref = firebaseStorage
         .ref()
         .child('Documents')
-        .child(firebaseAuth.currentUser!.uid);
+        .child(documentInfoId);
     UploadTask uploadTask = ref.putFile(image);
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
@@ -149,7 +150,7 @@ class InfoController extends GetxController {
     await fireStore
         .collection('userDetails')
         .doc(uid)
-    .collection('documentInfo').doc().set(docDetails1.toJson());
+    .collection('documentInfo').doc(documentInfoId).set(docDetails1.toJson());
   }
   getDocuments() async {
     _documents.bindStream(firestore

@@ -1,60 +1,98 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'dart:async';
 import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 
-/// Represents Homepage for Navigation
-class PdfPage extends StatefulWidget {
-  @override
-  _PdfPage createState() => _PdfPage();
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+
+
+
+
+class PDFScreen extends StatefulWidget {
+  final String? path;
+
+  PDFScreen({Key? key, this.path}) : super(key: key);
+
+  _PDFScreenState createState() => _PDFScreenState();
 }
 
-class _PdfPage extends State<PdfPage> {
-  @override
-  void initState() {
-    loadNetwork();
-    super.initState();
-  }
-
-  late File Pfile;
-  bool isLoading = false;
-
-  Future<void> loadNetwork() async {
-    setState(() {
-      isLoading = true;
-    });
-    var url = 'https://firebasestorage.googleapis.com/v0/b/councellingapp-10dca.appspot.com/o/Documents%2Finstruction.pdf?alt=media&token=a531f678-3970-4751-98d1-b9e1f0aef81f.pdf';
-    final response = await http.get(Uri.parse(url));
-    final bytes = response.bodyBytes;
-    final filename = basename(url);
-    final dir = await getApplicationDocumentsDirectory();
-    var file = File('${dir.path}/$filename');
-    await file.writeAsBytes(bytes, flush: true);
-    setState(() {
-      Pfile = file;
-    });
-    print(Pfile);
-    setState(() {
-      isLoading = false;
-    });
-  }
+class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
+  final Completer<PDFViewController> _controller =
+  Completer<PDFViewController>();
+  int? pages = 0;
+  int? currentPage = 0;
+  bool isReady = false;
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Syncfusion Flutter PDF Viewer'),
-      ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Container(
-        child: Center(
-          child: PDFView(
-            filePath: Pfile.path,
+        title: Text("Document"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: () {},
           ),
-        ),
+        ],
+      ),
+      backgroundColor: Colors.red,
+      body: Stack(
+        children: <Widget>[
+          PDFView(
+            filePath: widget.path,
+            enableSwipe: true,
+swipeHorizontal: false,
+            autoSpacing: false,
+            pageFling: true,
+            pageSnap: true,
+            defaultPage: currentPage!,
+            fitPolicy: FitPolicy.BOTH,
+            preventLinkNavigation:
+            false, // if set to true the link is handled in flutter
+            onRender: (_pages) {
+              setState(() {
+                pages = _pages;
+                isReady = true;
+              });
+            },
+            onError: (error) {
+              setState(() {
+                errorMessage = error.toString();
+              });
+              print(error.toString());
+            },
+            onPageError: (page, error) {
+              setState(() {
+                errorMessage = '$page: ${error.toString()}';
+              });
+              print('$page: ${error.toString()}');
+            },
+            onViewCreated: (PDFViewController pdfViewController) {
+              _controller.complete(pdfViewController);
+            },
+            onLinkHandler: (String? uri) {
+              print('goto uri: $uri');
+            },
+            onPageChanged: (int? page, int? total) {
+              print('page change: $page/$total');
+              setState(() {
+                currentPage = page;
+              });
+            },
+          ),
+          errorMessage.isEmpty
+              ? !isReady
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : Container()
+              : Center(
+            child: Text(errorMessage),
+          )
+        ],
       ),
     );
   }

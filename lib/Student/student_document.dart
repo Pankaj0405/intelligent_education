@@ -1,14 +1,18 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intelligent_education/Student/pdf_viewer.dart';
 import 'package:intelligent_education/controllers/firestoremethods.dart';
+import 'package:path_provider/path_provider.dart';
 import '../constants.dart';
 
 class StudentDocument extends StatefulWidget {
+
   const StudentDocument({super.key});
   static const routeName = '/student-document';
 
@@ -17,7 +21,7 @@ class StudentDocument extends StatefulWidget {
 }
 
 class _StudentDocumentState extends State<StudentDocument> {
-
+  String remotePDFpath = "";
   final _infoController = Get.put(InfoController());
   FilePickerResult? result;
   String? fileName;
@@ -31,7 +35,8 @@ class _StudentDocumentState extends State<StudentDocument> {
         isLoading = true;
       });
       result = await FilePicker.platform.pickFiles(
-        type: FileType.any,
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
         allowMultiple: false,
       );
       if (result != null) {
@@ -49,6 +54,7 @@ class _StudentDocumentState extends State<StudentDocument> {
 
   @override
   Widget build(BuildContext context) {
+    remotePDFpath = "";
     _infoController.getDocuments();
     return SafeArea(
         child: Scaffold(
@@ -132,10 +138,13 @@ class _StudentDocumentState extends State<StudentDocument> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.r),
                     )),
-                onPressed: () {
+                onPressed: () async {
+                  print(pickedFile!.path);
+                  await _infoController.uploadDocument(File(pickedFile!.path!), fileName!);
 
                   setState(() {
-_infoController.uploadDocument(File(pickedFile!.path!), fileName!);
+fileName='';
+pickedFile=null;
                   });
                 },
                 child: Text(
@@ -204,8 +213,16 @@ _infoController.uploadDocument(File(pickedFile!.path!), fileName!);
                        Icon(Icons.delete),
                        SizedBox(),
                       GestureDetector(
-                          onTap: () {
-                            Get.to(()=>PdfPage());
+                          onTap: () async {
+
+                           await createFileOfPdfUrl(document.docUrl.toString()).then((f) {
+                              setState(() {
+                                remotePDFpath = f.path;
+                                print(remotePDFpath);
+                              });
+                            });
+  await                          Get.to(()=>PDFScreen(path:remotePDFpath,));
+  remotePDFpath='';
                           },
                           child: Text('View')),
                       SizedBox(
@@ -235,5 +252,29 @@ _infoController.uploadDocument(File(pickedFile!.path!), fileName!);
         ),
       ),
     ));
+  }
+  Future<File> createFileOfPdfUrl(String url) async {
+    Completer<File> completer = Completer();
+    print("Start download file from internet!");
+    try {
+      // "https://berlin2017.droidcon.cod.newthinking.net/sites/global.droidcon.cod.newthinking.net/files/media/documents/Flutter%20-%2060FPS%20UI%20of%20the%20future%20%20-%20DroidconDE%2017.pdf";
+      // final url = "https://pdfkit.org/docs/guide.pdf";
+
+      final filename = url.substring(url.lastIndexOf("/") + 1);
+      var request = await HttpClient().getUrl(Uri.parse(url));
+      var response = await request.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      var dir = await getApplicationDocumentsDirectory();
+      print("Download files");
+      print("${dir.path}/$filename");
+      File file = File("${dir.path}/$filename");
+
+      await file.writeAsBytes(bytes, flush: true);
+      completer.complete(file);
+    } catch (e) {
+      throw Exception('Error parsing asset file!');
+    }
+
+    return completer.future;
   }
 }
